@@ -416,7 +416,7 @@ function openOv(h,t='',s=''){const r=$('#ovr');r.innerHTML=`<div class="ov"><div
 function closeOv(){$('#ovr')?.classList.remove('open');$('#ovr').innerHTML='';S.ov=false;}
 
 const TABS=[{id:'home',l:'الرئيسية',i:'🏠'},{id:'bookings',l:'الحجوزات',i:'📋',b:1},{id:'profile',l:'حسابي',i:'👤'}];
-function renderNav(){$('#bn').innerHTML=TABS.map(t=>`<div class="b ${t.id===S.scr||['schedule','techSelect','tracking','arrival','report','rating','invoice','warranty','myHome','passport','healthScore','quoteApproval'].includes(S.scr)&&t.id==='home'?'on':''}" data-act="nav" data-nav="${t.id}"><span class="bn-ic">${t.i}</span>${t.b?`<span class="bdg">${t.b}</span>`:''}<span>${t.l}</span></div>`).join('');}
+function renderNav(){  $('#bn').innerHTML=TABS.map(t=>`<div class="b ${t.id===S.scr||['schedule','techSelect','tracking','arrival','report','rating','invoice','warranty','myHome','passport','healthScore','quoteApproval','warranties'].includes(S.scr)&&t.id==='home'?'on':''}" data-act="nav" data-nav="${t.id}"><span class="bn-ic">${t.i}</span>${t.b?`<span class="bdg">${t.b}</span>`:''}<span>${t.l}</span></div>`).join('');}
 
 function render(){
   const v=$('#vw');v.scrollTop=0;hideFlow();
