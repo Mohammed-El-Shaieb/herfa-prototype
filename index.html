@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>حرفة — AI-Powered Home Maintenance</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--ink:#0f172a;--ink2:#1e293b;--ink3:#334155;--sl:#64748b;--sl2:#94a3b8;--sl3:#cbd5e1;--sl4:#e2e8f0;--sl5:#f1f5f9;--sl6:#f8fafc;--w:#fff;--tl:#0ea5e9;--tl2:#0284c7;--gd:#f59e0b;--gd2:#d97706;--gn:#059669;--gn2:#10b981;--rd:#dc2626;--r:16px;--rs:12px;--rx:8px}
+html,body{height:100%;font-family:'Cairo',sans-serif;background:#000;overflow:hidden}
+body{display:flex;align-items:center;justify-content:center}
+@keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes bi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes tp{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.1)}}
+@keyframes pop{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+/* SPLASH */
+.sp-w{position:absolute;inset:0;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg,#0f172a 0%,#1e293b 50%,#0ea5e9 100%);animation:spOut .5s ease 2.2s forwards}
+.sp-logo{width:100px;height:100px;border-radius:28px;background:linear-gradient(135deg,#f59e0b,#d97706);display:flex;align-items:center;justify-content:center;font-size:48px;box-shadow:0 16px 48px rgba(245,158,11,.35);animation:pop .6s cubic-bezier(.2,1.4,.4,1) both;margin-bottom:24px}
+@keyframes spOut{to{opacity:0;pointer-events:none;transform:scale(1.05)}}
+.sp-name{color:#fff;font-size:32px;font-weight:900;letter-spacing:2px;animation:fi .5s ease .4s both}
+.sp-sub{color:rgba(255,255,255,.6);font-size:13px;font-weight:600;margin-top:6px;animation:fi .5s ease .6s both}
+
+/* AUTH */
+.auth{position:absolute;inset:0;z-index:150;background:var(--w);display:none;flex-direction:column}
+.auth.on{display:flex}
+.auth-bg{height:260px;background:linear-gradient(160deg,#0f172a 0%,#1e293b 60%,#0ea5e9 100%);position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:24px 24px 36px}
+.auth-bg::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:36px;background:var(--w);border-radius:20px 20px 0 0}
+.auth-bg h1{color:#fff;font-size:24px;font-weight:900;position:relative;z-index:2}
+.auth-bg p{color:rgba(255,255,255,.7);font-size:12px;font-weight:600;margin-top:4px;position:relative;z-index:2}
+.auth-bg .sp-logo{width:56px;height:56px;border-radius:16px;font-size:28px;margin-bottom:12px;box-shadow:0 8px 24px rgba(245,158,11,.3)}
+.auth-body{flex:1;overflow-y:auto;padding:8px 24px 24px}
+.auth-body::-webkit-scrollbar{display:none}
+.fg{margin-bottom:14px}
+.fg label{display:block;font-size:11px;font-weight:700;color:var(--ink3);margin-bottom:5px}
+.fi{width:100%;padding:12px 14px;border-radius:var(--rs);border:1.5px solid var(--sl4);font-size:13px;font-weight:600;font-family:'Cairo',sans-serif;outline:none;background:var(--sl6);transition:.2s}
+.fi:focus{border-color:var(--tl);box-shadow:0 0 0 3px rgba(14,165,233,.1)}
+.fi::placeholder{color:var(--sl2)}
+.fi-ic{position:relative}
+.fi-ic .fi{padding-left:40px}
+.fi-ic span{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:16px}
+.auth-link{text-align:center;margin-top:14px;font-size:12px;color:var(--sl);font-weight:600}
+.auth-link b{color:var(--tl);cursor:pointer;font-weight:800}
+.auth-div{display:flex;align-items:center;gap:10px;margin:16px 0}
+.auth-div::before,.auth-div::after{content:'';flex:1;height:1px;background:var(--sl4)}
+.auth-div span{font-size:10px;color:var(--sl2);font-weight:700;white-space:nowrap}
+.auth-soc{display:flex;gap:10px}
+.auth-soc-btn{flex:1;padding:10px;border-radius:var(--rs);border:1.5px solid var(--sl4);display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;font-weight:700;color:var(--ink3);cursor:pointer;transition:.15s;background:var(--w)}
+.auth-soc-btn:hover{border-color:var(--tl);background:var(--sl6)}
+.auth-soc-btn .av{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff}
+
+/* PHONE */
+.ph{position:relative;width:390px;height:844px;border-radius:54px;background:var(--w);box-shadow:0 0 0 12px #1a1a2e,0 0 0 14px #333,0 40px 80px rgba(0,0,0,.5);overflow:hidden;display:flex;flex-direction:column}
+.nt{position:absolute;top:0;left:50%;transform:translateX(-50%);width:126px;height:34px;background:#000;border-radius:0 0 22px 22px;z-index:100}
+.sb{height:54px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font-size:13px;font-weight:700;color:var(--ink);position:relative;z-index:50}
+.sb .tm{font-family:'Plus Jakarta Sans';font-weight:800}
+.sb .ic{display:flex;gap:4px;font-size:14px}
+.bdy{flex:1;overflow:hidden;position:relative;display:flex;flex-direction:column}
+.vw{flex:1;overflow-y:auto;overflow-x:hidden;scroll-behavior:smooth}
+.vw::-webkit-scrollbar{display:none}
+
+/* BOTTOM NAV */
+.bn{height:64px;background:var(--w);border-top:1px solid var(--sl4);display:flex;align-items:center;justify-content:space-around;flex-shrink:0}
+.b{display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;padding:5px 14px;border-radius:var(--rs);color:var(--sl2);font-size:9px;font-weight:700;transition:.15s;position:relative}
+.b .ic{font-size:20px}
+.b.on{color:var(--ink)}
+.bdg{position:absolute;top:-2px;right:4px;min-width:16px;height:16px;border-radius:99px;background:var(--rd);color:#fff;font-size:8px;font-weight:900;display:flex;align-items:center;justify-content:center;padding:0 4px}
+
+/* BUTTONS */
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 20px;border-radius:var(--rs);font-size:13px;font-weight:800;font-family:'Cairo',sans-serif;cursor:pointer;border:none;transition:.2s;width:100%}
+.btn:active{transform:scale(.97)}
+.bp{background:var(--ink);color:#fff}
+.bg{background:linear-gradient(135deg,var(--gd),var(--gd2));color:var(--ink);box-shadow:0 6px 20px rgba(245,158,11,.3)}
+.bo{background:var(--w);color:var(--ink3);border:1.5px solid var(--sl4)}
+.bs{padding:10px 16px;font-size:11px;border-radius:var(--rx)}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+
+/* CARDS */
+.cd{background:var(--w);border-radius:var(--r);border:1px solid var(--sl4);padding:14px;box-shadow:0 2px 12px rgba(15,23,42,.06)}
+
+/* CHIPS */
+.chips{display:flex;flex-wrap:wrap;gap:6px;padding:4px 0}
+.chip{padding:7px 12px;border-radius:999px;border:1.5px solid var(--sl4);font-size:11px;font-weight:700;color:var(--ink3);cursor:pointer;transition:.15s;background:var(--w)}
+.chip:hover{border-color:var(--tl);color:var(--tl)}
+
+/* BUBBLES */
+.bub{max-width:82%;padding:10px 14px;border-radius:16px;font-size:12px;line-height:1.7;font-weight:600;animation:bi .3s ease both}
+.bub-a{align-self:flex-start;background:var(--sl6);color:var(--ink);border-bottom-right-radius:4px}
+.bub-u{align-self:flex-end;background:var(--ink);color:#fff;border-bottom-left-radius:4px}
+.bub small{display:block;font-size:10px;color:var(--sl);font-weight:600;margin-top:3px}
+.bub-u small{color:rgba(255,255,255,.6)}
+.typ{display:flex;gap:4px;padding:12px 16px}
+.typ span{width:7px;height:7px;border-radius:99px;background:var(--sl3);animation:tp 1.2s infinite}
+.typ span:nth-child(2){animation-delay:.2s}
+.typ span:nth-child(3){animation-delay:.4s}
+
+/* ANALYSIS */
+.an{background:var(--w);border:1.5px solid var(--sl4);border-radius:var(--r);padding:12px;margin:4px 0}
+.an-h{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.an-ic{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff;font-size:16px}
+.an-h b{font-size:12px;color:var(--ink);display:block}
+.an-h small{font-size:10px;color:var(--sl);font-weight:600}
+.an-g{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.an-c{background:var(--sl6);border-radius:var(--rx);padding:7px 8px}
+.an-c b{display:block;font-size:11px;color:var(--ink);margin-top:2px}
+.an-c small{font-size:9px;color:var(--sl);font-weight:700}
+.an-n{display:flex;gap:5px;align-items:flex-start;font-size:10px;color:var(--sl);font-weight:600;margin-top:8px;line-height:1.5}
+
+/* SAFETY */
+.sf{background:linear-gradient(135deg,#fef2f2,#fee2e2);border:1.5px solid #fecaca;border-radius:var(--r);padding:12px;margin:4px 0}
+.sf-h{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.sf-ic{width:32px;height:32px;border-radius:8px;background:var(--rd);display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px}
+.sf-h b{font-size:12px;color:#991b1b}
+.sf p{font-size:10.5px;color:#7f1d1d;font-weight:600;line-height:1.6}
+.sf-l{margin-top:6px;display:flex;flex-direction:column;gap:4px}
+.sf-i{display:flex;align-items:flex-start;gap:5px;font-size:10px;color:#991b1b;font-weight:600}
+
+/* TECH CARD */
+.tc{display:flex;align-items:center;gap:10px;padding:12px;border-radius:var(--r);border:1.5px solid var(--sl4);cursor:pointer;transition:.15s;margin-bottom:8px}
+.tc:hover{border-color:var(--tl)}
+.tc.sel{border-color:var(--tl);background:rgba(14,165,233,.04);box-shadow:0 0 0 3px rgba(14,165,233,.1)}
+.tc-av{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:16px;flex-shrink:0}
+.tc-nf{flex:1;min-width:0}
+.tc-nf .n{font-size:12px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:5px}
+.tc-nf .sp{font-size:10px;color:var(--sl);font-weight:600;margin-top:1px}
+.tc-nf .m{display:flex;gap:6px;margin-top:3px;flex-wrap:wrap}
+.tc-nf .m span{font-size:9px;font-weight:700;color:var(--sl2);display:flex;align-items:center;gap:2px}
+.tc-pr{text-align:left}
+.tc-pr b{font-size:14px;font-weight:900;color:var(--ink);font-family:'Plus Jakarta Sans';display:block}
+.tc-pr small{font-size:9px;color:var(--sl);font-weight:700}
+
+/* MAP */
+.mp{height:260px;border-radius:var(--r);overflow:hidden;position:relative;background:var(--sl5)}
+.mp #tm{width:100%;height:100%}
+.mp-i{position:absolute;bottom:0;left:0;right:0;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);padding:12px;border-radius:var(--r) var(--r) 0 0}
+.mp-r{display:flex;align-items:center;gap:10px}
+.mp-av{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:14px;flex-shrink:0}
+.mp-inf{flex:1}
+.mp-inf b{font-size:12px;font-weight:800;color:var(--ink);display:block}
+.mp-inf small{font-size:10px;color:var(--sl);font-weight:600}
+.mp-e{display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding:8px 12px;background:var(--sl6);border-radius:var(--rs)}
+.mp-e .e{font-size:20px;font-weight:900;color:var(--tl);font-family:'Plus Jakarta Sans'}
+.mp-e .el{font-size:10px;color:var(--sl);font-weight:700}
+.mp-a{display:flex;gap:6px;margin-top:8px}
+.mp-ab{flex:1;padding:9px;border-radius:var(--rs);display:flex;align-items:center;justify-content:center;gap:5px;font-size:11px;font-weight:800;cursor:pointer;border:none;font-family:'Cairo',sans-serif;color:#fff}
+
+/* HOME MAP */
+.hm{height:240px;background:linear-gradient(135deg,#e0f2fe,#bae6fd);position:relative;overflow:hidden}
+.hm::after{content:'';position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(transparent,var(--w));z-index:1}
+.hm #hmMap{width:100%;height:100%}
+.hc{margin:10px 16px 0;position:relative;z-index:2;background:var(--w);border-radius:var(--r);box-shadow:0 4px 24px rgba(15,23,42,.1);padding:16px}
+.ha{font-size:18px;font-weight:900;color:var(--ink);margin-bottom:3px}
+.hs{font-size:11px;color:var(--sl);font-weight:600;margin-bottom:12px}
+.hi{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--sl6);border-radius:var(--rs);cursor:pointer;transition:.15s;border:1.5px solid transparent}
+.hi:hover{border-color:var(--tl)}
+.hi span{font-size:13px;font-weight:700;color:var(--sl2)}
+.hct{display:flex;gap:6px;margin-top:12px;overflow-x:auto;padding-bottom:4px}
+.hct::-webkit-scrollbar{display:none}
+.hcc{flex-shrink:0;display:flex;align-items:center;gap:5px;padding:7px 12px;border-radius:999px;border:1.5px solid var(--sl4);font-size:11px;font-weight:700;color:var(--ink3);cursor:pointer;transition:.15s;background:var(--w)}
+.hcc:hover{border-color:var(--tl);color:var(--tl)}
+
+/* OTP */
+.otp-w{display:flex;justify-content:center;gap:10px;margin:16px 0}
+.otp-b{width:52px;height:60px;border-radius:var(--rs);border:2px solid var(--sl4);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;font-family:'Plus Jakarta Sans';color:var(--ink);transition:.2s;cursor:pointer}
+.otp-b.foc{border-color:var(--tl);box-shadow:0 0 0 3px rgba(14,165,233,.15)}
+.otp-b.fill{border-color:var(--gn);background:rgba(5,150,105,.05);color:var(--gn)}
+
+/* BEFORE/AFTER */
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.bf{border-radius:var(--rs);overflow:hidden;position:relative;background:var(--sl5)}
+.bf .tg{position:absolute;top:6px;left:6px;padding:2px 8px;border-radius:999px;font-size:9px;font-weight:800;color:#fff}
+.bf.bf1 .tg{background:var(--rd)}
+.bf.af1 .tg{background:var(--gn)}
+.bf svg{width:100%;display:block}
+
+/* INVOICE */
+.iv{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--sl5)}
+.iv:last-child{border-bottom:none}
+.iv .l{font-size:11px;color:var(--sl);font-weight:600}
+.iv .v{font-size:12px;font-weight:800;color:var(--ink);font-family:'Plus Jakarta Sans'}
+.ivt{display:flex;align-items:center;justify-content:space-between;padding:12px;background:var(--sl6);border-radius:var(--rs);margin-top:8px}
+.ivt .l{font-size:13px;font-weight:800;color:var(--ink)}
+.ivt .v{font-size:20px;font-weight:900;color:var(--tl);font-family:'Plus Jakarta Sans'}
+
+/* STARS */
+.stars{display:flex;justify-content:center;gap:6px;margin:12px 0}
+.stars span{font-size:32px;cursor:pointer;transition:.15s}
+.stars span.on{color:var(--gd)}
+.stars span.off{color:var(--sl4)}
+.rtags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0}
+.rtag{padding:5px 12px;border-radius:999px;border:1.5px solid var(--sl4);font-size:10px;font-weight:700;color:var(--ink3);cursor:pointer;transition:.15s}
+.rtag.sel{border-color:var(--tl);background:rgba(14,165,233,.08);color:var(--tl)}
+
+/* WARRANTY */
+.war{background:linear-gradient(135deg,var(--ink),var(--ink2));border-radius:var(--r);padding:16px;color:#fff;position:relative;overflow:hidden}
+.war::before{content:'';position:absolute;top:-30px;right:-30px;width:100px;height:100px;border-radius:50%;background:rgba(245,158,11,.15)}
+.war .sh{width:40px;height:40px;border-radius:12px;background:rgba(245,158,11,.2);display:flex;align-items:center;justify-content:center;margin-bottom:10px;font-size:24px}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:999px;font-size:9px;font-weight:800}
+.badge-t{background:rgba(14,165,233,.1);color:var(--tl)}
+.badge-g{background:rgba(5,150,105,.1);color:var(--gn)}
+.badge-gd{background:rgba(245,158,11,.12);color:var(--gd2)}
+
+/* DATE/TIME */
+.dr{display:flex;gap:6px;overflow-x:auto;padding:0 0 6px}
+.dr::-webkit-scrollbar{display:none}
+.dc{min-width:54px;padding:8px 6px;border-radius:var(--rs);border:1.5px solid var(--sl4);text-align:center;cursor:pointer;transition:.15s;background:var(--w)}
+.dc .d{font-size:9px;color:var(--sl);font-weight:700}
+.dc .n{font-size:15px;font-weight:900;color:var(--ink);font-family:'Plus Jakarta Sans'}
+.dc .mn{font-size:8px;color:var(--sl2);font-weight:700}
+.dc.sel{border-color:var(--tl);background:rgba(14,165,233,.08)}
+.dc.sel .n{color:var(--tl)}
+.tms{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
+.ts{padding:8px;border-radius:var(--rx);border:1.5px solid var(--sl4);text-align:center;font-size:11px;font-weight:700;color:var(--ink3);cursor:pointer;transition:.15s}
+.ts.sel{border-color:var(--tl);background:rgba(14,165,233,.08);color:var(--tl)}
+.ts.un{opacity:.35;cursor:not-allowed}
+
+/* SUCCESS */
+.sr{width:72px;height:72px;border-radius:99px;background:linear-gradient(135deg,var(--gn),var(--gn2));display:flex;align-items:center;justify-content:center;margin:0 auto;box-shadow:0 0 0 8px rgba(5,150,105,.12),0 10px 24px rgba(5,150,105,.25);animation:pop .45s cubic-bezier(.2,1.4,.4,1) both;font-size:36px}
+.anim{animation:fi .4s ease both}
+
+/* TOAST */
+.toast{position:absolute;bottom:74px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:8px 16px;border-radius:999px;font-size:11px;font-weight:700;display:flex;align-items:center;gap:6px;z-index:300;opacity:0;transition:.3s;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* OVERLAY */
+.ovr{position:absolute;inset:0;z-index:80;pointer-events:none;opacity:0;transition:.3s}
+.ovr.open{pointer-events:auto;opacity:1}
+.ov{position:absolute;inset:0;background:var(--w);display:flex;flex-direction:column;z-index:2}
+.ovh{display:flex;align-items:center;gap:10px;padding:54px 16px 10px;background:var(--w);border-bottom:1px solid var(--sl4);flex-shrink:0}
+.ovb{width:36px;height:36px;border-radius:var(--rx);background:var(--sl6);border:1px solid var(--sl4);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-size:16px}
+.ovt{flex:1;font-size:14px;font-weight:800;color:var(--ink)}
+.ovt small{display:block;font-size:10px;color:var(--sl);font-weight:600;margin-top:1px}
+.ovc{flex:1;overflow-y:auto;padding:14px}
+.ovc::-webkit-scrollbar{display:none}
+
+/* AI SHEET */
+.ai{position:absolute;inset:0;z-index:90;background:var(--w);display:flex;flex-direction:column;transform:translateY(100%);transition:.35s cubic-bezier(.4,0,.2,1)}
+.ai.open{transform:translateY(0)}
+.ai-h{padding:54px 14px 10px;border-bottom:1px solid var(--sl4);display:flex;align-items:center;gap:10px;flex-shrink:0}
+.ai-b{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+.ai-b::-webkit-scrollbar{display:none}
+.ai-f{padding:10px 14px;border-top:1px solid var(--sl4);display:flex;align-items:center;gap:8px;flex-shrink:0;background:var(--w)}
+.ai-f input{flex:1;padding:10px 14px;border-radius:999px;border:1.5px solid var(--sl4);font-size:12px;font-weight:600;font-family:'Cairo',sans-serif;outline:none;background:var(--sl6)}
+.ai-f input:focus{border-color:var(--tl)}
+
+/* QR */
+.qr-box{width:120px;height:120px;margin:12px auto;border:3px dashed var(--sl3);border-radius:var(--r);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;font-size:10px;color:var(--sl);font-weight:700}
+.qr-box .big{font-size:36px}
+
+/* FLOW STRIP */
+.fs{position:absolute;top:56px;left:50%;transform:translateX(-50%);z-index:200;display:flex;gap:3px;background:rgba(15,23,42,.92);backdrop-filter:blur(12px);padding:4px 8px;border-radius:999px;box-shadow:0 8px 32px rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:.3s;white-space:nowrap}
+.fs.show{opacity:1;pointer-events:auto}
+.fsi{display:flex;align-items:center;gap:2px;font-size:8px;font-weight:700;color:rgba(255,255,255,.35);padding:2px 5px;border-radius:999px;transition:.2s}
+.fsi.done{color:#6ee7b7}
+.fsi.now{color:var(--gd);background:rgba(245,158,11,.15)}
+
+/* HEALTH SCORE */
+.hs-bar{height:8px;border-radius:99px;background:var(--sl4);overflow:hidden;margin:8px 0}
+.hs-fill{height:100%;border-radius:99px;transition:.6s}
+
+/* PASSPORT */
+.pp-item{display:flex;align-items:center;gap:10px;padding:10px;border-bottom:1px solid var(--sl5)}
+.pp-item:last-child{border-bottom:none}
+.pp-ic{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+</style>
+</head>
+<body>
+
+<div class="ph">
+  <div class="nt"></div>
+
+  <!-- SPLASH -->
+  <div class="sp-w" id="splash">
+    <div class="sp-logo">🔧</div>
+    <div class="sp-name">حرفة</div>
+    <div class="sp-sub">Like Uber, but for your home</div>
+  </div>
+
+  <!-- AUTH: LOGIN -->
+  <div class="auth on" id="authLogin">
+    <div class="auth-bg">
+      <div class="sp-logo">🔧</div>
+      <h1>أهلاً بيك تاني 👋</h1>
+      <p>سجل دخولك عشان تكمل</p>
+    </div>
+    <div class="auth-body">
+      <div class="fg">
+        <label>رقم الموبايل</label>
+        <div class="fi-ic"><span>📱</span><input class="fi" type="tel" placeholder="01012345678" value="01012345678"></div>
+      </div>
+      <div class="fg">
+        <label>كلمة المرور</label>
+        <div class="fi-ic"><span>🔒</span><input class="fi" type="password" placeholder="••••••••" value="123456"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <label style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink3);font-weight:600;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--tl)"> تذكرني</label>
+        <b style="font-size:11px;color:var(--tl);cursor:pointer;font-weight:700">نسيت كلمة المرور؟</b>
+      </div>
+      <button class="btn bp" data-act="do-login" style="margin-top:10px">تسجيل الدخول</button>
+      <div class="auth-div"><span>أو سجل بـ</span></div>
+      <div class="auth-soc">
+        <div class="auth-soc-btn" data-act="do-login"><div class="av" style="background:#4285f4">G</div> Google</div>
+        <div class="auth-soc-btn" data-act="do-login"><div class="av" style="background:#25d366">W</div> WhatsApp</div>
+      </div>
+      <div class="auth-link">مش عندك حساب؟ <b data-act="go-signup">إنشاء حساب جديد</b></div>
+    </div>
+  </div>
+
+  <!-- AUTH: SIGNUP -->
+  <div class="auth" id="authSignup">
+    <div class="auth-bg">
+      <div class="sp-logo">🔧</div>
+      <h1>عمل حساب جديد 🎉</h1>
+      <p>خطوة واحدة بس وبتبدأ</p>
+    </div>
+    <div class="auth-body">
+      <div class="fg"><label>الاسم الكامل</label><div class="fi-ic"><span>👤</span><input class="fi" type="text" placeholder="اسمك هنا" value="حسن"></div></div>
+      <div class="fg"><label>رقم الموبايل</label><div class="fi-ic"><span>📱</span><input class="fi" type="tel" placeholder="01012345678" value="01012345678"></div></div>
+      <div class="fg"><label>المنطقة</label><div class="fi-ic"><span>📍</span><input class="fi" type="text" placeholder="مثلاً: التجمع الخامس" value="التجمع الخامس القاهرة"></div></div>
+      <div class="fg"><label>كلمة المرور</label><div class="fi-ic"><span>🔒</span><input class="fi" type="password" placeholder="6 حروف على الأقل" value="123456"></div></div>
+      <button class="btn bp" data-act="do-signup" style="margin-top:6px">ابدأ 🚀</button>
+      <div class="auth-link">عندك حساب؟ <b data-act="go-login">تسجيل الدخول</b></div>
+    </div>
+  </div>
+
+  <!-- AUTH: OTP VERIFY -->
+  <div class="auth" id="authOtp">
+    <div style="text-align:center;padding:24px">
+      <div class="sr anim" style="margin-top:50px">📱</div>
+      <h2 style="font-size:18px;font-weight:900;color:var(--ink);margin-top:14px">تحقق من رقمك</h2>
+      <p style="font-size:12px;color:var(--sl);font-weight:600;margin-top:4px">ابعتنا كود على <b style="color:var(--ink)">01012345678</b></p>
+      <div class="otp-w" id="otpWA"></div>
+      <p style="font-size:10px;color:var(--sl2);font-weight:600;margin-top:6px">الرمز: <b style="color:var(--tl)">4821</b></p>
+      <button class="btn bp" id="otpBtnA" disabled data-act="verify-auth-otp" style="margin-top:16px">تحقق ✅</button>
+      <div style="margin-top:14px;font-size:11px;color:var(--sl);font-weight:600">مش وصل الكود؟ <b style="color:var(--tl);cursor:pointer">إعادة الإرسال</b></div>
+      <div class="auth-link" style="margin-top:20px" data-act="go-login">← رجوع</div>
+    </div>
+  </div>
+
+  <!-- APP WRAPPER -->
+  <div id="appWrap" style="display:none;position:absolute;inset:0;flex-direction:column">
+    <div class="sb">
+      <span class="tm">9:41</span>
+      <span class="ic">📶 🔋</span>
+    </div>
+    <div class="bdy">
+      <div class="fs" id="fs"></div>
+      <div class="vw" id="vw"></div>
+      <div class="ai" id="aiS">
+        <div class="ai-h">
+          <div class="ovb" data-act="ai-close">⬇</div>
+          <div class="ovt">اسأل حرفة<small>المساعد الذكي — بيحل مشاكلك</small></div>
+        </div>
+        <div class="ai-b" id="aiB"></div>
+        <div class="ai-f">
+          <div class="ovb" data-act="ai-voice" style="background:var(--tl);color:#fff;border:none;font-size:18px">🎤</div>
+          <input type="text" placeholder="اكتب المشكلة..." id="aiIn">
+          <div class="ovb" data-act="ai-send" style="background:var(--ink);color:#fff;border:none;font-size:16px">➤</div>
+        </div>
+      </div>
+    </div>
+    <div class="bn" id="bn"></div>
+    <div class="ovr" id="ovr"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
+const lat=(ms,fn)=>setTimeout(fn,ms),rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+
+const S={scr:'splash',authed:false,user:{name:'حسن',phone:'01012345678',area:'التجمع الخامس'},sc:'ac',job:null,tech:null,chat:null,cs:0,cd:false,hist:[],ov:false};
+const TECHS=[
+  {name:'أحمد حسن',skill:'فني تبريد وتكييف',r:4.8,rv:86,d:2.3,e:9,c:'#0ea5e9',sm:21,v:true,p:94},
+  {name:'محمد علي',skill:'فني سباكة',r:4.6,rv:54,d:3.1,e:14,c:'#8b5cf6',sm:18,v:true,p:87},
+  {name:'خالد إبراهيم',skill:'فني كهرباء',r:4.9,rv:112,d:1.8,e:7,c:'#f59e0b',sm:31,v:true,p:96},
+  {name:'عمر سعيد',skill:'فني غسالات',r:4.5,rv:38,d:4.2,e:20,c:'#059669',sm:12,v:false,p:82}
+];
+const CATS=[
+  {id:'ac',n:'تكييف',i:'❄️',c:'#0ea5e9'},{id:'el',n:'كهرباء',i:'⚡',c:'#f59e0b'},
+  {id:'pl',n:'سباكة',i:'🔧',c:'#0ea5e9'},{id:'ap',n:'أجهزة',i:'🏠',c:'#8b5cf6'},
+  {id:'pa',n:'دهان',i:'🎨',c:'#ef4444'},{id:'ca',n:'نجارة',i:'🪚',c:'#059669'}
+];
+
+let tt;
+function toast(m,i='✅'){const t=$('#toast');t.innerHTML=`${i} ${m}`;t.classList.add('show');clearTimeout(tt);tt=lat(2600,()=>t.classList.remove('show'));}
+
+const FSS=['الرئيسية','وصف المشكلة','اختيار الفني','التتبع','الفحص','التقييم','الفاتورة','الضمان'];
+function setFlow(i){const f=$('#fs');if(!f)return;f.classList.add('show');f.innerHTML=FSS.map((s,j)=>`<span class="fsi ${j<i?'done':j===i?'now':''}">${j<i?'✅':j===i?'🔵':'⚪'} ${s}</span>`).join('');}
+function hideFlow(){$('#fs')?.classList.remove('show');}
+
+function openOv(h,t='',s=''){const r=$('#ovr');r.innerHTML=`<div class="ov"><div class="ovh"><div class="ovb" data-act="ov-back">→</div><div class="ovt">${t}${s?`<small>${s}</small>`:''}</div></div><div class="ovc" id="ovc">${h}</div></div>`;r.classList.add('open');S.ov=true;}
+function setOv(h){const c=$('#ovc');if(c){c.innerHTML=h;c.scrollTop=0;}}
+function closeOv(){$('#ovr')?.classList.remove('open');$('#ovr').innerHTML='';S.ov=false;}
+
+const TABS=[{id:'home',l:'الرئيسية',i:'🏠'},{id:'bookings',l:'الحجوزات',i:'📋',b:1},{id:'profile',l:'حسابي',i:'👤'}];
+function renderNav(){$('#bn').innerHTML=TABS.map(t=>`<div class="b ${t.id===S.scr||['schedule','techSelect','tracking','arrival','report','rating','invoice','warranty'].includes(S.scr)&&t.id==='home'?'on':''}" data-act="nav" data-nav="${t.id}" style="position:relative"><span class="ic">${t.i}</span>${t.b?`<span class="bdg">${t.b}</span>`:''}<span>${t.l}</span></div>`).join('');}
+
+function render(){
+  const v=$('#vw');v.scrollTop=0;hideFlow();
+  const R={home:rHome,bookings:rBookings,profile:rProfile,schedule:rSchedule,techSelect:rTechSel,tracking:rTrack,arrival:rArrival,report:rReport,rating:rRating,invoice:rInvoice,warranty:rWarranty,myHome:rMyHome,passport:rPassport,healthScore:rHealthScore,quoteApproval:rQuoteApproval};
+  v.innerHTML=(R[S.scr]||R.home)();
+  renderNav();
+}
+function showAuth(id){['authLogin','authSignup','authOtp'].forEach(x=>$('#'+x)?.classList.remove('on'));const el=$('#'+id);if(el)el.classList.add('on');if(id==='authOtp')lat(200,initAuthOtp);}
+function hideAuth(){['authLogin','authSignup','authOtp'].forEach(x=>$('#'+x)?.classList.remove('on'));}
+function doLogin(){hideAuth();$('#appWrap').style.display='flex';S.authed=true;S.scr='home';render();lat(200,initHomeMap);toast('أهلاً بيك يا حسن 🎉');}
+
+/* ============ HOME ============ */
+function rHome(){
+  return `<div class="hm"><div id="hmMap"></div></div>
+  <div class="hc">
+    <div class="ha">إيه المشكلة؟ 🛠️</div>
+    <div class="hs">حرفة تفهمها وتحلّها — زي ما بتسأل صاحبك</div>
+    <div class="hi" data-act="open-ai"><span style="font-size:20px">💬</span><span>صِف المشكلة... أو اتكلّم</span></div>
+    <div class="hct">${CATS.map(c=>`<div class="hcc" data-act="cat" data-cat="${c.id}"><span style="color:${c.c}">${c.i}</span>${c.n}</div>`).join('')}</div>
+    <div style="margin-top:14px;display:flex;gap:8px">
+      <div class="cd" style="flex:1;padding:10px;cursor:pointer;text-align:center" data-act="nav" data-nav="myHome"><div style="font-size:22px">🏠</div><div style="font-size:10px;font-weight:700;color:var(--ink3);margin-top:2px">بيتي</div></div>
+      <div class="cd" style="flex:1;padding:10px;cursor:pointer;text-align:center" data-act="nav" data-nav="passport"><div style="font-size:22px">📋</div><div style="font-size:10px;font-weight:700;color:var(--ink3);margin-top:2px">الباسسبورت</div></div>
+      <div class="cd" style="flex:1;padding:10px;cursor:pointer;text-align:center" data-act="scan-qr"><div style="font-size:22px">📷</div><div style="font-size:10px;font-weight:700;color:var(--ink3);margin-top:2px">مسح QR</div></div>
+    </div>
+    ${S.hist.length?`<div style="margin-top:14px"><h3 style="font-size:13px;font-weight:800;color:var(--ink);margin-bottom:8px">آخر شغلة</h3>${S.hist.slice(-1).map(j=>`<div class="cd" style="padding:10px;display:flex;align-items:center;gap:8px"><div style="width:36px;height:36px;border-radius:10px;background:${j.tech.c};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:13px">${j.tech.name[0]}</div><div style="flex:1"><b style="font-size:11px;font-weight:800;color:var(--ink)">${j.title}</b><small style="font-size:9px;color:var(--sl);font-weight:600;display:block">${j.tech.name} · اليوم</small></div><span class="badge badge-g">✅</span></div>`).join('')}</div>`:''}
+  </div><div style="height:16px"></div>`;
+}
+
+/* ============ AI CHAT ============ */
+function openAI(sc){
+  S.sc=sc||'ac';S.chat=[];S.cs=0;S.cd=false;
+  $('#aiS').classList.add('open');$('#aiB').innerHTML='';rChat();
+  lat(400,()=>{
+    if(sc==='safety'){aiS('في حاجة غريبة في الكهربا؟ وصّني بالتفصيل — حرفة هنا يساعدك.');showCh(['في قفلة وريحة شياط 🔥','المفتاح بيعمل سпарك','مش عارف أوصف — عايز أصوّر']);}
+    else if(sc==='wash'){aiS('غسالة بتعمل صوت؟ وصّني — حرفة هيفهم ويجهّزلك الفني.');showCh(['صوت عالي أثناء العصر 🚿','الدرام مش بيدور','مينشفش كويس']);}
+    else{aiS('المكيف بيسرب مية أو مش بيسقع؟ وصّني بالكلام أو الصورة.');showCh(['بينقط مية من الوحدة内部 🥵','مش بيسقع خالص','بيعمل صوت غريب','عندي صورة أبعتها']);}
+  });
+}
+function closeAI(){$('#aiS').classList.remove('open');}
+function aiS(t){S.chat.push({t:'typing'});rChat();lat(800,()=>{S.chat.pop();S.chat.push({t:'ai',x:t});rChat();});}
+function uS(t){S.chat.push({t:'u',x:t});rChat();}
+function showCh(o){S.chat.push({t:'ch',o});rChat();}
+function addAn(h){S.chat.push({t:'an',x:h});rChat();}
+function rChat(){
+  const b=$('#aiB');if(!b)return;
+  b.innerHTML=S.chat.map(m=>{
+    if(m.t==='ai')return`<div class="bub bub-a">${m.x}</div>`;
+    if(m.t==='u')return`<div class="bub bub-u">${m.x}<small>انت</small></div>`;
+    if(m.t==='ch')return`<div class="chips">${m.o.map((o,i)=>`<div class="chip" data-act="chip" data-i="${i}">${o}</div>`).join('')}</div>`;
+    if(m.t==='an')return m.x;
+    if(m.t==='typing')return`<div class="bub bub-a"><div class="typ"><span></span><span></span><span></span></div></div>`;
+    if(m.t==='done')return m.x;
+    return'';
+  }).join('');
+  b.scrollTop=b.scrollHeight;
+}
+function chipH(i){
+  const ch=S.chat.find(m=>m.t==='ch');if(!ch)return;
+  uS(ch.o[i]);S.chat=S.chat.filter(m=>m.t!=='ch');rChat();
+  lat(600,()=>aiF(i));
+}
+function aiF(i){
+  if(S.cs===0){
+    if(S.sc==='ac'){aiS('فهمتك! خليني أحلل المشكلة.');lat(600,()=>{showAC();S.cs=1;});}
+    else if(S.sc==='safety'){
+      if(i===0){aiS('⚠️ خطر! كهرباء مش لعبة. هنبدأ طلب أولوية لفني كهرباء معتمد فورًا.');lat(800,()=>{showSF();S.cs=1;});}
+      else{aiS('خليني أشوف — ممكن صورة أو فيديو؟');lat(600,()=>showCh(['بصوّر دلوقتي','مش لاقي كاميرا']));}
+    }else{aiS('فهمتك — خليني أحلل المشكلة.');lat(600,()=>{showWA();S.cs=1;});}
+  }else if(S.cs===1){
+    if(S.sc==='safety'){
+      S.cd=true;lat(600,()=>{S.chat.push({t:'done',x:`<div class="an" style="border-color:var(--gn);background:rgba(5,150,105,.03)"><div class="an-h"><div class="an-ic" style="background:var(--gn)">✅</div><div><b>تم — طلب أولوية جاهز ✅</b><small>فني كهرباء موثق في الطريق</small></div></div><button class="btn bp bs" data-act="ai-done" style="margin-top:6px">→ اختار الموعد</button></div>`});rChat();});
+    }else if(i===0||i===2){
+      S.cd=true;lat(600,()=>{S.chat.push({t:'done',x:`<div class="an" style="border-color:var(--gn);background:rgba(5,150,105,.03)"><div class="an-h"><div class="an-ic" style="background:var(--gn)">✅</div><div><b>تم — حرفة فهم المشكلة ✅</b><small>جاهزين نطلّبلك الفني</small></div></div><button class="btn bp bs" data-act="ai-done" style="margin-top:6px">→ اختار الفني</button></div>`});rChat();});
+    }
+  }
+}
+function showAC(){
+  addAn(`<div class="an"><div class="an-h"><div class="an-ic" style="background:linear-gradient(135deg,var(--tl),var(--tl2))">❄️</div><div><b>التحليل الذكي — تكييف سبليت</b><small>تصنيف آلي · ثقة 91%</small></div></div><div class="an-g"><div class="an-c"><small class="ic">📋 النوع</small><b>تبريد وتكييف</b></div><div class="an-c"><small class="ic">⚡ الإلحاح</small><b>متوسط</b></div><div class="an-c" style="grid-column:1/-1"><small class="ic">🔧 المشكلة</small><b>انسداد صرف + نقص فريون</b></div><div class="an-c" style="grid-column:1/-1"><small class="ic">✅ الخدمة</small><b>فحص + صيانة مكيف شاملة</b></div></div><div class="an-n">ℹ️ التشخيص استرشادي — الفني هيوصل ويأكد. بدأت إمتى؟</div></div>`);
+  lat(600,()=>{S.cs=1;showCh(['من النهارده','من يومين','من أسبوع']);});
+}
+function showSF(){
+  addAn(`<div class="sf"><div class="sf-h"><div class="sf-ic">⚡</div><div><b>⚠️ تنبيه خطر — كهرباء</b></div></div><p>بلاش تقرب من اللوحة أو تفتحها بنفسك. لو حسّيت بدخان، ابعد فورًا.</p><div class="sf-l"><div class="sf-i">🔴 لا إرشادات إصلاح ذاتي — يحتاج فني كهرباء معتمد</div><div class="sf-i">🛡️ حرفة بتجهّز طلب أولوية لفني موثق فورًا</div><div class="sf-i">📞 لو الطوارئ: اتصل على 123</div></div></div>`);
+  lat(600,()=>showCh(['تمام، اعمل الطلب دلوقتي','عايز أشوف تقييمات الفنيين الأول']));
+}
+function showWA(){
+  addAn(`<div class="an"><div class="an-h"><div class="an-ic" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed)">🫧</div><div><b>التحليل الذكي — غسالة</b><small>تصنيف آلي · ثقة 87%</small></div></div><div class="an-g"><div class="an-c"><small class="ic">📋 النوع</small><b>غسالات</b></div><div class="an-c"><small class="ic">⚡ الإلحاح</small><b>متوسط</b></div><div class="an-c" style="grid-column:1/-1"><small class="ic">🔧 المشكلة</small><b>بيرينق الدرام أو حمل زائد</b></div></div><div class="an-n">ℹ️ التشخيص استرشادي — الفني هيوصل ويأكد. الصوت بيحصل إمتى؟</div></div>`);
+  lat(600,()=>showCh(['أثناء العصر بس','أثناء الغسيل العادي','من أول ما بفتحها']));
+}
+
+/* ============ SCHEDULE ============ */
+function rSchedule(){
+  setFlow(1);
+  const days=['أحد','اثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'];
+  const months=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+  const today=new Date();const dates=[];
+  for(let i=0;i<7;i++){const d=new Date(today);d.setDate(d.getDate()+i);dates.push({dy:days[d.getDay()],n:d.getDate(),mn:months[d.getMonth()]});}
+  return `<div style="padding:14px"><h2 style="font-size:16px;font-weight:900;color:var(--ink);margin-bottom:12px">📅 اختار الموعد</h2>
+  <div class="fg"><label>اليوم</label><div class="dr">${dates.map((d,i)=>`<div class="dc ${i===0?'sel':''}" data-act="dpick"><div class="d">${d.dy}</div><div class="n">${d.n}</div><div class="mn">${d.mn}</div></div>`).join('')}</div></div>
+  <div class="fg"><label>الوقت</label><div class="tms">${['09:00','10:00','11:00','12:00','01:00','02:00','03:00','04:00','05:00'].map((t,i)=>`<div class="ts ${i===2?'sel':''} ${i===4?'un':''}" data-act="tsl">${t}</div>`).join('')}</div></div>
+  <button class="btn bp" data-act="to-tech">🔧 اختار الفني</button></div>`;
+}
+
+/* ============ TECH SELECT ============ */
+function rTechSel(){
+  setFlow(2);
+  return `<div style="padding:14px"><h2 style="font-size:16px;font-weight:900;color:var(--ink);margin-bottom:3px">🔧 اختار الفني</h2>
+  <p style="font-size:11px;color:var(--sl);font-weight:600;margin-bottom:12px">${TECHS.length} فنيين متاحين — الأقرب ليك</p>
+  ${TECHS.map((t,i)=>`<div class="tc ${i===0?'sel':''}" data-act="tpk" data-i="${i}"><div class="tc-av" style="background:${t.c}">${t.name[0]}${t.name.split(' ')[1]?.[0]||''}${t.v?' ✓':''}</div><div class="tc-nf"><div class="n">${t.name} <span class="badge badge-t">⭐ ${t.r}</span></div><div class="sp">${t.skill}</div><div class="m"><span>📍 ${t.d} كم</span><span>⏱️ ${t.e} د</span><span>🔨 ${t.sm} شغلة</span><span style="color:var(--gn)">🎯 ${t.p}% تطابق</span></div></div><div class="tc-pr"><b>${350+rand(0,350)}</b><small>ج.م</small></div></div>`).join('')}
+  <div class="cd" style="margin-top:4px;padding:10px;background:rgba(14,165,233,.04);border-color:var(--tl)"><div style="display:flex;align-items:center;gap:6px;font-size:10px;color:var(--tl);font-weight:700">💡 متوسط الأسعار في التجمع الخامس: 450-700 ج.م</div></div>
+  <button class="btn bp" data-act="confirm-tech" style="margin-top:12px">✅ تأكيد الحجز</button></div>`;
+}
+
+/* ============ QUOTE APPROVAL ============ */
+function rQuoteApproval(){
+  return `<div style="padding:14px"><div style="text-align:center;margin-bottom:12px"><span class="badge badge-gd" style="font-size:11px;padding:5px 12px">📋 عرض السعر</span><h2 style="font-size:16px;font-weight:900;color:var(--ink);margin-top:8px">aciente يأكد العرض</h2></div>
+  <div class="cd">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><div style="width:38px;height:38px;border-radius:10px;background:${S.tech?.c||'#0ea5e9'};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:14px">${S.tech?.name?.[0]||'أ'}</div><div><b style="font-size:12px;font-weight:800;color:var(--ink)">${S.tech?.name||'أحمد حسن'}</b><small style="font-size:10px;color:var(--sl);font-weight:600;display:block">${S.tech?.skill||'فني تكييف'}</small></div></div>
+  <div style="border-top:1px solid var(--sl5);padding-top:8px">
+  <div class="iv"><span class="l">زيارة الفحص</span><span class="v">100 ج.م</span></div>
+  <div class="iv"><span class="l">تنظيف خط الصرف</span><span class="v">250 ج.م</span></div>
+  <div class="iv"><span class="l">شحن فريون + ختم</span><span class="v">300 ج.م</span></div>
+  <div class="iv"><span class="l">قطع أصلية</span><span class="v" style="color:var(--gn)">مضمونة ✓</span></div>
+  <div class="ivt"><span class="l">الإجمالي</span><span class="v">650 ج.م</span></div></div></div>
+  <div class="cd" style="margin-top:8px;padding:10px;background:rgba(5,150,105,.04);border-color:var(--gn)"><div style="display:flex;align-items:center;gap:6px;font-size:10px;color:var(--gn);font-weight:700">✅ السعر في المدى المتوقع — متوسط أسعار الحي: 550-750 ج.م</div></div>
+  <div style="display:flex;gap:8px;margin-top:12px">
+  <button class="btn bo" style="flex:1" data-act="reject-quote">❌ رفض</button>
+  <button class="btn bp" style="flex:2" data-act="approve-quote">✅ موافقة على العرض</button></div></div>`;
+}
+
+/* ============ TRACKING ============ */
+function rTrack(){
+  setFlow(3);
+  const t=S.tech||TECHS[0];
+  S.job={id:'HX-'+rand(10000,99999),title:S.sc==='ac'?'إصلاح مكيف':S.sc==='safety'?'صيانة كهرباء':'إصلاح غسالة',tech:t};
+  return `<div style="padding:14px"><h2 style="font-size:16px;font-weight:900;color:var(--ink);margin-bottom:12px">🗺️ الفني في الطريق</h2>
+  <div class="mp"><div id="tm"></div>
+  <div class="mp-i"><div class="mp-r"><div class="mp-av" style="background:${t.c}">${t.name[0]}</div><div class="mp-inf"><b>${t.name}</b><small>${t.skill} · ${t.d} كم</small></div></div>
+  <div class="mp-e"><div><div class="e" id="eta">${t.e}</div><div class="el">دقيقة للوصول</div></div><div style="text-align:center"><b style="font-size:13px;font-weight:900;color:var(--ink)">${t.d} كم</b><small style="font-size:9px;color:var(--sl);font-weight:700;display:block">المسافة</small></div><div style="text-align:left"><b style="font-size:13px;font-weight:900;color:var(--gn)">4.8⭐</b><small style="font-size:9px;color:var(--sl);font-weight:700;display:block">${t.rv} تقييم</small></div></div>
+  <div class="mp-a"><div class="mp-ab" style="background:var(--ink)" data-act="chat-tech">💬 محادثة</div><div class="mp-ab" style="background:var(--tl)">📞 اتصال</div></div></div></div></div>`;
+}
+
+/* ============ ARRIVAL ============ */
+function rArrival(){
+  setFlow(4);
+  return `<div style="padding:14px;text-align:center"><div class="sr anim">🧑‍🔧</div>
+  <h2 style="font-size:16px;font-weight:900;color:var(--ink);margin-top:14px">وصل الفني! 🎉</h2>
+  <p style="font-size:12px;color:var(--sl);font-weight:600;margin-top:3px">${S.tech?.name||'أحمد حسن'} وصل — اتأكد بالرمز</p>
+  <div class="cd" style="margin-top:14px;display:flex;align-items:center;gap:10px"><div style="width:46px;height:46px;border-radius:14px;background:${S.tech?.c||'#0ea5e9'};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:18px">${S.tech?.name?.[0]||'أ'}</div><div style="flex:1;text-align:right"><b style="font-size:13px;font-weight:800;color:var(--ink)">${S.tech?.name||'أحمد حسن'}</b><small style="font-size:10px;color:var(--sl);font-weight:600;display:block">${S.tech?.skill||'فني تكييف'} · ${S.tech?.r||4.8}⭐</small></div><span class="badge badge-g">✓ موثق</span></div>
+  <p style="font-size:11px;color:var(--sl);font-weight:700;margin:16px 0 6px">ادخل رمز التحقق</p>
+  <div class="otp-w" id="otpW">${[0,1,2,3].map(i=>`<div class="otp-b ${i===0?'foc':''}" data-digit="${i}"></div>`).join('')}</div>
+  <p style="font-size:10px;color:var(--sl2);font-weight:600">الرمز: <b style="color:var(--tl)">4821</b></p>
+  <button class="btn bp" id="otpBtn" disabled data-act="verify-otp" style="margin-top:14px">🔑 تأكيد</button></div>`;
+}
+
+/* ============ REPORT ============ */
+function rReport(){
+  setFlow(5);
+  return `<div style="padding:14px"><div style="text-align:center;margin-bottom:12px"><span class="badge badge-g" style="font-size:11px;padding:5px 12px">✅ تم بنجاح</span><h2 style="font-size:15px;font-weight:900;color:var(--ink);margin-top:8px">تقرير الخدمة ✓</h2></div>
+  <div class="cd"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><div style="width:38px;height:38px;border-radius:10px;background:${S.tech?.c||'#0ea5e9'};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:14px">${S.tech?.name?.[0]||'أ'}</div><div><b style="font-size:12px;font-weight:800;color:var(--ink)">${S.tech?.name||'أحمد حسن'}</b><small style="font-size:10px;color:var(--sl);font-weight:600;display:block">${S.tech?.skill||'فني تكييف'}</small></div></div>
+  <div style="border-top:1px solid var(--sl5);padding-top:8px">
+  <div class="iv"><span class="l">المشكلة</span><span class="v">تسريب + تبريد ضعيف</span></div>
+  <div class="iv"><span class="l">التشخيص</span><span class="v">انسداد صرف + نقص فريون</span></div>
+  <div class="iv"><span class="l">الأعمال</span><span class="v">تنظيف + شحن فريون</span></div>
+  <div class="iv"><span class="l">القطع</span><span class="v" style="color:var(--gn)">أصلية مضمونة</span></div>
+  <div class="iv"><span class="l">الضمان</span><span class="v">30 يوم</span></div></div></div>
+  <div style="font-size:12px;font-weight:800;color:var(--ink);margin:12px 0 6px">الأدلة قبل / بعد</div>
+  <div class="ba"><div class="bf bf1"><span class="tg">قبل</span><svg viewBox="0 0 180 120"><rect width="180" height="120" fill="#dce6f0"/><rect x="30" y="15" width="120" height="60" rx="8" fill="#b9c9db"/><path d="M40 95 Q70 75 100 91 T160 89" stroke="#94b3d4" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="50" cy="40" r="6" fill="#f59e0b" opacity=".5"/></svg></div>
+  <div class="bf af1"><span class="tg">بعد</span><svg viewBox="0 0 180 120"><rect width="180" height="120" fill="#d1fae5"/><rect x="30" y="15" width="120" height="60" rx="8" fill="#a7f3d0"/><path d="M40 95 Q70 75 100 91 T160 89" stroke="#34d399" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="50" cy="40" r="6" fill="#059669" opacity=".5"/></svg></div></div>
+  <button class="btn bp" data-act="to-rating" style="margin-top:12px">⭐ التقييم</button></div>`;
+}
+
+/* ============ RATING ============ */
+function rRating(){
+  setFlow(6);
+  return `<div style="padding:14px;text-align:center"><div style="width:56px;height:56px;border-radius:18px;background:linear-gradient(135deg,var(--gd),var(--gd2));display:flex;align-items:center;justify-content:center;margin:0 auto 12px;box-shadow:0 8px 24px rgba(245,158,11,.25);font-size:28px">📝</div>
+  <h2 style="font-size:15px;font-weight:900;color:var(--ink)">قيّم الخدمة ⭐</h2>
+  <p style="font-size:11px;color:var(--sl);font-weight:600;margin-top:3px">${S.tech?.name||'أحمد حسن'} زي ماوعدك</p>
+  <div class="stars" id="starsR">${[1,2,3,4,5].map(i=>`<span class="${i<=4?'on':'off'}" data-star="${i}">⭐</span>`).join('')}</div>
+  <div class="rtags">${['التزام بالمواعيد','شغل نظيف','شرح واضح','سعر مناسب','شخصية محترمة'].map(t=>`<div class="rtag" data-act="rtag">${t}</div>`).join('')}</div>
+  <textarea class="fi" placeholder="اكتب مراجعة (اختياري)..." style="min-height:50px;margin-top:8px"></textarea>
+  <button class="btn bp" data-act="to-invoice" style="margin-top:10px">📤 إرسال</button></div>`;
+}
+
+/* ============ INVOICE ============ */
+function rInvoice(){
+  setFlow(7);
+  return `<div style="padding:14px"><div style="text-align:center;margin-bottom:12px"><span class="badge badge-gd" style="font-size:11px;padding:5px 12px">🧾 فاتورة</span><h2 style="font-size:15px;font-weight:900;color:var(--ink);margin-top:8px">#${S.job?.id||'HX-4821'}</h2></div>
+  <div class="cd">
+  <div class="iv"><span class="l">زيارة الفحص</span><span class="v">100 ج.م</span></div>
+  <div class="iv"><span class="l">تنظيف خط الصرف</span><span class="v">250 ج.م</span></div>
+  <div class="iv"><span class="l">شحن فريون + ختم</span><span class="v">300 ج.م</span></div>
+  <div class="iv"><span class="l">قطع أصلية</span><span class="v" style="color:var(--gn)">مضمونة</span></div>
+  <div class="ivt"><span class="l">الإجمالي</span><span class="v">650 ج.م</span></div></div>
+  <div class="cd" style="margin-top:8px;padding:10px"><div style="font-size:12px;font-weight:800;color:var(--ink);margin-bottom:8px">💳 الدفع بالتقسيط</div>
+  <div style="display:flex;gap:6px">${[{n:'3 شهور',p:'225 ج.م/شهر'},{n:'6 شهور',p:'115 ج.م/شهر'},{n:'12 شهر',p:'60 ج.م/شهر'}].map((x,i)=>`<div class="cd" style="flex:1;padding:8px;text-align:center;cursor:pointer;border:1.5px solid ${i===1?'var(--tl)':'var(--sl4)'};${i===1?'background:rgba(14,165,233,.04)':''}" data-act="ppk"><div style="font-size:11px;font-weight:800;color:var(--ink)">${x.n}</div><div style="font-size:9px;color:var(--sl);font-weight:600;margin-top:2px">${x.p}</div></div>`).join('')}</div></div>
+  <div style="font-size:12px;font-weight:800;color:var(--ink);margin:10px 0 6px">طريقة الدفع</div>
+  ${[{i:'💵',c:'#059669',t:'كاش عند الاستلام'},{i:'💳',c:'#2563eb',t:'بطاقة بنكية'},{i:'📱',c:'#d92662',t:'فودافون كاش'}].map((m,j)=>`<div class="tc ${j===0?'sel':''}" data-act="ppk" style="margin:0 0 6px"><div style="width:32px;height:32px;border-radius:8px;background:${m.c}14;color:${m.c};display:flex;align-items:center;justify-content:center;font-size:16px">${m.i}</div><div style="flex:1"><b style="font-size:12px;font-weight:800;color:var(--ink)">${m.t}</b></div><div style="width:18px;height:18px;border-radius:99px;border:2px solid ${j===0?m.c:'var(--sl4)'};display:flex;align-items:center;justify-content:center">${j===0?`<div style="width:8px;height:8px;border-radius:99px;background:${m.c}"></div>`:''}</div></div>`).join('')}
+  <button class="btn bg" data-act="pay-now">💰 أدفع 650 ج.م</button></div>`;
+}
+
+/* ============ WARRANTY ============ */
+function rWarranty(){
+  return `<div style="padding:14px;text-align:center"><div class="sr anim">🎉</div>
+  <h2 style="font-size:16px;font-weight:900;color:var(--ink);margin-top:14px">اتدفعت! 🎉</h2>
+  <p style="font-size:12px;color:var(--sl);font-weight:600;margin-top:3px">ضمان حرفة 30 يوم مفعّل</p>
+  <div class="war" style="margin-top:14px;text-align:right"><div class="sh">🛡️</div>
+  <h3 style="font-size:14px;font-weight:900">ضمان حرفة — 30 يوم</h3>
+  <p style="font-size:11px;color:rgba(255,255,255,.7);font-weight:600;margin-top:3px">لو رجعت المشكلة: نصلحها مجانًا 100%</p>
+  <div style="display:flex;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.1)">
+  <div><small style="font-size:9px;color:rgba(255,255,255,.5)">من</small><b style="font-size:12px;color:#fff;display:block">اليوم</b></div>
+  <span class="badge" style="background:rgba(16,185,129,.2);color:#6ee7b7">✅ نشط</span>
+  <div><small style="font-size:9px;color:rgba(255,255,255,.5)">لـ</small><b style="font-size:12px;color:#fff;display:block">+ 30 يوم</b></div></div></div>
+  <div class="cd" style="margin-top:12px;text-align:right;padding:12px"><div style="font-size:12px;font-weight:800;color:var(--ink);margin-bottom:6px">📋 باسبورت الصيانة</div>
+  <div style="font-size:10px;color:var(--sl);font-weight:600;line-height:1.6">تم تسجيل كل تفاصيل الخدمة في الباسبورت الرقمي — اسم الموديل، القطع المستبدلة، تاريخ الصيانة، والضمان. متاح في أي وقت.</div>
+  <div class="qr-box" style="margin-top:8px;width:80px;height:80px;border-radius:8px"><div class="big">📱</div>QR</div></div>
+  <button class="btn bp" data-act="finish" style="margin-top:12px">🏠 الرئيسية</button></div>`;
+}
+
+/* ============ MY HOME ============ */
+function rMyHome(){
+  return `<div style="padding:14px"><h2 style="font-size:16px;font-weight:900;color:var(--ink);margin-bottom:10px">🏠 بيتي</h2>
+  <div class="cd" style="padding:12px;margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px"><div style="width:40px;height:40px;border-radius:12px;background:var(--tl);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">🏢</div><div><b style="font-size:13px;font-weight:800;color:var(--ink)">شقة التجمع الخامس</b><small style="font-size:10px;color:var(--sl);font-weight:600;display:block">التجمع الخامس القاهرة</small></div></div></div>
+  <div style="font-size:12px;font-weight:800;color:var(--ink);margin:10px 0 6px">🏥 صحة البيت: 78/100</div>
+  <div class="hs-bar"><div class="hs-fill" style="width:78%;background:linear-gradient(90deg,var(--gd),var(--gn))"></div></div>
+  <div class="cd" style="margin-top:10px;padding:10px"><div style="font-size:11px;font-weight:800;color:var(--ink);margin-bottom:6px">🔔 تنبيهات الصيانة</div>
+  ${[{i:'❄️',t:'تكييف سبليت — صيانة دورية',s:'آخر صيانة: 3 أشهر',c:'var(--gd)'},{i:'🚿',t:'سخان المية — فحص أنود',s:'يحتاج فحص خلال أسبوع',c:'var(--rd)'},{i:'⚡',t:'لوحة الكهرباء — فحص شامل',s:'موصى به قبل الصيف',c:'var(--tl)'}].map(a=>`<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--sl5)"><div style="width:32px;height:32px;border-radius:8px;background:${a.c}14;display:flex;align-items:center;justify-content:center;font-size:16px">${a.i}</div><div style="flex:1"><b style="font-size:11px;font-weight:700;color:var(--ink)">${a.t}</b><small style="font-size:9px;color:var(--sl);font-weight:600;display:block">${a.s}</small></div></div>`).join('')}</div>
+  <div style="font-size:12px;font-weight:800;color:var(--ink);margin:12px 0 6px">📦 الأجهزة المسجلة</div>
+  ${[{i:'❄️',n:'تكييف سبليت — شارب',s:'montage: 2024 · ضمان: نشط'},{i:'🫧',n:'غسالة — إل جي 8 كيلو',s:'montage: 2023 · آخر صيانة: يوليو'},{i:'🚿',n:'سخان مية — يونيفرسال',s:'montage: 2022 · يحتاج فحص'}].map(d=>`<div class="cd" style="margin-bottom:6px;padding:10px;display:flex;align-items:center;gap:8px"><div style="font-size:20px">${d.i}</div><div style="flex:1"><b style="font-size:11px;font-weight:800;color:var(--ink)">${d.n}</b><small style="font-size:9px;color:var(--sl);font-weight:600;display:block">${d.s}</small></div><span style="font-size:14px;color:var(--sl2)">←</span></div>`).join('')}
+  <button class="btn bo" data-act="back-home" style="margin-top:10px">← الرئيسية</button></div>`;
+}
+
+/* ============ PASSPORT ============ */
+function rPassport(){
+  return `<div style="padding:14px"><h2 style="font-size:16px;font-weight:900;color:var(--ink);margin-bottom:10px">📋 باسبورت الصيانة</h2>
+  <div class="cd" style="text-align:center;padding:14px"><div style="font-size:32px">❄️</div><b style="font-size:13px;font-weight:800;color:var(--ink);display:block;margin-top:4px">تكييف سبليت — شارب</b><small style="font-size:10px;color:var(--sl);font-weight:600">MO: FX-5000 · SN: SH2024-8821</small>
+  <div class="qr-box" style="margin:10px auto"><div class="big">📱</div>QR Code</div>
+  <div style="font-size:9px;color:var(--sl);font-weight:600">امسح الكود لفتح الباسبورت أو لإعادة الحجز</div></div>
+  <div style="font-size:12px;font-weight:800;color:var(--ink);margin:10px 0 6px">📝 سجل الخدمة</div>
+  ${[{d:'15 سبتمبر 2026',t:'إصلاح تسريب + شحن فريون',p:'أحمد حسن',c:'✅ مكتمل',w:'30 يوم',parts:'فريون R410A + ختم نحاسي'},{d:'14 يوليو 2026',t:'صيانة دورية + تنظيف فلتر',p:'أحمد حسن',c:'✅ مكتمل',w:'30 يوم',parts:'فلتر بديل'},{d:'20 مارس 2026',t:'تركيب وحدة جديدة',p:'خالد إبراهيم',c:'✅ مكتمل',w:'90 يوم',parts:'وحدة سبليت شارب FX-5000'}].map(h=>`<div class="cd" style="margin-bottom:6px;padding:10px"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><b style="font-size:11px;font-weight:800;color:var(--ink)">${h.t}</b><span class="badge badge-g">${h.c}</span></div><div style="font-size:9px;color:var(--sl);font-weight:600;line-height:1.5">📅 ${h.d}<br>🔧 ${h.p} · 🛡️ ضمان ${h.w}<br>🔩 ${h.parts}</div></div>`).join('')}
+  <button class="btn bo" data-act="back-home" style="margin-top:10px">← الرئيسية</button></div>`;
+}
+
+/* ============ HEALTH SCORE ============ */
+function rHealthScore(){
+  return `<div style="padding:14px;text-align:center"><div style="width:80px;height:80px;border-radius:99px;background:linear-gradient(135deg,var(--gd),var(--gn));display:flex;align-items:center;justify-content:center;margin:0 auto;font-size:32px;color:#fff;font-weight:900;font-family:'Plus Jakarta Sans';box-shadow:0 8px 24px rgba(5,150,105,.25)">78</div>
+  <h2 style="font-size:16px;font-weight:900;color:var(--ink);margin-top:10px">صحة البيت</h2>
+  <p style="font-size:11px;color:var(--sl);font-weight:600;margin-top:2px">تقييم شامل لحالة شقتك</p>
+  <div style="text-align:right;margin-top:14px">${[{n:'الكهرباء',s:82,c:'var(--gd)'},{n:'السباكة',s:71,c:'var(--tl)'},{n:'التكييف',s:85,c:'var(--gn)'},{n:'الهيكل',s:90,c:'var(--gn2)'},{n:'الأجهزة',s:65,c:'var(--rd)'}].map(x=>`<div class="cd" style="margin-bottom:6px;padding:8px"><div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--ink)"><span>${x.n}</span><span style="color:${x.c}">${x.s}/100</span></div><div class="hs-bar" style="margin:4px 0 0"><div class="hs-fill" style="width:${x.s}%;background:${x.c}"></div></div></div>`).join('')}</div>
+  <button class="btn bp" data-act="nav" data-nav="myHome" style="margin-top:10px">🏠 بيتي</button></div>`;
+}
+
+/* ============ BOOKINGS ============ */
+function rBookings(){return `<div style="padding:14px"><h2 style="font-size:18px;font-weight:900;color:var(--ink);margin-bottom:12px">📋 الحجوزات</h2>${S.hist.length?S.hist.map(j=>`<div class="cd" style="margin-bottom:8px;padding:10px;display:flex;align-items:center;gap:8px"><div style="width:36px;height:36px;border-radius:10px;background:${j.tech.c};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:13px">${j.tech.name[0]}</div><div style="flex:1"><b style="font-size:11px;font-weight:800;color:var(--ink)">${j.title}</b><small style="font-size:9px;color:var(--sl);font-weight:600;display:block">${j.tech.name} · اليوم</small></div><span class="badge badge-g">✅</span></div>`).join(''):`<div style="text-align:center;padding:30px;color:var(--sl)"><div style="font-size:40px;margin-bottom:10px">📭</div><p style="font-weight:700;font-size:13px">مفيش حجوزات</p></div>`}</div>`;}
+
+/* ============ PROFILE ============ */
+function rProfile(){return `<div style="padding:16px 14px;text-align:center"><div style="width:72px;height:72px;border-radius:22px;background:linear-gradient(135deg,var(--tl),var(--tl2));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:28px;margin:0 auto 10px;box-shadow:0 8px 24px rgba(14,165,233,.25)">${S.user.name[0]}</div><h3 style="font-size:16px;font-weight:900;color:var(--ink)">${S.user.name}</h3><p style="font-size:11px;color:var(--sl);font-weight:600;margin-top:2px">${S.user.phone}</p></div>
+<div style="display:flex;margin:0 14px;border-radius:var(--r);overflow:hidden;border:1px solid var(--sl4)"><div style="flex:1;padding:12px;text-align:center;border-left:1px solid var(--sl4)"><b style="font-size:16px;font-weight:900;color:var(--ink);font-family:'Plus Jakarta Sans';display:block">${S.hist.length}</b><small style="font-size:9px;color:var(--sl);font-weight:700">شغلة</small></div><div style="flex:1;padding:12px;text-align:center;border-left:1px solid var(--sl4)"><b style="font-size:16px;font-weight:900;color:var(--ink);font-family:'Plus Jakarta Sans';display:block">4</b><small style="font-size:9px;color:var(--sl);font-weight:700">فني</small></div><div style="flex:1;padding:12px;text-align:center"><b style="font-size:16px;font-weight:900;color:var(--ink);font-family:'Plus Jakarta Sans';display:block">2</b><small style="font-size:9px;color:var(--sl);font-weight:700">ضمان</small></div></div>
+<div style="padding:0 14px">${[{i:'📋',bg:'rgba(14,165,233,.1)',t:'باسسبورت الصيانة',s:'سجل الصiana',nav:'passport'},{i:'📅',bg:'rgba(139,92,246,.1)',t:'حجوزاتي',s:'السجل الكامل',nav:'bookings'},{i:'🛡️',bg:'rgba(245,158,11,.1)',t:'ضماناتي',s:'2 نشط',nav:null},{i:'🏠',bg:'rgba(5,150,105,.1)',t:'بيتي',s:'الأجهزة والغرف',nav:'myHome'},{i:'📊',bg:'rgba(14,165,233,.1)',t:'صحة البيت',s:'78/100',nav:'healthScore'},{i:'🚪',bg:'rgba(220,38,38,.1)',t:'خروج',s:'من الحساب',nav:null}].map(m=>`<div style="display:flex;align-items:center;gap:10px;padding:12px;border-bottom:1px solid var(--sl5);cursor:pointer" ${m.nav?`data-act="nav" data-nav="${m.nav}"`:''}><div style="width:36px;height:36px;border-radius:10px;background:${m.bg};display:flex;align-items:center;justify-content:center;font-size:16px">${m.i}</div><div style="flex:1"><b style="font-size:12px;font-weight:700;color:var(--ink)">${m.t}</b><small style="font-size:10px;color:var(--sl);font-weight:600;display:block">${m.s}</small></div><span style="color:var(--sl2);font-size:14px">←</span></div>`).join('')}</div>`;}
+
+/* ============ OTP INIT ============ */
+function initOtp(){const bs=$$('#otpW .otp-b');let c='';bs.forEach((b,i)=>{b.addEventListener('click',()=>{if(c.length>i)return;const d='4821'[i];c+=d;b.textContent=d;b.classList.add('fill');b.classList.remove('foc');if(i+1<bs.length)bs[i+1].classList.add('foc');if(c.length===4){const btn=$('#otpBtn');if(btn){btn.disabled=false;btn.style.opacity=1;}}});});}
+function initAuthOtp(){const w=$('#otpWA');if(!w)return;w.innerHTML=[0,1,2,3].map(i=>`<div class="otp-b ${i===0?'foc':''}" data-digit="${i}"></div>`).join('');const bs=$$('#otpWA .otp-b');let c='';bs.forEach((b,i)=>{b.addEventListener('click',()=>{if(c.length>i)return;const d='4821'[i];c+=d;b.textContent=d;b.classList.add('fill');b.classList.remove('foc');if(i+1<bs.length)bs[i+1].classList.add('foc');if(c.length===4){const btn=$('#otpBtnA');if(btn){btn.disabled=false;btn.style.opacity=1;}}});});}
+
+/* ============ MAPS ============ */
+function initMap(){
+  const el=$('#tm');if(!el||!window.L||el._leaflet_id)return;
+  const m=L.map(el,{zoomControl:false,attributionControl:false}).setView([30.0444,31.2357],14);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:19}).addTo(m);
+  const tp=[30.0444+Math.random()*.01,31.2357+Math.random()*.01];
+  const hp=[30.0444,31.2357];
+  const tic=L.divIcon({className:'',html:`<div style="width:32px;height:32px;border-radius:10px;background:${S.tech?.c||'#0ea5e9'};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:13px;box-shadow:0 4px 12px rgba(0,0,0,.3);border:3px solid #fff">${S.tech?.name?.[0]||'A'}</div>`});
+  const hic=L.divIcon({className:'',html:`<div style="width:24px;height:24px;border-radius:999px;background:var(--tl);display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.3);border:3px solid #fff;font-size:12px">🏠</div>`});
+  const tm=L.marker(tp,{icon:tic}).addTo(m);L.marker(hp,{icon:hic}).addTo(m);
+  L.polyline([tp,hp],{color:'#0ea5e9',weight:3,opacity:.6,dashArray:'8 8'}).addTo(m);
+  m.fitBounds(L.latLngBounds([tp,hp]).pad(.3));
+  let p=0;const mv=()=>{p+=.0003;if(p>=1)return;tm.setLatLng([tp[0]+(hp[0]-tp[0])*p,tp[1]+(hp[1]-tp[1])*p]);const e=$('#eta');if(e)e.textContent=Math.max(1,Math.round((S.tech?.e||9)*(1-p)));lat(850,mv);};lat(1200,mv);
+  lat(4500,()=>go('arrival'));
+}
+function initHomeMap(){
+  const el=$('#hmMap');if(!el||!window.L||el._leaflet_id)return;
+  const m=L.map(el,{zoomControl:false,attributionControl:false}).setView([30.0444,31.2357],14);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:19}).addTo(m);
+  const ic=L.divIcon({className:'',html:`<div style="width:24px;height:24px;border-radius:999px;background:var(--tl);display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.3);border:3px solid #fff;font-size:12px">🏠</div>`});
+  L.marker([30.0444,31.2357],{icon:ic}).addTo(m);
+}
+
+/* ============ EVENTS ============ */
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-act]');if(!t)return;const a=t.dataset.act;
+  const H={
+    'nav':()=>go(t.dataset.nav),'ov-back':()=>S.ov?closeOv():null,
+    'back-home':()=>go('home'),
+    'open-ai':()=>openAI(),'ai-close':()=>closeAI(),
+    'ai-voice':()=>{uS('🎤 (تسجيل صوتي)المكيف بينقط مية');lat(800,()=>{aiS('فهمتك — المكيف بينقط مية. خليني أحللها.');lat(600,()=>{showAC();S.cs=1;});});},
+    'ai-send':()=>{const inp=$('#aiIn');if(!inp||!inp.value.trim())return;uS(inp.value);inp.value='';lat(600,()=>{aiS('فهمتك! خليني أحلل المشكلة.');lat(600,()=>{showAC();S.cs=1;});});},
+    'chip':()=>chipH(+t.dataset.i),
+    'ai-done':()=>{closeAI();go('schedule');},
+    'cat':()=>{const c=t.dataset.cat;S.sc=c==='el'?'safety':c==='ac'?'ac':'wash';openAI(S.sc);},
+    'dpick':()=>{$$('.dc').forEach(x=>x.classList.remove('sel'));t.classList.add('sel');},
+    'tsl':()=>{if(t.classList.contains('un'))return;$$('.ts').forEach(x=>x.classList.remove('sel'));t.classList.add('sel');},
+    'to-tech':()=>go('techSelect'),
+    'tpk':()=>{$$('.tc').forEach(x=>x.classList.remove('sel'));t.classList.add('sel');S.tech=TECHS[+t.dataset.i];},
+    'confirm-tech':()=>{S.tech=S.tech||TECHS[0];go('quoteApproval');},
+    'approve-quote':()=>go('tracking'),
+    'reject-quote':()=>{toast('تم رفض العرض','❌');go('home');},
+    'verify-otp':()=>go('report'),
+    'to-rating':()=>go('rating'),
+    'rtag':()=>t.classList.toggle('sel'),
+    'to-invoice':()=>go('invoice'),
+    'ppk':()=>{$$('.tc').forEach(x=>x.classList.remove('sel'));t.classList.add('sel');},
+    'pay-now':()=>go('warranty'),
+    'finish':()=>{S.hist.push(S.job);S.job=null;go('home');toast('الرحلة اكتملت 🎉');},
+    'chat-tech':()=>toast('فتح المحادثة مع الفني'),
+    'scan-qr':()=>toast('📷 فتح الكاميرا لمسح QR'),
+    'do-login':()=>doLogin(),
+    'go-signup':()=>showAuth('authSignup'),
+    'do-signup':()=>showAuth('authOtp'),
+    'verify-auth-otp':()=>doLogin(),
+    'go-login':()=>showAuth('authLogin'),
+  };
+  const fn=H[a];if(fn){e.preventDefault();fn();}
+});
+document.addEventListener('click',e=>{const s=e.target.closest('[data-star]');if(!s)return;$$('#starsR span').forEach((x,i)=>{x.className=i<+s.dataset.star?'on':'off';});});
+
+function go(scr){closeOv();S.scr=scr;render();if(scr==='home')lat(200,initHomeMap);if(scr==='arrival')lat(200,initOtp);if(scr==='tracking')lat(200,initMap);}
+function init(){lat(2300,()=>{const sp=$('#splash');if(sp)sp.style.display='none';showAuth('authLogin');});}
+init();
+</script>
+</body>
+</html>
