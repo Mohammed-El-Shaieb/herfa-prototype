@@ -350,6 +350,103 @@ body{display:flex;align-items:center;justify-content:center}
 .ai-vis{position:relative;border-radius:var(--rs);overflow:hidden;background:var(--surface2);margin:8px 0}
 .ai-vis::after{content:'';position:absolute;left:0;right:0;height:2px;background:var(--blue);box-shadow:0 0 8px var(--blue);animation:scanLine 2s linear infinite;opacity:.7}
 .ai-vis-label{position:absolute;bottom:6px;left:6px;background:rgba(0,0,0,.6);color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:6px;z-index:1}
+
+/* ============ ROLE SELECT ============ */
+.role-select{position:absolute;inset:0;z-index:160;background:var(--w);display:none;flex-direction:column;align-items:center;justify-content:center;padding:40px 28px;text-align:center}
+.role-select.on{display:flex}
+.role-select .rs-logo{width:80px;height:80px;border-radius:22px;background:linear-gradient(135deg,var(--amber),var(--amber2));display:flex;align-items:center;justify-content:center;font-size:40px;box-shadow:0 10px 40px rgba(217,119,6,.3);margin-bottom:20px;animation:pop .5s cubic-bezier(.2,1.4,.4,1) both}
+.role-select h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:28px;font-weight:800;color:var(--ink);margin-bottom:6px}
+.role-select p{font-size:14px;color:var(--sl);margin-bottom:32px;line-height:1.6}
+.role-card{width:100%;padding:20px;border-radius:var(--r);border:2px solid var(--surface3);background:var(--w);cursor:pointer;transition:.2s;display:flex;align-items:center;gap:16px;margin-bottom:14px;text-align:right}
+.role-card:hover{border-color:var(--blue);box-shadow:0 0 0 4px rgba(37,99,235,.08);transform:translateY(-2px)}
+.role-card .rc-ic{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:28px}
+.role-card .rc-nf h3{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:2px}
+.role-card .rc-nf p{font-size:12px;color:var(--sl);margin:0;text-align:right}
+
+/* ============ TECH NAV ============ */
+.tbn{height:80px;background:var(--w);border-top:1px solid var(--surface2);display:flex;align-items:flex-start;padding-top:10px;justify-content:space-around;flex-shrink:0}
+.tb{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px 10px;border-radius:var(--rx);font-size:10px;font-weight:500;transition:.15s;position:relative;color:var(--sl2)}
+.tb .bn-ic{font-size:22px;width:24px;height:24px;display:flex;align-items:center;justify-content:center}
+.tb .bn-ic svg{width:22px;height:22px;stroke:var(--sl2);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
+.tb.on .bn-ic svg{stroke:var(--green)}
+.tb.on{color:var(--green);font-weight:700}
+
+/* ============ TECH DASHBOARD ============ */
+.tog-wrap{border-radius:var(--r);padding:14px;display:flex;align-items:center;justify-content:space-between;transition:.3s}
+.tog-wrap.on{background:var(--green);box-shadow:0 6px 20px rgba(5,150,105,.25)}
+.tog-wrap.off{background:var(--surface3);box-shadow:none}
+.tog-left{display:flex;align-items:center;gap:12px}
+.tog-ic{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.tog-wrap.on .tog-ic{background:rgba(255,255,255,.2);color:#fff}
+.tog-wrap.off .tog-ic{background:var(--surface2);color:var(--sl2)}
+.tog-wrap.on .tog-left p,.tog-wrap.on .tog-left b{color:#fff}
+.tog-wrap.off .tog-left p,.tog-wrap.off .tog-left b{color:var(--ink)}
+.tog{width:52px;height:28px;border-radius:14px;display:flex;align-items:center;padding:3px;transition:.3s;cursor:pointer}
+.tog-wrap.on .tog{background:rgba(255,255,255,.25)}
+.tog-wrap.off .tog{background:var(--surface2)}
+.tog-dot{width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.15);transition:.3s;display:flex;align-items:center;justify-content:center}
+.tog-wrap.on .tog-dot{margin-left:auto}
+.tog-wrap.off .tog-dot{margin-right:auto}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+.stat-card{background:var(--w);border:1px solid var(--surface2);border-radius:var(--rs);padding:12px 8px;text-align:center}
+.stat-card b{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink);display:block}
+.stat-card small{font-size:10px;color:var(--sl);font-weight:600}
+.req-alert{border-radius:var(--r);padding:14px;margin-bottom:14px;border:1px solid}
+.req-alert .ra-hd{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.req-alert .ra-dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse-dot 2s infinite}
+@keyframes pulse-dot{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.5}}
+.req-alert .ra-body{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.req-alert .ra-ic{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.req-alert .ra-nf{flex:1}
+.req-alert .ra-nf h4{font-size:14px;font-weight:700;color:var(--ink)}
+.req-alert .ra-nf p{font-size:11px;color:var(--sl)}
+.req-alert .ra-pr{text-align:left}
+.req-alert .ra-pr b{font-family:'Plus Jakarta Sans',sans-serif;font-size:17px;font-weight:800;color:var(--ink);display:block}
+.req-alert .ra-pr small{font-size:10px;color:var(--sl)}
+.req-alert .ra-cta{display:flex;gap:8px}
+.req-alert .ra-cta button{flex:1;height:38px;border-radius:var(--rx);font-size:12px;font-weight:700;cursor:pointer;border:none;font-family:'Plus Jakarta Sans',sans-serif}
+.job-card{background:var(--w);border:1px solid var(--surface2);border-radius:var(--r);padding:14px;margin-bottom:10px;box-shadow:var(--shadow-sm);cursor:pointer;transition:.15s}
+.job-card:hover{box-shadow:var(--shadow-md)}
+.jc-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.jc-av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:14px;flex-shrink:0;font-family:'Plus Jakarta Sans',sans-serif}
+.jc-nf{flex:1}
+.jc-nf h4{font-size:13px;font-weight:700;color:var(--ink)}
+.jc-nf p{font-size:11px;color:var(--sl)}
+.jc-cta{display:flex;gap:8px;margin-top:10px}
+.jc-cta button{flex:1;height:34px;border-radius:var(--rx);font-size:11px;font-weight:700;cursor:pointer;border:none;display:flex;align-items:center;justify-content:center;gap:4px;font-family:'Plus Jakarta Sans',sans-serif}
+.filter-bar{display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px}
+.filter-bar::-webkit-scrollbar{display:none}
+.filter-chip{padding:8px 14px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap;cursor:pointer;border:1px solid var(--surface3);background:var(--w);color:var(--sl2);transition:.15s;flex-shrink:0}
+.filter-chip.on{background:var(--primary);color:#fff;border-color:var(--primary)}
+.earn-hero{background:linear-gradient(135deg,var(--primary),var(--primary2));border-radius:var(--r);padding:20px;color:#fff;margin-bottom:14px;box-shadow:0 8px 24px rgba(15,23,42,.2)}
+.earn-hero b{font-family:'Plus Jakarta Sans',sans-serif;font-size:28px;font-weight:800;display:block}
+.earn-hero small{font-size:11px;color:rgba(255,255,255,.6)}
+.earn-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.15)}
+.earn-row div small{font-size:10px;color:rgba(255,255,255,.5);display:block}
+.earn-row div b{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;color:#fff}
+.tx-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--surface2)}
+.tx-item:last-child{border-bottom:none}
+.tx-ic{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tx-nf{flex:1}
+.tx-nf p{font-size:13px;font-weight:600;color:var(--ink)}
+.tx-nf small{font-size:10px;color:var(--sl)}
+.tx-am{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800}
+.job-detail-header{background:var(--primary);border-radius:0 0 var(--r) var(--r);padding:16px 20px;color:#fff}
+.status-flow{display:flex;align-items:center;gap:4px;padding:14px 0}
+.sf-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0}
+.sf-dot.done{background:var(--green);color:#fff}
+.sf-dot.active{background:var(--amber);color:#fff}
+.sf-dot.pending{background:var(--surface3);color:var(--sl2)}
+.sf-line{flex:1;height:2px;border-radius:1px}
+.sf-line.done{background:var(--green)}
+.sf-line.pending{background:var(--surface3)}
+.chat-hdr{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--surface2);background:var(--w)}
+.chat-msg{max-width:78%;padding:12px 16px;border-radius:16px;font-size:13px;line-height:1.6;font-weight:500;margin-bottom:10px}
+.chat-msg.in{align-self:flex-start;background:var(--surface);color:var(--ink);border-bottom-right-radius:4px}
+.chat-msg.out{align-self:flex-end;background:var(--green);color:#fff;border-bottom-left-radius:4px}
+.chat-msg small{display:block;font-size:10px;margin-top:4px;opacity:.6}
+.chat-input{display:flex;align-items:center;gap:10px;padding:12px 16px;border-top:1px solid var(--surface2);background:var(--w)}
+.chat-input input{flex:1;padding:10px 16px;border-radius:20px;border:1px solid var(--surface3);font-size:13px;font-family:'Cairo',sans-serif;outline:none;background:var(--surface)}
 </style>
 </head>
 <body>
@@ -364,6 +461,21 @@ body{display:flex;align-items:center;justify-content:center}
     <div class="sp-name">HERFA</div>
     <div class="sp-sub">Smart Home Services</div>
     <div class="sp-dots"><div style="background:var(--amber)"></div><div style="background:var(--blue)"></div><div style="background:var(--green)"></div></div>
+  </div>
+
+  <!-- ROLE SELECT -->
+  <div class="role-select" id="roleSelect">
+    <div class="rs-logo">🔧</div>
+    <h1>HERFA</h1>
+    <p>هتستخدم حرفة إزاي؟</p>
+    <div class="role-card" data-act="pick-role" data-role="customer">
+      <div class="rc-ic" style="background:var(--blueBg)"><svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:var(--blue);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg></div>
+      <div class="rc-nf"><h3>عميل</h3><p>ابحث عن فنيين، احجز مواعيد، وتابع شغل بيتك</p></div>
+    </div>
+    <div class="role-card" data-act="pick-role" data-role="technician">
+      <div class="rc-ic" style="background:var(--greenBg)"><svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:var(--green);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div>
+      <div class="rc-nf"><h3>فني / مقدم خدمة</h3><p>استقبل طلبات، نفّذ شغل، وتابع أرباحك</p></div>
+    </div>
   </div>
 
   <!-- AUTH: LOGIN -->
@@ -452,7 +564,7 @@ body{display:flex;align-items:center;justify-content:center}
 "use strict";
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const lat=(ms,fn)=>setTimeout(fn,ms),rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
-const S={scr:'splash',authed:false,user:{name:'حسن',phone:'01012345678',area:'التجمع الخامس'},sc:'ac',job:null,tech:null,chat:null,cs:0,cd:false,hist:[],ov:false,inc:[],selectedTime:null,scanInterval:null};
+const S={scr:'splash',authed:false,role:null,user:{name:'حسن',phone:'01012345678',area:'التجمع الخامس'},sc:'ac',job:null,tech:null,chat:null,cs:0,cd:false,hist:[],ov:false,inc:[],selectedTime:null,scanInterval:null,tS:{authed:false,name:'أحمد حسن',phone:'01098765432',trade:'سباكة',exp:'8 سنوات',area:'التجمع الخامس',online:true,earnings:{total:18475,week:5850,pend:1400,avail:17075},jobsDone:324,rating:4.9,reviews:86,activeJob:null,txHistory:[{t:'إصلاح تسريب مطبخ',am:'+950',tp:'inc',d:'اليوم 9:30 ص'},{t:'تركيب مخرج كهربائي',am:'+1500',tp:'inc',d:'أمس 2:15 م'},{t:'تركيب سخان مياه',am:'+3400',tp:'inc',d:'12 سبتمبر'},{t:'سحب للبنك',am:'-5000',tp:'out',d:'11 سبتمبر'}]}};
 const TECHS=[
   {name:'أحمد حسن',skill:'فني تبريد وتكييف',r:4.8,rv:86,d:2.3,e:9,c:'linear-gradient(135deg,#2563eb,#1d4ed8)',cv:'#2563eb',v:true,p:94,ex:'8 سنوات',sm:86},
   {name:'محمد علي',skill:'فني سباكة',r:4.6,rv:54,d:3.1,e:14,c:'linear-gradient(135deg,#7c3aed,#6d28d9)',cv:'#7c3aed',v:true,p:87,ex:'6 سنوات',sm:54},
@@ -479,12 +591,17 @@ function renderNav(){  $('#bn').innerHTML=TABS.map(t=>`<div class="b ${t.id===S.
 
 function render(){
   const v=$('#vw');v.scrollTop=0;
+  if(S.role==='technician'){
+    const TR={tDash:rTDash,tJobs:rTJobs,tSchedule:rTSchedule,tEarnings:rTEarnings,tProfile:rTProfile,tJobDetail:rTJobDetail,tChat:rTChat,tVerification:rTVerification,tReviews:rTReviews,tServices:rTServices,tAvail:rTAvail,tHelp:rTHelp,rTNotif:rTNotif};
+    v.innerHTML=(TR[S.scr]||TR.tDash)();renderTechNav();
+    return;
+  }
   const R={home:rHome,bookings:rBookings,profile:rProfile,schedule:rSchedule,scanning:rScanning,techSelect:rTechSel,tracking:rTrack,arrival:rArrival,report:rReport,rating:rRating,invoice:rInvoice,warranty:rWarranty,myHome:rMyHome,passport:rPassport,healthScore:rHealthScore,quoteApproval:rQuoteApproval,warranties:rWarranties,messages:rMessages,providerProfile:rProviderProfile,inspection:rInspection,serviceProgress:rServiceProgress,savedProviders:rSavedProviders,incoming:rIncoming};
   v.innerHTML=(R[S.scr]||R.home)();renderNav();
 }
 function showAuth(id){['authLogin','authSignup','authOtp'].forEach(x=>$('#'+x)?.classList.remove('on'));const el=$('#'+id);if(el)el.classList.add('on');if(id==='authOtp')lat(200,initAuthOtp);}
 function hideAuth(){['authLogin','authSignup','authOtp'].forEach(x=>$('#'+x)?.classList.remove('on'));}
-function doLogin(){hideAuth();$('#appWrap').style.display='flex';S.authed=true;S.scr='home';render();lat(200,initHomeMap);toast('أهلاً بيك يا حسن 🎉');}
+function doLogin(){hideAuth();$('#appWrap').style.display='flex';S.authed=true;if(S.role==='technician'){S.tS.authed=true;S.scr='tDash';renderTechNav();render();toast('أهلاً أحمد 👋');}else{S.scr='home';render();lat(200,initHomeMap);toast('أهلاً بيك يا حسن 🎉');}}
 
 /* ============ HOME ============ */
 function rHome(){
@@ -969,7 +1086,268 @@ function rProviderProfile(){
 </div>`;
 }
 
-/* ============ INCOMING REQUESTS (End of section marker) ============ */
+/* ============ TECHNICIAN NAV ============ */
+const TTABS=[
+  {id:'tDash',l:'الرئيسية',i:'<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>'},
+  {id:'tJobs',l:'الطلبات',i:'<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>'},
+  {id:'tSchedule',l:'الجدول',i:'<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>'},
+  {id:'tEarnings',l:'الأرباح',i:'<svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>'},
+  {id:'tProfile',l:'حسابي',i:'<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/></svg>'}
+];
+function renderTechNav(){
+  const bn=$('#bn');if(!bn)return;
+  bn.className='tbn';
+  bn.innerHTML=TTABS.map(t=>`<div class="tb ${t.id===S.scr?'on':''}" data-act="tnav" data-nav="${t.id}"><span class="bn-ic">${t.i}</span><span>${t.l}</span></div>`).join('');
+}
+
+/* ============ TECH DASHBOARD ============ */
+function rTDash(){
+  const t=S.tS;
+  return `<div style="padding:16px 20px">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+    <div><p style="font-size:12px;color:var(--sl);font-weight:500">صباح الخير</p><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--ink)">${t.name}</h1></div>
+    <div style="position:relative;cursor:pointer" data-act="tnav" data-nav="rTNotif"><div style="width:40px;height:40px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--ink);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div><div style="position:absolute;top:2px;right:2px;width:10px;height:10px;border-radius:50%;background:var(--red);border:2px solid var(--w)"></div></div>
+  </div>
+  <div class="tog-wrap ${t.online?'on':'off'}" data-act="toggle-online">
+    <div class="tog-left"><div class="tog-ic"><svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M18.36 6.64a9 9 0 11-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg></div><div><b style="font-size:14px;font-weight:700">${t.online?'متاح':'غير متاح'}</b><p style="font-size:11px;opacity:.7">${t.online?'جاهز لاستقبال الطلبات':'افتح عشان تبدأ تاخد شغل'}</p></div></div>
+    <div class="tog"><div class="tog-dot"></div></div>
+  </div>
+  <div style="height:14px"></div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;color:var(--ink)">أداء اليوم</h3></div>
+  <div class="stat-grid">
+    <div class="stat-card"><b>${t.jobsDone>10?3:Math.min(3,t.jobsDone)}</b><small>شغلة_today</small></div>
+    <div class="stat-card"><b style="color:var(--green)">${(585).toLocaleString()} ج.م</b><small>الأرباح</small></div>
+    <div class="stat-card"><b style="color:var(--amber)">${t.rating}</b><small>متوسط التقييم</small></div>
+  </div>
+  <div class="req-alert" style="background:var(--amberBg);border-color:var(--amberLight)">
+    <div class="ra-hd"><div class="ra-dot"></div><span style="font-size:11px;font-weight:800;color:var(--amber);text-transform:uppercase;letter-spacing:.5px">طلب جديد!</span></div>
+    <div class="ra-body">
+      <div class="ra-ic" style="background:rgba(217,119,6,.15)"><svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--amber);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M6 14h4l-2 8M14 6h4l-4 8"/><circle cx="8" cy="6" r="3"/><circle cx="16" cy="18" r="3"/></svg></div>
+      <div class="ra-nf"><h4>إصلاح تسريب مياه</h4><p>شارع النصر · 1.2 كم</p></div>
+      <div class="ra-pr"><b>250 ج.م</b><small>ساعتين تقريبًا</small></div>
+    </div>
+    <div class="ra-cta">
+      <button style="background:var(--w);color:var(--ink);border:1px solid var(--surface3)" data-act="t-decline">رفض</button>
+      <button style="background:var(--green);color:#fff;box-shadow:0 4px 12px rgba(5,150,105,.2)" data-act="t-accept">قبول</button>
+    </div>
+  </div>
+  <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;color:var(--ink);margin-bottom:8px">الشغلة النشطة</h3>
+  <div class="job-card" data-act="t-job-active">
+    <div class="jc-top">
+      <div class="jc-av" style="background:var(--blueBg);color:var(--blue)">ح</div>
+      <div class="jc-nf"><h4>حسن — صيانة مكيف</h4><p>تكييف سبليت · التجمع الخامس</p></div>
+      <span style="padding:4px 10px;border-radius:8px;font-size:10px;font-weight:700;background:var(--greenBg);color:var(--green)">جاري</span>
+    </div>
+    <div class="jc-cta">
+      <button style="background:var(--surface);color:var(--ink);border:1px solid var(--surface3)"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:4px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>ملاحة</button>
+      <button style="background:var(--surface);color:var(--ink);border:1px solid var(--surface3)"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:4px"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>رسالة</button>
+      <button style="background:var(--primary);color:#fff"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#fff;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:4px"><polyline points="20 6 9 17 4 12"/></svg>إتمام</button>
+    </div>
+  </div>
+  <div style="height:20px"></div></div>`;
+}
+
+/* ============ TECH JOBS ============ */
+function rTJobs(){
+  const jobs=[
+    {t:'إصلاح تسريب مطبخ',d:'تسريب مياه أسفل الحوض — محتاج سباك عاجل',cat:'سباكة',urg:'عاجل',when:'الآن',loc:'شارع النصر 15',pr:'250',dist:'0.3'},
+    {t:'تركيب مخرج كهربائي',d:'محتاج مخرجين جدد في مكتب البيت',cat:'كهرباء',urg:'',when:'بكرة 10 ص',loc:'شارع الهرم 45',pr:'350',dist:'0.7'},
+    {t:'تركيب رفوف خشبية',d:'تركيب 3 رفوف في الصالة',cat:'نجارة',urg:'',when:'الجمعة 2 م',loc:'شارع جامعة الدول 78',pr:'200',dist:'1.2'}
+  ];
+  return `<div style="padding:16px 20px">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">الطلبات المتاحة</h1><span style="font-size:11px;color:var(--sl)">${jobs.length} طلبات قريبة</span></div>
+  <div class="filter-bar"><span class="filter-chip on" data-act="t-filter">الكل</span><span class="filter-chip" data-act="t-filter">عاجل</span><span class="filter-chip" data-act="t-filter">مرتفع</span><span class="filter-chip" data-act="t-filter">قريب</span></div>
+  ${jobs.map(j=>`<div class="job-card" data-act="t-view-job">
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">${j.urg?`<span style="padding:3px 8px;border-radius:6px;font-size:9px;font-weight:800;background:var(--redBg);color:var(--red)">${j.urg}</span>`:''}<span style="padding:3px 8px;border-radius:6px;font-size:9px;font-weight:700;background:var(--blueBg);color:var(--blue)">${j.cat}</span><span style="margin-right:auto;font-size:10px;color:var(--sl)">${j.dist} كم</span></div>
+    <h4 style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:4px">${j.t}</h4>
+    <p style="font-size:11px;color:var(--sl);margin-bottom:10px">${j.d}</p>
+    <div style="display:flex;gap:12px;margin-bottom:10px"><span style="font-size:10px;color:var(--sl);display:flex;align-items:center;gap:3px"><svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:var(--sl);stroke-width:2;fill:none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>${j.loc}</span><span style="font-size:10px;color:var(--sl)"><svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:var(--sl);stroke-width:2;fill:none;display:inline-block;vertical-align:middle"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>${j.when}</span></div>
+    <div style="display:flex;align-items:center;justify-content:space-between"><b style="font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;color:var(--ink)">${j.pr} ج.م</b><button style="padding:8px 16px;border-radius:var(--rx);font-size:11px;font-weight:700;background:var(--green);color:#fff;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif" data-act="t-accept-job">قبول الشغلة</button></div>
+  </div>`).join('')}
+  <div style="height:20px"></div></div>`;
+}
+
+/* ============ TECH SCHEDULE ============ */
+function rTSchedule(){
+  const days=['السبت','الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة'];
+  const today=new Date().getDay();
+  return `<div style="padding:16px 20px">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">الجدول</h1><span style="font-size:11px;color:var(--sl)">الأسبوع ده</span></div>
+  <div style="display:flex;gap:6px;margin-bottom:16px;overflow-x:auto;padding-bottom:4px">${days.map((d,i)=>`<div style="flex-shrink:0;padding:10px 14px;border-radius:var(--rs);text-align:center;cursor:pointer;border:1px solid ${i===today?'var(--green)':'var(--surface3)'};background:${i===today?'var(--green)':'var(--w)'};color:${i===today?'#fff':'var(--ink3)'}" data-act="t-day"><div style="font-size:10px;font-weight:600">${d}</div><div style="font-size:16px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;margin-top:2px">${i===today?new Date().getDate():((new Date().getDate()+i-today+7)%30+1)}</div></div>`).join('')}</div>
+  <div style="margin-bottom:14px;padding:12px 14px;background:var(--surface);border-radius:var(--rs)"><div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><div style="width:8px;height:8px;border-radius:50%;background:var(--green)"></div><span style="font-size:13px;font-weight:700;color:var(--ink)">2 طلبات اليوم</span></div></div>
+  <div style="background:var(--w);border:1px solid var(--surface2);border-radius:var(--r);padding:14px;margin-bottom:10px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="font-size:11px;font-weight:700;color:var(--green);background:var(--greenBg);padding:3px 8px;border-radius:6px">9:00 ص</span><span style="font-size:12px;font-weight:600;color:var(--ink)">إصلاح تسريب — حسن</span></div>
+    <div style="display:flex;align-items:center;gap:8px"><span style="font-size:10px;color:var(--sl)"><svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:var(--sl);stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-right:2px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>التجمع الخامس</span><span style="font-size:10px;color:var(--green);font-weight:600">مقبول</span></div>
+  </div>
+  <div style="background:var(--w);border:1px solid var(--surface2);border-radius:var(--r);padding:14px;margin-bottom:10px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="font-size:11px;font-weight:700;color:var(--amber);background:var(--amberBg);padding:3px 8px;border-radius:6px">2:00 م</span><span style="font-size:12px;font-weight:600;color:var(--ink)">تركيب رفوف — سارة</span></div>
+    <div style="display:flex;align-items:center;gap:8px"><span style="font-size:10px;color:var(--sl)"><svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:var(--sl);stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-right:2px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>مدينة نصر</span><span style="font-size:10px;color:var(--amber);font-weight:600">قيد الانتظار</span></div>
+  </div>
+  <div style="height:20px"></div></div>`;
+}
+
+/* ============ TECH EARNINGS ============ */
+function rTEarnings(){
+  const t=S.tS;
+  return `<div style="padding:16px 20px">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">الأرباح</h1><span style="font-size:11px;color:var(--sl)">الاسبوع ده</span></div>
+  <div class="earn-hero">
+    <small>إجمالي الأرباح</small>
+    <b>${(t.earnings.total).toLocaleString()} ج.م</b>
+    <div style="margin-top:8px"><span style="padding:4px 10px;border-radius:8px;font-size:10px;font-weight:700;background:var(--green);color:#fff">+12% من الأسبوع الماضي</span></div>
+    <div class="earn-row">
+      <div><small>الأسبوع</small><b>${(t.earnings.week).toLocaleString()} ج.م</b></div>
+      <div><small>معلق</small><b style="color:var(--amber2)">${(t.earnings.pend).toLocaleString()} ج.م</b></div>
+      <div><small>متاح للسحب</small><b>${(t.earnings.avail).toLocaleString()} ج.م</b></div>
+    </div>
+  </div>
+  <button class="btn" style="background:var(--green);color:#fff;margin-bottom:16px;box-shadow:0 6px 16px rgba(5,150,105,.25)" data-act="t-withdraw"><svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:#fff;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:6px"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>سحب للبنك</button>
+  <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;color:var(--ink);margin-bottom:10px">آخر المعاملات</h3>
+  ${t.txHistory.map(tx=>`<div class="tx-item"><div class="tx-ic" style="background:${tx.tp==='inc'?'var(--greenBg)':'var(--blueBg)'}"><svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:${tx.tp==='inc'?'var(--green)':'var(--blue)'};stroke-width:2;fill:none"><path d="${tx.tp==='inc'?'M12 19V5M5 12l7-7 7 7':'M12 5v14M19 12l-7 7-7-7'}"/></svg></div><div class="tx-nf"><p>${tx.t}</p><small>${tx.d}</small></div><span class="tx-am" style="color:${tx.tp==='inc'?'var(--green)':'var(--blue)'}">${tx.am} ج.م</span></div>`).join('')}
+  <div style="height:20px"></div></div>`;
+}
+
+/* ============ TECH PROFILE ============ */
+function rTProfile(){
+  const t=S.tS;
+  return `<div style="padding:16px 20px">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">حسابي</h1><svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--ink);stroke-width:1.8;fill:none;cursor:pointer" data-act="t-settings"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg></div>
+  <div style="background:var(--w);border:1px solid var(--surface2);border-radius:var(--r);padding:16px;display:flex;align-items:center;gap:14px;margin-bottom:14px">
+    <div style="position:relative"><div style="width:64px;height:64px;border-radius:50%;background:var(--greenBg);display:flex;align-items:center;justify-content:center;color:var(--green);font-weight:800;font-size:24px;font-family:'Plus Jakarta Sans',sans-serif">${t.name[0]}</div><div style="position:absolute;bottom:0;right:0;width:20px;height:20px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;border:2px solid var(--w)"><svg viewBox="0 0 24 24" style="width:10px;height:10px;stroke:#fff;stroke-width:3;fill:none"><polyline points="20 6 9 17 4 12"/></svg></div></div>
+    <div style="flex:1"><div style="display:flex;align-items:center;gap:4px"><h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;color:var(--ink)">${t.name}</h3><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--blue);stroke-width:2;fill:var(--blue)"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><p style="font-size:12px;color:var(--sl)">فني ${t.trade} · ${t.exp}</p><div style="display:flex;align-items:center;gap:4px;margin-top:2px"><svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:var(--amber);stroke-width:2;fill:var(--amber)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span style="font-size:12px;font-weight:700;color:var(--ink)">${t.rating}</span><span style="font-size:10px;color:var(--sl)">(${t.reviews})</span></div></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;margin-bottom:14px">
+    <div style="background:var(--w);border:1px solid var(--surface2);border-radius:var(--rx);padding:10px 6px;text-align:center"><b style="font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;color:var(--ink);display:block">${t.jobsDone}</b><small style="font-size:9px;color:var(--sl)">شغلة</small></div>
+    <div style="background:var(--w);border:1px solid var(--surface2);border-radius:var(--rx);padding:10px 6px;text-align:center"><b style="font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;color:var(--green);display:block">98%</b><small style="font-size:9px;color:var(--sl)">إنجاز</small></div>
+    <div style="background:var(--w);border:1px solid var(--surface2);border-radius:var(--rx);padding:10px 6px;text-align:center"><b style="font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;color:var(--amber);display:block">${t.rating}</b><small style="font-size:9px;color:var(--sl)">تقييم</small></div>
+    <div style="background:var(--w);border:1px solid var(--surface2);border-radius:var(--rx);padding:10px 6px;text-align:center"><b style="font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;color:var(--blue);display:block">2yr</b><small style="font-size:9px;color:var(--sl)">عضو</small></div>
+  </div>
+  ${[
+    {i:'<svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--ink);stroke-width:1.8;fill:none"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>',t:'خدماتي ومهاراتي',s:'إدارة الخدمات',act:'tServices'},
+    {i:'<svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--ink);stroke-width:1.8;fill:none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>',t:'سجل الشغل',s:'الطلبات السابقة',act:'tJobs'},
+    {i:'<svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--amber);stroke-width:1.8;fill:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',t:'المراجعات والتقييمات',s:`${t.rating}/5 · ${t.reviews} تقييم`,act:'tReviews'},
+    {i:'<svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--ink);stroke-width:1.8;fill:none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',t:'التوثيق والمستندات',s:'بطاقة الرقمية + الرخص',act:'tVerification'},
+    {i:'<svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--ink);stroke-width:1.8;fill:none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>',t:'منطقة الخدمة',s:'نطاق 15 كم',act:'tAvail'},
+    {i:'<svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--ink);stroke-width:1.8;fill:none"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',t:'أوقات التوفر',s:'متاح السبت-الخميس',act:'tAvail'},
+    {i:'<svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--ink);stroke-width:1.8;fill:none"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',t:'المساعدة والدعم',s:'الأسئلة الشائعة',act:'tHelp'}
+  ].map(m=>`<div style="background:var(--w);border:1px solid var(--surface2);border-radius:var(--r);padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:8px;cursor:pointer" data-act="${m.act}"><div style="flex:1"><p style="font-size:13px;font-weight:700;color:var(--ink)">${m.t}</p><small style="font-size:11px;color:var(--sl)">${m.s}</small></div><svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:var(--sl2);stroke-width:2;fill:none"><path d="M15 18l-6-6 6-6"/></svg></div>`).join('')}
+  <div style="height:20px"></div></div>`;
+}
+
+/* ============ TECH JOB DETAIL ============ */
+function rTJobDetail(){
+  return `<div style="padding-bottom:80px">
+  <div style="background:var(--primary);padding:16px 20px;color:#fff;border-radius:0 0 var(--r) var(--r)">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px"><div class="ovb" style="background:rgba(255,255,255,.15)" data-act="tnav" data-nav="tJobs"><svg viewBox="0 0 24 24" style="stroke:#fff"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;flex:1">تفاصيل الشغلة</h2><span style="padding:4px 10px;border-radius:8px;font-size:10px;font-weight:700;background:rgba(255,255,255,.15)">قيد الانتظار</span></div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:18px;font-family:'Plus Jakarta Sans',sans-serif">ح</div>
+      <div><h3 style="font-size:15px;font-weight:700">حسن</h3><p style="font-size:11px;opacity:.7">العميل · القاهرة</p></div>
+      <div style="display:flex;gap:8px;margin-right:auto"><div style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:#fff;stroke-width:2;fill:none"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div><div style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:#fff;stroke-width:2;fill:none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div></div>
+    </div>
+  </div>
+  <div style="padding:16px 20px">
+    <div style="background:var(--w);border:1px solid var(--surface2);border-radius:var(--r);padding:14px;margin-bottom:12px">
+      <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;color:var(--ink);margin-bottom:6px">إصلاح تسريب مياه في المطبخ</h3>
+      <p style="font-size:12px;color:var(--sl);line-height:1.6;margin-bottom:12px">الحوض بينقط مية من تحت — محتاج فني سباكة يصلح التسريب بسرعة</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+        <div style="background:var(--surface);border-radius:var(--rx);padding:10px;text-align:center"><svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--blue);stroke-width:1.8;fill:none;display:inline-block;margin-bottom:4px"><path d="M6 14h4l-2 8M14 6h4l-4 8"/><circle cx="8" cy="6" r="3"/><circle cx="16" cy="18" r="3"/></svg><p style="font-size:11px;font-weight:700;color:var(--ink)">سباكة</p></div>
+        <div style="background:var(--surface);border-radius:var(--rx);padding:10px;text-align:center"><svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--amber);stroke-width:1.8;fill:none;display:inline-block;margin-bottom:4px"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg><p style="font-size:11px;font-weight:700;color:var(--ink)">250 ج.م</p></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;align-items:center;gap:8px"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--sl);stroke-width:2;fill:none"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span style="font-size:11px;color:var(--sl)">الآن — ASAP</span></div>
+        <div style="display:flex;align-items:center;gap:8px"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--sl);stroke-width:2;fill:none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span style="font-size:11px;color:var(--sl)">شارع النصر 15 — التجمع الخامس</span></div>
+      </div>
+    </div>
+    <div style="background:var(--w);border:1px solid var(--surface2);border-radius:var(--r);padding:14px;margin-bottom:12px">
+      <h4 style="font-size:11px;font-weight:800;color:var(--sl);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">مراحل الشغل</h4>
+      <div class="status-flow">
+        <div class="sf-dot done">✓</div><div class="sf-line done"></div>
+        <div class="sf-dot active">2</div><div class="sf-line pending"></div>
+        <div class="sf-dot pending">3</div><div class="sf-line pending"></div>
+        <div class="sf-dot pending">4</div>
+      </div>
+      <div style="display:flex;justify-content:space-between"><span style="font-size:10px;font-weight:700;color:var(--green)">مقبول</span><span style="font-size:10px;color:var(--sl)">قيد التنفيذ</span><span style="font-size:10px;color:var(--sl)">جاهز</span><span style="font-size:10px;color:var(--sl)">مكتمل</span></div>
+    </div>
+    <div style="display:flex;gap:10px">
+      <button class="btn bo" style="flex:1" data-act="t-decline-job"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:4px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>رفض</button>
+      <button class="btn bp" style="flex:2;background:var(--green)" data-act="t-accept-job"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:4px"><polyline points="20 6 9 17 4 12"/></svg>قبول الشغلة</button>
+    </div>
+  </div></div>`;
+}
+
+/* ============ TECH CHAT ============ */
+function rTChat(){
+  return `<div style="display:flex;flex-direction:column;height:100%">
+  <div class="chat-hdr"><div class="ovb" data-act="tnav" data-nav="tDash"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><div style="width:40px;height:40px;border-radius:50%;background:var(--blueBg);display:flex;align-items:center;justify-content:center;color:var(--blue);font-weight:800;font-size:14px;font-family:'Plus Jakarta Sans',sans-serif">ح</div><div style="flex:1"><h4 style="font-size:13px;font-weight:700;color:var(--ink)">حسن</h4><p style="font-size:10px;color:var(--green)">متصل</p></div><svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--ink);stroke-width:1.8;fill:none;cursor:pointer"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+  <div style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column">
+    <div style="text-align:center;margin-bottom:12px"><span style="padding:4px 12px;border-radius:10px;font-size:10px;font-weight:600;background:var(--surface);color:var(--sl)">اليوم</span></div>
+    <div class="chat-msg in">أهلاً يا أحمد 👋 إنت في الطريق؟<small>9:30 ص</small></div>
+    <div class="chat-msg out">أيوه، هكون عندك خلال 10 دقايق ⏱️<small>9:32 ص</small></div>
+    <div class="chat-msg in">تمام، استنّاك 👌 العنوان: فيلا 12، التجمع الخامس<small>9:33 ص</small></div>
+    <div class="chat-msg out">وصلت! أبواب تانية السكة 🔑<small>9:45 ص</small></div>
+  </div>
+  <div class="chat-input">
+    <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--sl2);stroke-width:1.8;fill:none;cursor:pointer;flex-shrink:0"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+    <input type="text" placeholder="اكتب رسالة...">
+    <div style="width:36px;height:36px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;stroke-width:2;fill:none"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div>
+  </div>
+</div>`;
+}
+
+/* ============ TECH VERIFICATION ============ */
+function rTVerification(){
+  return `<div style="padding:16px 20px">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px"><div class="ovb" data-act="tnav" data-nav="tProfile"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">التوثيق</h1></div>
+  <div style="background:var(--amberBg);border:1px solid var(--amberLight);border-radius:var(--r);padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:14px"><svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:var(--amber);stroke-width:1.8;fill:none;flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><p style="font-size:13px;font-weight:700;color:var(--amber)">التوثيق معلق</p><small style="font-size:11px;color:var(--sl)">المستندات قيد المراجعة — 1-3 أيام عمل</small></div></div>
+  ${[{n:'البطاقة الرقمية',s:'تم الرفع ✓',st:'done'},{n:'رخصة المهنة',s:'تم الرفع ✓',st:'done'},{n:'الشهادة الصحية',s:'قيد المراجعة',st:'pending'},{n:'بصمة الإصبع',s:'لم يتم الرفع',st:'none'}].map(d=>`<div style="background:var(--w);border:1px solid var(--surface2);border-radius:var(--r);padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:8px"><div style="width:44px;height:44px;border-radius:12px;background:${d.st==='done'?'var(--greenBg)':'var(--surface)'};display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:${d.st==='done'?'var(--green)':'var(--sl2)'};stroke-width:1.8;fill:none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div style="flex:1"><p style="font-size:13px;font-weight:700;color:var(--ink)">${d.n}</p><small style="font-size:11px;color:${d.st==='done'?'var(--green)':'var(--sl)'}">${d.s}</small></div><svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:var(--sl2);stroke-width:2;fill:none;cursor:pointer"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>`).join('')}
+  <div style="height:20px"></div></div>`;
+}
+
+/* ============ TECH REVIEWS ============ */
+function rTReviews(){
+  return `<div style="padding:16px 20px">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px"><div class="ovb" data-act="tnav" data-nav="tProfile"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">المراجعات</h1></div>
+  <div style="text-align:center;margin-bottom:16px"><div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:40px;font-weight:800;color:var(--amber)">4.9</div><div style="margin:4px 0">${Array(5).fill('<svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:var(--amber);stroke-width:2;fill:var(--amber);display:inline-block"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>').join('')}</div><small style="font-size:12px;color:var(--sl)">${86} تقييم</small></div>
+  ${[{n:'سارة أحمد',r:5,t:'شاطر جدًا وشرحلي كل حاجة. شغل نظيف وسعر مناسب',d:'منذ 3 أيام'},{n:'محمد فتحي',r:5,t:'وصل في الوقت وخلص بسرعة. أنصح بيه أوي',d:'منذ أسبوع'},{n:'نورا حسن',r:4,t:'كويس بس التأخير شوية. بس الشغل حلو',d:'منذ أسبوعين'}].map(rv=>`<div style="background:var(--w);border:1px solid var(--surface2);border-radius:var(--r);padding:14px;margin-bottom:8px"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><b style="font-size:13px;color:var(--ink)">${rv.n}</b><span style="font-size:10px;color:var(--sl)">${rv.d}</span></div><div style="margin-bottom:6px">${Array(rv.r).fill('<svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:var(--amber);stroke-width:2;fill:var(--amber);display:inline-block"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>').join('')}</div><p style="font-size:12px;color:var(--sl);line-height:1.6">${rv.t}</p></div>`).join('')}
+  <div style="height:20px"></div></div>`;
+}
+
+/* ============ TECH SERVICES ============ */
+function rTServices(){
+  return `<div style="padding:16px 20px">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px"><div class="ovb" data-act="tnav" data-nav="tProfile"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">خدماتي</h1></div>
+  ${[{n:'إصلاح تسريب',p:'250 ج.م',d:'15-30 دقيقة'},{n:'صيانة شاملة',p:'450 ج.م',d:'30-60 دقيقة'},{n:'فتح مجاري',p:'200 ج.م',d:'20-40 دقيقة'},{n:'تركيب سخان',p:'600 ج.م',d:'45-90 دقيقة'}].map(s=>`<div style="background:var(--w);border:1px solid var(--surface2);border-radius:var(--r);padding:14px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between"><div><p style="font-size:13px;font-weight:700;color:var(--ink)">${s.n}</p><small style="font-size:11px;color:var(--sl)">${s.d}</small></div><b style="font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;color:var(--ink)">${s.p}</b></div>`).join('')}
+  <button class="btn bo" style="margin-top:10px" data-act="toast" data-msg="إضافة خدمة جديدة">+ إضافة خدمة</button>
+  <div style="height:20px"></div></div>`;
+}
+
+/* ============ TECH AVAILABILITY ============ */
+function rTAvail(){
+  return `<div style="padding:16px 20px">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px"><div class="ovb" data-act="tnav" data-nav="tProfile"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">أوقات التوفر</h1></div>
+  <div style="background:var(--w);border:1px solid var(--surface2);border-radius:var(--r);padding:14px;margin-bottom:12px"><div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:13px;font-weight:700;color:var(--ink)">السبت</span><div style="width:48px;height:28px;border-radius:14px;background:var(--green);display:flex;align-items:center;padding:3px;cursor:pointer"><div style="width:22px;height:22px;border-radius:50%;background:#fff;margin-left:auto;box-shadow:0 2px 6px rgba(0,0,0,.15)"></div></div></div><small style="font-size:11px;color:var(--sl)">9:00 ص — 6:00 م</small></div>
+  <div style="background:var(--w);border:1px solid var(--surface2);border-radius:var(--r);padding:14px;margin-bottom:12px"><div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:13px;font-weight:700;color:var(--ink)">الأحد</span><div style="width:48px;height:28px;border-radius:14px;background:var(--green);display:flex;align-items:center;padding:3px;cursor:pointer"><div style="width:22px;height:22px;border-radius:50%;background:#fff;margin-left:auto;box-shadow:0 2px 6px rgba(0,0,0,.15)"></div></div></div><small style="font-size:11px;color:var(--sl)">9:00 ص — 6:00 م</small></div>
+  <div style="background:var(--w);border:1px solid var(--surface2);border-radius:var(--r);padding:14px;margin-bottom:12px"><div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:13px;font-weight:700;color:var(--ink)">الجمعة</span><div style="width:48px;height:28px;border-radius:14px;background:var(--surface3);display:flex;align-items:center;padding:3px;cursor:pointer"><div style="width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.15)"></div></div></div><small style="font-size:11px;color:var(--sl)">عطلة</small></div>
+  <div style="height:20px"></div></div>`;
+}
+
+/* ============ TECH HELP ============ */
+function rTHelp(){
+  return `<div style="padding:16px 20px">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px"><div class="ovb" data-act="tnav" data-nav="tProfile"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">المساعدة</h1></div>
+  ${[{q:'إزاي أقبل شغلة؟',a:'من صفحة الطلبات المتاحة، اضغط على "قبول الشغلة" في أي طلب مناسب.'},{q:'إزاي أسحب أرباحي؟',a:'روح صفحة الأرباح واضغط "سحب للبنك". السحب خلال 1-3 أيام عمل.'},{q:'إزاي أغيّر حالة التوفر؟',a:'من الرئيسية، اضغط على زر التشغيل/الإيقاف عشان تفتح أو تقفل استقبال الطلبات.'},{q:'الضمان إزاي بيشتغل؟',a:'كل شغلة ليها ضمان 30 يوم. لو المشكلة رجعت، حرفة هيبعتلك تاني مجانًا.'}].map(f=>`<div style="background:var(--w);border:1px solid var(--surface2);border-radius:var(--r);padding:14px;margin-bottom:8px;cursor:pointer"><b style="font-size:13px;color:var(--ink);display:block;margin-bottom:4px">${f.q}</b><small style="font-size:11px;color:var(--sl);line-height:1.5">${f.a}</small></div>`).join('')}
+  <button class="btn bo" style="margin-top:10px" data-act="toast" data-msg="تم فتح الدعم"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:6px"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>تواصل مع الدعم</button>
+  <div style="height:20px"></div></div>`;
+}
+
+/* ============ TECH NOTIFICATIONS ============ */
+function rTNotif(){
+  return `<div style="padding:16px 20px">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px"><div class="ovb" data-act="tnav" data-nav="tDash"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">الإشعارات</h1></div>
+  ${[{t:'طلب جديد!',d:'عميل في التجمع الخامس محتاج فني سباكة — 250 ج.م',time:'الآن',new:true},{t:'تم قبول العرض',d:'عرضك على شغلة حسن تم القبول',time:'منذ 10 دق',new:true},{t:'تقييم جديد',d:'سارة أحمد أعطتك 5 نجوم ⭐',time:'منذ ساعة',new:false},{t:'سحب للبنك',d:'تم سحب 500 ج.م إلى حسابك',time:'أمس',new:false}].map(n=>`<div style="background:${n.new?'var(--blueBg)':'var(--w)'};border:1px solid ${n.new?'var(--blueLight)':'var(--surface2)'};border-radius:var(--r);padding:14px;margin-bottom:8px;display:flex;gap:12px"><div style="width:8px;height:8px;border-radius:50%;background:${n.new?'var(--blue)':'var(--surface3)'};flex-shrink:0;margin-top:6px"></div><div style="flex:1"><p style="font-size:13px;font-weight:700;color:var(--ink)">${n.t}</p><small style="font-size:11px;color:var(--sl);line-height:1.5">${n.d}</small><p style="font-size:10px;color:var(--sl2);margin-top:4px">${n.time}</p></div></div>`).join('')}
+  <div style="height:20px"></div></div>`;
+}
+
 /* ============ OTP INIT ============ */
 function initOtp(){const bs=$$('#otpW .otp-b');let c='';bs.forEach((b,i)=>{b.addEventListener('click',()=>{if(c.length>i)return;const d='4821'[i];c+=d;b.textContent=d;b.classList.add('fill');b.classList.remove('foc');if(i+1<bs.length)bs[i+1].classList.add('foc');if(c.length===4){const btn=$('#otpBtn');if(btn){btn.disabled=false;btn.style.opacity=1;}}});});}
 function initAuthOtp(){const w=$('#otpWA');if(!w)return;w.innerHTML=[0,1,2,3].map(i=>`<div class="otp-b ${i===0?'foc':''}" data-digit="${i}"></div>`).join('');const bs=$$('#otpWA .otp-b');let c='';bs.forEach((b,i)=>{b.addEventListener('click',()=>{if(c.length>i)return;const d='4821'[i];c+=d;b.textContent=d;b.classList.add('fill');b.classList.remove('foc');if(i+1<bs.length)bs[i+1].classList.add('foc');if(c.length===4){const btn=$('#otpBtnA');if(btn){btn.disabled=false;btn.style.opacity=1;}}});});}
@@ -1031,14 +1409,30 @@ document.addEventListener('click',e=>{
     'scan-qr':()=>toast('📷 فتح الكاميرا لمسح QR'),
     'do-login':()=>doLogin(),'go-signup':()=>showAuth('authSignup'),
     'do-signup':()=>showAuth('authOtp'),'verify-auth-otp':()=>doLogin(),'go-login':()=>showAuth('authLogin'),
-    'logout':()=>{S.authed=false;S.scr='splash';$('#appWrap').style.display='none';showAuth('authLogin');toast('تم تسجيل الخروج 👋','👋');},
+    'logout':()=>{S.authed=false;S.role=null;S.scr='splash';$('#appWrap').style.display='none';$('#roleSelect').classList.add('on');toast('تم تسجيل الخروج 👋','👋');},
+    'pick-role':()=>pickRole(t.dataset.role),
+    'tnav':()=>go(t.dataset.nav),
+    'toggle-online':()=>{S.tS.online=!S.tS.online;render();toast(S.tS.online?'فتحت استقبال الطلبات ✅':'قفلت استقبال الطلبات','🔄');},
+    't-decline':()=>toast('تم رفض الطلب ❌','❌'),
+    't-accept':()=>{toast('تم قبول الشغلة ✅','✅');go('tJobDetail');},
+    't-accept-job':()=>{S.tS.activeJob={t:'حسن',title:'إصلاح تسريب مياه',pr:'250'};toast('تم قبول الشغلة ✅','✅');go('tDash');},
+    't-decline-job':()=>{toast('تم رفض الشغلة ❌','❌');go('tJobs');},
+    't-job-active':()=>go('tJobDetail'),
+    't-view-job':()=>go('tJobDetail'),
+    't-filter':()=>{$$('.filter-chip').forEach(x=>x.classList.remove('on'));t.classList.add('on');},
+    't-withdraw':()=>toast('تم إرسال طلب السحب للبنك ✅💸','💸'),
+    't-settings':()=>toast('الإعدادات قادمة قريباً','⚙️'),
+    'toast':()=>toast(t.dataset.msg||'تم'),
+    't-day':()=>{$$('.filter-chip').forEach(x=>x.classList.remove('on'));t.classList.add('on');},
   };
   const fn=H[a];if(fn){e.preventDefault();fn();}
 });
 document.addEventListener('click',e=>{const s=e.target.closest('[data-star]');if(!s)return;$$('#starsR span').forEach((x,i)=>{x.className=i<+s.dataset.star?'on':'off';});});
 
 function go(scr){closeOv();if(scr!=='scanning'&&S.scanInterval){clearInterval(S.scanInterval);S.scanInterval=null;}S.scr=scr;render();if(scr==='home')lat(200,initHomeMap);if(scr==='arrival')lat(200,initOtp);if(scr==='tracking')lat(200,initMap);}
-function init(){lat(2300,()=>{const sp=$('#splash');if(sp)sp.style.display='none';showAuth('authLogin');});}
+function init(){lat(2300,()=>{const sp=$('#splash');if(sp)sp.style.display='none';$('#roleSelect').classList.add('on');});}
+function showRoleSelect(){['authLogin','authSignup','authOtp'].forEach(x=>$('#'+x)?.classList.remove('on'));$('#roleSelect').classList.add('on');}
+function pickRole(role){S.role=role;$('#roleSelect').classList.remove('on');if(role==='customer'){showAuth('authLogin');}else{showAuth('authLogin');}}
 init();
 </script>
 </body>
