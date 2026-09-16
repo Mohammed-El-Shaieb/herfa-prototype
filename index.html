@@ -434,13 +434,14 @@ body{display:flex;align-items:center;justify-content:center}
 "use strict";
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const lat=(ms,fn)=>setTimeout(fn,ms),rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
-const S={scr:'splash',authed:false,user:{name:'حسن',phone:'01012345678',area:'التجمع الخامس'},sc:'ac',job:null,tech:null,chat:null,cs:0,cd:false,hist:[],ov:false,inc:[{tech:TECHS[1],title:'تسريب في المطبخ',desc:'بيبان تسريب مياه تحت الحوض — محتاج فني سباكة',price:'قابل للتفاوض',icon:'💧',when:'بكرة 2 الظهر',req:'pl'},{tech:TECHS[0],title:'مكيف مش بيسقع',desc:'مكيف الصالة بيسخن بدل ما يبرد',price:'400 ج.م',icon:'❄️',when:'مغرب النهارده',req:'ac'}]};
+const S={scr:'splash',authed:false,user:{name:'حسن',phone:'01012345678',area:'التجمع الخامس'},sc:'ac',job:null,tech:null,chat:null,cs:0,cd:false,hist:[],ov:false,inc:[]};
 const TECHS=[
   {name:'أحمد حسن',skill:'فني تبريد وتكييف',r:4.8,rv:86,d:2.3,e:9,c:'linear-gradient(135deg,#2563eb,#1d4ed8)',cv:'#2563eb',v:true,p:94,ex:'8 سنوات',sm:86},
   {name:'محمد علي',skill:'فني سباكة',r:4.6,rv:54,d:3.1,e:14,c:'linear-gradient(135deg,#7c3aed,#6d28d9)',cv:'#7c3aed',v:true,p:87,ex:'6 سنوات',sm:54},
   {name:'خالد إبراهيم',skill:'فني كهرباء',r:4.9,rv:112,d:1.8,e:7,c:'linear-gradient(135deg,#d97706,#b45309)',cv:'#d97706',v:true,p:96,ex:'12 سنة',sm:112},
   {name:'عمر سعيد',skill:'فني غسالات',r:4.5,rv:38,d:4.2,e:20,c:'linear-gradient(135deg,#059669,#047857)',cv:'#059669',v:false,p:82,ex:'4 سنوات',sm:38}
 ];
+S.inc=[{tech:TECHS[1],title:'تسريب في المطبخ',desc:'بيبان تسريب مياه تحت الحوض — محتاج فني سباكة',price:'قابل للتفاوض',icon:'💧',when:'بكرة 2 الظهر',req:'pl'},{tech:TECHS[0],title:'مكيف مش بيسقع',desc:'مكيف الصالة بيسخن بدل ما يبرد',price:'400 ج.م',icon:'❄️',when:'مغرب النهارده',req:'ac'}];
 const CATS=[
   {id:'ac',n:'تكييف',i:'❄️',bg:'linear-gradient(135deg,#ecfdf5,#d1fae5)',tc:'#059669'},
   {id:'el',n:'كهرباء',i:'⚡',bg:'linear-gradient(135deg,#fffbeb,#fef3c7)',tc:'#d97706'},
