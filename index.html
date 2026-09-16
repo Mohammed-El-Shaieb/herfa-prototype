@@ -448,7 +448,7 @@ body{display:flex;align-items:center;justify-content:center}
 "use strict";
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const lat=(ms,fn)=>setTimeout(fn,ms),rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
-const S={scr:'splash',authed:false,user:{name:'حسن',phone:'01012345678',area:'التجمع الخامس'},sc:'ac',job:null,tech:null,chat:null,cs:0,cd:false,hist:[],ov:false,inc:[]};
+const S={scr:'splash',authed:false,user:{name:'حسن',phone:'01012345678',area:'التجمع الخامس'},sc:'ac',job:null,tech:null,chat:null,cs:0,cd:false,hist:[],ov:false,inc:[],selectedTime:null,scanInterval:null};
 const TECHS=[
   {name:'أحمد حسن',skill:'فني تبريد وتكييف',r:4.8,rv:86,d:2.3,e:9,c:'linear-gradient(135deg,#2563eb,#1d4ed8)',cv:'#2563eb',v:true,p:94,ex:'8 سنوات',sm:86},
   {name:'محمد علي',skill:'فني سباكة',r:4.6,rv:54,d:3.1,e:14,c:'linear-gradient(135deg,#7c3aed,#6d28d9)',cv:'#7c3aed',v:true,p:87,ex:'6 سنوات',sm:54},
@@ -484,8 +484,7 @@ function doLogin(){hideAuth();$('#appWrap').style.display='flex';S.authed=true;S
 
 /* ============ HOME ============ */
 function rHome(){
-  return `<div class="hm"><div id="hmMap"></div></div>
-  <div class="hc">
+  return `<div class="hc">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
       <div><p style="font-size:13px;color:var(--sl);font-weight:500">مساء الخير</p><div class="ha">إيه المشكلة؟ 🛠️</div></div>
       <div style="width:40px;height:40px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center"><span style="font-size:13px;font-weight:700;color:#fff">ح</span></div>
@@ -576,7 +575,7 @@ function rSchedule(){
   return `<div style="padding:16px 20px">
   <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px"><div class="ovb" data-act="back-home">→</div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">اختار الموعد 📅</h1></div>
   <div class="fg"><label style="display:block;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px">اليوم</label><div class="dr">${dates.map((d,i)=>`<div class="dc ${i===0?'sel':''}" data-act="dpick"><div class="d">${d.dy}</div><div class="n">${d.n}</div><div class="mn">${d.mn}</div></div>`).join('')}</div></div>
-  <div class="fg" style="margin-top:14px"><label style="display:block;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px">الوقت</label><div class="tms">${['09:00','10:00','11:00','12:00','01:00','02:00','03:00','04:00','05:00'].map((t,i)=>`<div class="ts ${i===2?'sel':''} ${i===4?'un':''}" data-act="tsl">${t}</div>`).join('')}</div></div>
+  <div class="fg" style="margin-top:14px"><label style="display:block;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px">الوقت</label><div class="tms"><div class="ts sel" data-act="tsl">⚡ الآن</div>${['09:00','10:00','11:00','12:00','01:00','02:00','03:00','04:00','05:00'].map((t,i)=>`<div class="ts ${i===4?'un':''}" data-act="tsl">${t}</div>`).join('')}</div></div>
   <button class="btn bp" data-act="to-scan" style="margin-top:20px">🔍 بحث عن فنيين</button></div>`;
 }
 
@@ -910,7 +909,7 @@ function rIncoming(){
 /* ============ PROVIDER PROFILE (Enhanced — Dark Header + C04 Design) ============ */
 function rProviderProfile(){
   const t=S.tech||TECHS[0];
-  const inc=S.inc.find(r=>r.tech===t&&S.scr==='providerProfile');
+  const inc=S.inc.find(r=>r.tech===t)||S.inc[0]||null;
   const init=t.name[0]+(t.name.split(' ')[1]?.[0]||'');
   return `<div style="margin:0;padding-bottom:80px">
   <div class="profile-hero">
@@ -1006,13 +1005,13 @@ document.addEventListener('click',e=>{
     'nav-resume':()=>go('tracking'),
     'view-tech':()=>{S.tech=TECHS[(+t.dataset.i)||0];go('providerProfile');},
     'view-inc-tech':()=>{const i=+(t.dataset.i||0);const r=S.inc[i];if(r){S.tech=r.tech;}go('providerProfile');},
-    'accept-inc':()=>{let i=+(t.dataset.i||0);let r=S.inc[i]||S.inc.find(x=>x.tech===S.tech)||S.inc[0];if(!r)return;S.job={tech:r.tech,title:r.title};S.inc=S.inc.filter(x=>x!==r);S.tech=r.tech;toast('تم قبول طلب الفني 🎉','✅');go('quoteApproval');},
-    'reject-inc':()=>{const i=+(t.dataset.i||0);S.inc=S.inc.filter((_,x)=>x!==i);toast('اترفض الطلب','❌');go('incoming');},
-    'reject-inc-profile':()=>{const r=S.inc.find(x=>x.tech===S.tech)||S.inc[0];if(r){S.inc=S.inc.filter(x=>x!==r);}toast('اترفض الطلب','❌');go('incoming');},
+    'accept-inc':()=>{let i=+(t.dataset.i||0);let r=S.inc[i]||S.inc.find(x=>x.tech===S.tech)||S.inc[0];if(!r)return;if(S.scanInterval)clearInterval(S.scanInterval);S.job={tech:r.tech,title:r.title};S.inc=S.inc.filter(x=>x!==r);S.tech=r.tech;toast('تم قبول طلب الفني 🎉','✅');go('quoteApproval');},
+    'reject-inc':()=>{const i=+(t.dataset.i||0);S.inc=S.inc.filter((_,x)=>x!==i);if(!S.inc.length&&S.scanInterval)clearInterval(S.scanInterval);toast('اترفض الطلب','❌');go('incoming');},
+    'reject-inc-profile':()=>{const r=S.inc.find(x=>x.tech===S.tech)||S.inc[0];if(r){S.inc=S.inc.filter(x=>x!==r);}if(!S.inc.length&&S.scanInterval)clearInterval(S.scanInterval);toast('اترفض الطلب','❌');go('incoming');},
     'cat':()=>{const c=t.dataset.cat;S.sc=c==='el'?'safety':c==='ac'?'ac':'wash';openAI(S.sc);},
     'dpick':()=>{$$('.dc').forEach(x=>x.classList.remove('sel'));t.classList.add('sel');},
-    'tsl':()=>{if(t.classList.contains('un'))return;$$('.ts').forEach(x=>x.classList.remove('sel'));t.classList.add('sel');},
-    'to-scan':()=>{S.scanJob={title:'صيانة مكيف سبليت',when:'بكرة 2 الظهر',location:S.user.area};S.scr='scanning';render();const st=$('#scanStatus');const tc=$('#scanTechs');if(!st||!tc)return;const found=[];const avail=[TECHS[1],TECHS[0],TECHS[2]].filter(t=>t);let idx=0;const addTech=()=>{if(idx>=avail.length)return;const t=avail[idx];found.push(t);idx++;tc.innerHTML=found.map((x,i)=>`<div class="scan-tech-chip" style="animation-delay:${i*0.15}s"><div style="width:28px;height:28px;border-radius:50%;background:${x.c};display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700">${x.name[0]}</div><div style="text-align:right"><div style="font-size:12px;font-weight:700;color:var(--ink)">${x.name}</div><div style="font-size:10px;color:var(--sl)">${x.skill}</div></div></div>`).join('');st.textContent=`تم العثور على ${found.length} فني`;};const t1=setTimeout(addTech,1200);const t2=setTimeout(addTech,2400);const t3=setTimeout(()=>{st.textContent='✅ جاهز — فنيين بعتوا عروض';S.inc=[{tech:TECHS[1],title:'تسريب في المطبخ',desc:'بيبان تسريب مياه تحت الحوض — محتاج فني سباكة',price:'قابل للتفاوض',icon:'💧',when:S.scanJob.when,req:'pl'},{tech:TECHS[0],title:S.scanJob.title,desc:'مكيف الصالة بيسخن بدل ما يبرد',price:'400 ج.م',icon:'❄️',when:S.scanJob.when,req:'ac'}];setTimeout(()=>go('incoming'),1500);},4000);},
+    'tsl':()=>{if(t.classList.contains('un'))return;$$('.ts').forEach(x=>x.classList.remove('sel'));t.classList.add('sel');S.selectedTime=t.textContent.trim();},
+    'to-scan':()=>{S.scanJob={title:'صيانة مكيف سبليت',when:S.selectedTime||'الآن',location:S.user.area};S.scr='scanning';S.inc=[];render();const st=$('#scanStatus');const tc=$('#scanTechs');if(!st||!tc)return;const found=[];const avail=[TECHS[1],TECHS[0],TECHS[2],TECHS[3]].filter(x=>x);let idx=0;const addTech=()=>{if(idx>=avail.length)return;const t=avail[idx];found.push(t);idx++;tc.innerHTML=found.map((x,i)=>`<div class="scan-tech-chip" style="animation-delay:${i*0.15}s"><div style="width:28px;height:28px;border-radius:50%;background:${x.c};display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700">${x.name[0]}</div><div style="text-align:right"><div style="font-size:12px;font-weight:700;color:var(--ink)">${x.name}</div><div style="font-size:10px;color:var(--sl)">${x.skill}</div></div></div>`).join('');st.textContent=`تم العثور على ${found.length} فني`;};setTimeout(addTech,1200);setTimeout(addTech,2400);setTimeout(addTech,3600);setTimeout(()=>{st.textContent='✅ جاهز — فنيين بعتوا عروض';const reqs=[{tech:TECHS[1],title:'تسريب في المطبخ',desc:'بيبان تسريب مياه تحت الحوض — محتاج فني سباكة',price:'قابل للتفاوض',icon:'💧',when:S.scanJob.when,req:'pl'},{tech:TECHS[0],title:S.scanJob.title,desc:'مكيف الصالة بيسخن بدل ما يبرد',price:'400 ج.م',icon:'❄️',when:S.scanJob.when,req:'ac'}];S.inc=reqs;go('incoming');let ri=2;S.scanInterval=setInterval(()=>{if(ri>=avail.length||!S.inc.length){clearInterval(S.scanInterval);return;}const t=avail[ri];const icons=['🔧','⚡','🪚','🏠'];const titles=['صيانة باب خشبي','إصلاح قطع كهرباء','تركيب رفوف','صيانة غسالة'];S.inc.push({tech:t,title:titles[ri%titles.length],desc:`${t.skill} — شغل احترافي`,price:rand(200,600)+' ج.م',icon:icons[ri%icons.length],when:S.scanJob.when,req:t.skill.substring(0,2)});if(S.scr==='incoming')render();ri++;},5000);},4000);},
     'to-tech':()=>go('techSelect'),
     'tpk':()=>{$$('.tc').forEach(x=>x.classList.remove('sel'));t.classList.add('sel');S.tech=TECHS[+t.dataset.i];},
     'confirm-tech':()=>{S.tech=S.tech||TECHS[0];go('quoteApproval');},
@@ -1033,7 +1032,7 @@ document.addEventListener('click',e=>{
 });
 document.addEventListener('click',e=>{const s=e.target.closest('[data-star]');if(!s)return;$$('#starsR span').forEach((x,i)=>{x.className=i<+s.dataset.star?'on':'off';});});
 
-function go(scr){closeOv();S.scr=scr;render();if(scr==='home')lat(200,initHomeMap);if(scr==='arrival')lat(200,initOtp);if(scr==='tracking')lat(200,initMap);}
+function go(scr){closeOv();if(scr!=='scanning'&&S.scanInterval){clearInterval(S.scanInterval);S.scanInterval=null;}S.scr=scr;render();if(scr==='home')lat(200,initHomeMap);if(scr==='arrival')lat(200,initOtp);if(scr==='tracking')lat(200,initMap);}
 function init(){lat(2300,()=>{const sp=$('#splash');if(sp)sp.style.display='none';showAuth('authLogin');});}
 init();
 </script>
