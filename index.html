@@ -284,6 +284,37 @@ body{display:flex;align-items:center;justify-content:center}
 /* ============ HEALTH SCORE ============ */
 .health-ring{width:80px;height:80px;border-radius:50%;background:conic-gradient(var(--green) 0deg,var(--green) 281deg,var(--surface3) 281deg);display:flex;align-items:center;justify-content:center;margin:0 auto;position:relative}
 .health-ring::after{content:'78';position:absolute;width:60px;height:60px;border-radius:50%;background:var(--w);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:var(--ink)}
+.media-btns{display:flex;gap:8px;margin-top:10px}
+.media-btn{flex:1;padding:10px;border-radius:var(--rs);text-align:center;cursor:pointer;border:1px solid var(--surface3);background:var(--w);transition:.15s;font-size:10px;font-weight:700;color:var(--ink3)}
+.media-btn:hover{border-color:var(--blue);background:var(--blueBg)}
+.media-btn .mb-ic{font-size:20px;margin-bottom:2px;display:block}
+.active-banner{background:linear-gradient(135deg,var(--blueBg),#dbeafe);border:1px solid var(--blueLight);border-radius:var(--r);padding:14px;margin:12px 20px 0;display:flex;align-items:center;gap:12px;cursor:pointer}
+.pred-card{background:var(--amberBg);border:1px solid var(--amberLight);border-radius:var(--rs);padding:12px;margin-bottom:8px;display:flex;align-items:flex-start;gap:10px}
+.pred-card .pi{font-size:20px;flex-shrink:0}
+.pred-card .pt{font-size:12px;font-weight:700;color:var(--ink)}
+.pred-card .ps{font-size:10px;color:var(--sl);margin-top:2px}
+.match-reason{background:var(--blueBg);border-radius:var(--rx);padding:10px;margin-top:8px;font-size:11px;color:var(--blue);font-weight:600;line-height:1.6}
+.insp-item{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--surface2)}
+.insp-item:last-child{border-bottom:none}
+.insp-ic{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.insp-st{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.msg-item{display:flex;align-items:flex-start;gap:10px;padding:12px 0;border-bottom:1px solid var(--surface2);cursor:pointer}
+.msg-item:last-child{border-bottom:none}
+.msg-av{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:14px;flex-shrink:0;font-family:'Plus Jakarta Sans',sans-serif}
+.msg-nf{flex:1;min-width:0}
+.msg-nf .mn{font-size:13px;font-weight:700;color:var(--ink);display:flex;justify-content:space-between}
+.msg-nf .mp{font-size:11px;color:var(--sl);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.msg-nf .mt{font-size:10px;color:var(--sl2);flex-shrink:0}
+.sv-item{display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid var(--surface2);cursor:pointer}
+.sv-item:last-child{border-bottom:none}
+.sv-av{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:16px;flex-shrink:0;font-family:'Plus Jakarta Sans',sans-serif}
+.tab-bar{display:flex;gap:4px;background:var(--surface);border-radius:var(--rx);padding:4px;margin-bottom:14px}
+.tab-item{flex:1;padding:8px;border-radius:8px;text-align:center;font-size:12px;font-weight:600;color:var(--sl);cursor:pointer;transition:.15s}
+.tab-item.active{background:var(--w);color:var(--blue);box-shadow:var(--shadow-sm)}
+@keyframes scanLine{0%{top:-2px}100%{top:calc(100% + 2px)}}
+.ai-vis{position:relative;border-radius:var(--rs);overflow:hidden;background:var(--surface2);margin:8px 0}
+.ai-vis::after{content:'';position:absolute;left:0;right:0;height:2px;background:var(--blue);box-shadow:0 0 8px var(--blue);animation:scanLine 2s linear infinite;opacity:.7}
+.ai-vis-label{position:absolute;bottom:6px;left:6px;background:rgba(0,0,0,.6);color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:6px;z-index:1}
 </style>
 </head>
 <body>
@@ -406,12 +437,12 @@ function toast(m,i='✅'){const t=$('#toast');t.innerHTML=`${i} ${m}`;t.classLis
 function openOv(h,t='',s=''){const r=$('#ovr');r.innerHTML=`<div class="ov"><div class="ovh"><div class="ovb" data-act="ov-back">→</div><div class="ovt">${t}${s?`<small>${s}</small>`:''}</div></div><div class="ovc" id="ovc">${h}</div></div>`;r.classList.add('open');S.ov=true;}
 function closeOv(){$('#ovr')?.classList.remove('open');$('#ovr').innerHTML='';S.ov=false;}
 
-const TABS=[{id:'home',l:'الرئيسية',i:'🏠'},{id:'bookings',l:'الحجوزات',i:'📋',b:1},{id:'profile',l:'حسابي',i:'👤'}];
-function renderNav(){  $('#bn').innerHTML=TABS.map(t=>`<div class="b ${t.id===S.scr||['schedule','techSelect','tracking','arrival','report','rating','invoice','warranty','myHome','passport','healthScore','quoteApproval','warranties'].includes(S.scr)&&t.id==='home'?'on':''}" data-act="nav" data-nav="${t.id}"><span class="bn-ic">${t.i}</span>${t.b?`<span class="bdg">${t.b}</span>`:''}<span>${t.l}</span></div>`).join('');}
+const TABS=[{id:'home',l:'الرئيسية',i:'🏠'},{id:'bookings',l:'الحجوزات',i:'📋',b:1},{id:'messages',l:'الرسائل',i:'💬'},{id:'myHome',l:'بيتي',i:'🏡'},{id:'profile',l:'حسابي',i:'👤'}];
+function renderNav(){  $('#bn').innerHTML=TABS.map(t=>`<div class="b ${t.id===S.scr||['schedule','techSelect','tracking','arrival','report','rating','invoice','warranty','myHome','passport','healthScore','quoteApproval','warranties','providerProfile','inspection','serviceProgress','savedProviders'].includes(S.scr)&&t.id==='home'?'on':''}" data-act="nav" data-nav="${t.id}"><span class="bn-ic">${t.i}</span>${t.b?`<span class="bdg">${t.b}</span>`:''}<span>${t.l}</span></div>`).join('');}
 
 function render(){
   const v=$('#vw');v.scrollTop=0;
-  const R={home:rHome,bookings:rBookings,profile:rProfile,schedule:rSchedule,techSelect:rTechSel,tracking:rTrack,arrival:rArrival,report:rReport,rating:rRating,invoice:rInvoice,warranty:rWarranty,myHome:rMyHome,passport:rPassport,healthScore:rHealthScore,quoteApproval:rQuoteApproval,warranties:rWarranties};
+  const R={home:rHome,bookings:rBookings,profile:rProfile,schedule:rSchedule,techSelect:rTechSel,tracking:rTrack,arrival:rArrival,report:rReport,rating:rRating,invoice:rInvoice,warranty:rWarranty,myHome:rMyHome,passport:rPassport,healthScore:rHealthScore,quoteApproval:rQuoteApproval,warranties:rWarranties,messages:rMessages,providerProfile:rProviderProfile,inspection:rInspection,serviceProgress:rServiceProgress,savedProviders:rSavedProviders};
   v.innerHTML=(R[S.scr]||R.home)();renderNav();
 }
 function showAuth(id){['authLogin','authSignup','authOtp'].forEach(x=>$('#'+x)?.classList.remove('on'));const el=$('#'+id);if(el)el.classList.add('on');if(id==='authOtp')lat(200,initAuthOtp);}
@@ -427,12 +458,24 @@ function rHome(){
       <div style="width:40px;height:40px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center"><span style="font-size:13px;font-weight:700;color:#fff">ح</span></div>
     </div>
     <div class="hi" data-act="open-ai"><span style="font-size:20px">💬</span><span>صِف المشكلة... أو اتكلّم</span></div>
+    <div class="media-btns">
+      <div class="media-btn" data-act="media" data-type="photo"><span class="mb-ic">📷</span>صورة</div>
+      <div class="media-btn" data-act="media" data-type="video"><span class="mb-ic">🎥</span>فيديو</div>
+      <div class="media-btn" data-act="media" data-type="voice"><span class="mb-ic">🎤</span>صوت</div>
+    </div>
+    ${S.job?`<div class="active-banner" data-act="nav-resume"><div style="width:44px;height:44px;border-radius:12px;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🔧</div><div style="flex:1"><b style="font-size:13px;font-weight:700;color:var(--ink)">${S.job.title}</b><small style="font-size:10px;color:var(--blue);font-weight:600;display:block;margin-top:2px">متابعة الشغلة الآن ↗</small></div><span style="color:var(--blue)">←</span></div>`:''}
     <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;margin-bottom:10px"><h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;color:var(--ink)">الفئات</h2></div>
     <div class="hct">${CATS.map(c=>`<div class="hcc" data-act="cat" data-cat="${c.id}"><div class="hcc-ic" style="background:${c.bg}"><span>${c.i}</span></div><span style="color:${c.tc}">${c.n}</span></div>`).join('')}</div>
     <div class="qa">
       <div class="qa-i" data-act="nav" data-nav="myHome"><div class="qa-ic">🏠</div><div class="qa-t">بيتي</div></div>
       <div class="qa-i" data-act="nav" data-nav="passport"><div class="qa-ic">📋</div><div class="qa-t">الباسسبورت</div></div>
       <div class="qa-i" data-act="scan-qr"><div class="qa-ic">📷</div><div class="qa-t">مسح QR</div></div>
+    </div>
+    <div style="margin-top:16px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;color:var(--ink)">🔮 اقتراحات حرفة</h3><span style="font-size:10px;color:var(--sl2);font-weight:600">من باسبورت صيانتك</span></div>
+      <div class="pred-card" data-act="pred-warn"><div class="pi">🌡️</div><div><div class="pt">المكيف محتاج صيانة — متوقع للاستخدام</div><div class="ps">آخر صيانة من أكتر من 3 شهور · تقييم Red</div></div></div>
+      <div class="pred-card" data-act="pred-warn"><div class="pi">💧</div><div><div class="pt">سخان الماء — فلتر يحتاج تغيير</div><div class="ps">الحماية 27% · تغيير الفلتر متوقع</div></div></div>
+      <div class="pred-card" data-act="pred-warn"><div class="pi">⚡</div><div><div class="pt">فحص كهرباء شامل — متوقع قريب</div><div class="ps">نصيحة أمان · فحص مجاني بكوبون حرفة</div></div></div>
     </div>
     ${S.hist.length?`<div style="margin-top:16px"><h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;color:var(--ink);margin-bottom:10px">آخر شغلة</h3>${S.hist.slice(-1).map(j=>`<div class="cd" style="padding:14px;display:flex;align-items:center;gap:12px"><div style="width:44px;height:44px;border-radius:12px;background:${j.tech.c};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:16px;font-family:'Plus Jakarta Sans',sans-serif">${j.tech.name[0]}</div><div style="flex:1"><b style="font-size:13px;font-weight:700;color:var(--ink)">${j.title}</b><small style="font-size:11px;color:var(--sl);font-weight:500;display:block;margin-top:2px">${j.tech.name} · اليوم</small></div><span class="badge badge-g">✅ مكتمل</span></div>`).join('')}</div>`:''}
   </div><div style="height:20px"></div>`;
@@ -508,6 +551,7 @@ function rTechSel(){
   return `<div style="padding:16px 20px">
   <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px"><div class="ovb" data-act="back-home">→</div><div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">اختار الفني 🔧</h1><p style="font-size:12px;color:var(--sl);margin-top:2px">${TECHS.length} فنيين متاحين — الأقرب ليك</p></div></div>
   ${TECHS.map((t,i)=>`<div class="tc ${i===0?'sel':''}" data-act="tpk" data-i="${i}"><div class="tc-top"><div class="tc-av" style="background:${t.c}">${t.name[0]}${t.name.split(' ')[1]?.[0]||''}</div><div class="tc-nf"><div class="n">${t.name} ${t.v?'<span class="badge badge-g" style="font-size:9px">✓ موثق</span>':''}</div><div class="sp">${t.skill} · ${t.ex}</div><div class="m"><span>📍 ${t.d} كم</span><span>⏱️ ${t.e} د</span><span>🔨 ${t.sm} شغلة</span></div></div></div><div class="tc-bot"><div><span class="badge badge-t" style="font-size:10px">🎯 ${t.p}% تطابق</span><div style="font-size:10px;color:var(--sl);margin-top:4px">متوسط أسعار الحي: 450-700 ج.م</div></div><div class="tc-pr">350-700 <small>ج.م</small></div></div></div>`).join('')}
+  <div class="match-reason" data-act="view-tech" data-i="0" style="cursor:pointer;margin-bottom:8px">🎯 ليه أقرب تطابق؟ — اضغط عشان تتفهم قرار حرفة</div>
   <button class="btn bp" data-act="confirm-tech" style="margin-top:6px">✅ تأكيد الحجز</button></div>`;
 }
 
@@ -697,7 +741,93 @@ function rProfile(){
   <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">${S.user.name}</h2>
   <p style="font-size:13px;color:var(--sl);margin-top:2px">${S.user.phone}</p></div>
   <div style="display:flex;margin:0 20px;border-radius:var(--r);overflow:hidden;border:1px solid var(--surface3)"><div style="flex:1;padding:14px;text-align:center;border-left:1px solid var(--surface3)"><b style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink);display:block">${S.hist.length}</b><small style="font-size:11px;color:var(--sl);font-weight:600">شغلة</small></div><div style="flex:1;padding:14px;text-align:center;border-left:1px solid var(--surface3)"><b style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink);display:block">4</b><small style="font-size:11px;color:var(--sl);font-weight:600">فني</small></div><div style="flex:1;padding:14px;text-align:center"><b style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink);display:block">2</b><small style="font-size:11px;color:var(--sl);font-weight:600">ضمان</small></div></div>
-  <div style="padding:0 20px;margin-top:14px">${[{i:'📋',bg:'var(--blueBg)',t:'باسسبورت الصيانة',s:'سجل الصيانة',act:'nav',nav:'passport'},{i:'📅',bg:'var(--purpleBg)',t:'حجوزاتي',s:'السجل الكامل',act:'nav',nav:'bookings'},{i:'🛡️',bg:'var(--amberLight)',t:'ضماناتي',s:'2 نشط',act:'nav',nav:'warranties'},{i:'🏠',bg:'var(--greenBg)',t:'بيتي',s:'الأجهزة والغرف',act:'nav',nav:'myHome'},{i:'📊',bg:'var(--blueBg)',t:'صحة البيت',s:'78/100',act:'nav',nav:'healthScore'},{i:'🚪',bg:'#fef2f2',t:'خروج',s:'من الحساب',act:'logout'}].map(m=>`<div style="display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid var(--surface2);cursor:pointer" data-act="${m.act}" ${m.nav?`data-nav="${m.nav}"`:''}><div style="width:40px;height:40px;border-radius:12px;background:${m.bg};display:flex;align-items:center;justify-content:center;font-size:18px">${m.i}</div><div style="flex:1"><b style="font-size:14px;font-weight:700;color:var(--ink)">${m.t}</b><small style="font-size:11px;color:var(--sl);display:block;margin-top:1px">${m.s}</small></div><span style="color:var(--sl2);font-size:16px">←</span></div>`).join('')}</div>`;
+  <div style="padding:0 20px;margin-top:14px">${[{i:'📋',bg:'var(--blueBg)',t:'باسسبورت الصيانة',s:'سجل الصيانة',act:'nav',nav:'passport'},{i:'📅',bg:'var(--purpleBg)',t:'حجوزاتي',s:'السجل الكامل',act:'nav',nav:'bookings'},{i:'🛡️',bg:'var(--amberLight)',t:'ضماناتي',s:'2 نشط',act:'nav',nav:'warranties'},{i:'🏠',bg:'var(--greenBg)',t:'بيتي',s:'الأجهزة والغرف',act:'nav',nav:'myHome'},{i:'📊',bg:'var(--blueBg)',t:'صحة البيت',s:'78/100',act:'nav',nav:'healthScore'},{i:'⭐',bg:'var(--purpleBg)',t:'الفنيين المفضلين',s:'وفّر وقتك',act:'nav',nav:'savedProviders'},{i:'🚪',bg:'#fef2f2',t:'خروج',s:'من الحساب',act:'logout'}].map(m=>`<div style="display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid var(--surface2);cursor:pointer" data-act="${m.act}" ${m.nav?`data-nav="${m.nav}"`:''}><div style="width:40px;height:40px;border-radius:12px;background:${m.bg};display:flex;align-items:center;justify-content:center;font-size:18px">${m.i}</div><div style="flex:1"><b style="font-size:14px;font-weight:700;color:var(--ink)">${m.t}</b><small style="font-size:11px;color:var(--sl);display:block;margin-top:1px">${m.s}</small></div><span style="color:var(--sl2);font-size:16px">←</span></div>`).join('')}</div>`;
+}
+
+/* ============ MESSAGES ============ */
+function rMessages(){
+  return `<div style="padding:16px 20px"><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:var(--ink);margin-bottom:16px">💬 الرسائل</h1>
+  <div style="margin-bottom:14px"><input type="text" placeholder="🔍 بحث في المحادثات..." style="width:100%;padding:12px 16px;border-radius:var(--rs);border:1px solid var(--surface3);font-size:13px;font-family:'Cairo',sans-serif;outline:none;background:var(--surface)"></div>
+  ${[
+    {n:'حرفة — الدعم',av:'🔧',c:'linear-gradient(135deg,var(--amber),var(--amber2))',msg:'مرحبًا يا حسن! كيف نقدر نساعدك؟',t:'الآن',un:true},
+    {n:S.tech?.name||'أحمد حسن',av:S.tech?.name?.[0]||'أ',c:S.tech?.c||'linear-gradient(135deg,#2563eb,#1d4ed8)',msg:'أنا في الطريق ليك، هوصل خلال 9 دقايق',t:'5 دق',un:false},
+    {n:'محمد علي — سباكة',av:'م',c:'linear-gradient(135deg,#7c3aed,#6d28d9)',msg:'تمام، هكون موجود الساعة 2',t:'أمس',un:false}
+  ].map(m=>`<div class="msg-item" data-act="chat-tech"><div class="msg-av" style="background:${m.c}">${m.av}</div><div class="msg-nf"><div class="mn"><span>${m.n}</span><span class="mt">${m.t}</span></div><div class="mp" style="${m.un?'color:var(--ink);font-weight:700':''}">${m.msg}</div></div>${m.un?'<div style="width:8px;height:8px;border-radius:50%;background:var(--blue);flex-shrink:0"></div>':''}</div>`).join('')}
+  </div>`;
+}
+
+/* ============ PROVIDER PROFILE ============ */
+function rProviderProfile(){
+  const t=S.tech||TECHS[0];
+  return `<div style="padding:16px 20px">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><div class="ovb" data-act="back-home">→</div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--ink)">ملف الفني</h1></div>
+  <div style="text-align:center;margin-bottom:16px"><div style="width:80px;height:80px;border-radius:24px;background:${t.c};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:30px;margin:0 auto;font-family:'Plus Jakarta Sans',sans-serif">${t.name[0]}${t.name.split(' ')[1]?.[0]||''}</div>
+  <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--ink);margin-top:10px">${t.name}</h2>
+  <p style="font-size:12px;color:var(--sl)">${t.skill} · ${t.ex}</p>
+  <div style="display:flex;justify-content:center;gap:16px;margin-top:10px"><span class="badge badge-g">✓ موثق</span><span class="badge badge-t">🎯 ${t.p}% تطابق</span></div></div>
+  <div style="display:flex;gap:8px;margin-bottom:16px">
+    <div class="cd" style="flex:1;padding:12px;text-align:center"><b style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--amber);display:block">⭐ ${t.r}</b><small style="font-size:10px;color:var(--sl)">${t.rv} تقييم</small></div>
+    <div class="cd" style="flex:1;padding:12px;text-align:center"><b style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--ink);display:block">${t.d} كم</b><small style="font-size:10px;color:var(--sl)">المسافة</small></div>
+    <div class="cd" style="flex:1;padding:12px;text-align:center"><b style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--green);display:block">${t.e} د</b><small style="font-size:10px;color:var(--sl)"> وقت الوصول</small></div>
+  </div>
+  <div class="cd" style="margin-bottom:10px;padding:14px"><div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px">🎯 لماذا أحمد؟</div>
+  <div class="match-reason">✓ أكمل ${t.sm} شغلة مشابهة<br>✓ موثق ومعتمد من حرفة<br>✓ متاح النهارده<br>✓ على بعد ${t.d} كم منك<br>✓ تقييم ممتاز من عملاء آخرين</div></div>
+  <div class="cd" style="margin-bottom:10px;padding:14px"><div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px">📊 ملخص الأداء</div>
+  <div class="iv"><span class="l">معدل الإنجاز</span><span class="v" style="color:var(--green)">98%</span></div>
+  <div class="iv"><span class="l">متوسط وقت الاستجابة</span><span class="v">12 دقيقة</span></div>
+  <div class="iv"><span class="l">معدل الرضا</span><span class="v" style="color:var(--green)">4.9/5</span></div>
+  <div class="iv"><span class="l">ضمانات مقدمة</span><span class="v">30 يوم</span></div></div>
+  <div class="cd" style="margin-bottom:10px;padding:14px"><div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px">📝 آخر المراجعات</div>
+  ${[{n:'سارة أحمد',r:5,t:'شاطر جدًا وشرحلي كل حاجة. شغل نظيف وسعر مناسب',d:'منذ 3 أيام'},{n:'محمد فتحي',r:5,t:'وصل في الوقت وخلص بسرعة. أنصح بيه',d:'منذ أسبوع'},{n:'نورا حسن',r:4,t:'كويس بس التأخير شوية. بس الشغل حلو',d:'منذ أسبوعين'}].map(rv=>`<div style="padding:10px 0;border-bottom:1px solid var(--surface2)"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><b style="font-size:12px;color:var(--ink)">${rv.n}</b><span style="font-size:11px;color:var(--sl)">${rv.d}</span></div><div style="font-size:11px;color:var(--amber);margin-bottom:2px">${'⭐'.repeat(rv.r)}</div><p style="font-size:11px;color:var(--sl);line-height:1.5">${rv.t}</p></div>`).join('')}</div>
+  <div style="display:flex;gap:10px"><button class="btn bo" style="flex:1" data-act="chat-tech">💬 محادثة</button><button class="btn bp" style="flex:2" data-act="confirm-tech">📅 احجز الآن</button></div></div>`;
+}
+
+/* ============ INSPECTION ============ */
+function rInspection(){
+  const t=S.tech||TECHS[0];
+  const items=[
+    {i:'❄️',n:'فحص الوحدة الداخلية',s:'检查 الترشيح والتبريد',st:'done'},
+    {i:'💧',n:'فحص خط الصرف',s:'تشخيص التسرب',st:'done'},
+    {i:'⚡',n:'فحص التوصيلات الكهربائية',s:'التأكد من السلامة',st:'done'},
+    {i:'🌡️',n:'قياس درجة التبريد',s:'اختبار الأداء العام',st:'active'},
+    {i:'🔊',n:'فحص الأصوات الغريبة',s:'التأكد من عدم وجود اهتزاز',st:'pending'}
+  ];
+  return `<div style="padding:16px 20px">
+  <div style="text-align:center;margin-bottom:16px"><div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--amber),var(--amber2));display:flex;align-items:center;justify-content:center;margin:0 auto;box-shadow:0 6px 20px rgba(217,119,6,.25);font-size:26px">🔍</div>
+  <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--ink);margin-top:10px">الفحص جاري...</h1>
+  <p style="font-size:12px;color:var(--sl);margin-top:3px">${t.name} بيفحص Problem</p></div>
+  <div class="cd" style="margin-bottom:12px;padding:14px">${items.map(it=>`<div class="insp-item"><div class="insp-ic" style="background:${it.st==='done'?'var(--greenBg)':it.st==='active'?'var(--amberBg)':'var(--surface)'}">${it.i}</div><div style="flex:1"><b style="font-size:12px;font-weight:700;color:var(--ink)">${it.n}</b><small style="font-size:10px;color:var(--sl);display:block">${it.s}</small></div><div class="insp-st" style="background:${it.st==='done'?'var(--green)':it.st==='active'?'var(--amber)':'var(--surface3)'};color:${it.st==='pending'?'var(--sl2)':'#fff'}">${it.st==='done'?'✓':it.st==='active'?'⏳':'○'}</div></div>`).join('')}</div>
+  <div class="cd" style="padding:14px;background:var(--blueBg);border-color:var(--blueLight)"><div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:6px">🤖 تشخيص حرفة الذكي</div>
+  <div style="font-size:11px;color:var(--ink3);line-height:1.6">بناءً على الفحص: انسداد خط صرف + نقص فريون R410A. يحتاج تنظيف شامل وشحن فريون. القطع المطلوبة: ختم نحاسي + فريون R410A</div></div>
+  <button class="btn bp" data-act="to-service" style="margin-top:14px">🔧 بدء الشغل</button></div>`;
+}
+
+/* ============ SERVICE PROGRESS ============ */
+function rServiceProgress(){
+  const t=S.tech||TECHS[0];
+  return `<div style="padding:16px 20px">
+  <div style="text-align:center;margin-bottom:16px"><div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--blue),var(--blue2));display:flex;align-items:center;justify-content:center;margin:0 auto;box-shadow:0 6px 20px rgba(37,99,235,.25);font-size:26px">🔧</div>
+  <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--ink);margin-top:10px">الشغل جاري...</h1>
+  <p style="font-size:12px;color:var(--sl);margin-top:3px">${t.name} بينفّذ الأعمال</p></div>
+  <div class="cd" style="margin-bottom:12px;padding:14px">
+  <div class="iv"><span class="l">المهمة الحالية</span><span class="v">شحن فريون R410A</span></div>
+  <div class="iv"><span class="l">التقدم</span><span class="v" style="color:var(--blue)">75%</span></div>
+  <div style="margin-top:8px"><div class="hs-bar"><div class="hs-fill" style="width:75%;background:var(--blue)"></div></div></div>
+  <div class="iv"><span class="l">الوقت المتبقي</span><span class="v">~15 دقيقة</span></div>
+  <div class="iv"><span class="l">الأعمال المنجزة</span><span class="v" style="color:var(--green)">✓ تنظيف صرف · ✓ فحص كهرباء</span></div></div>
+  <div class="cd" style="padding:14px"><div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px">🔩 القطع المستخدمة</div>
+  <div class="iv"><span class="l">فريون R410A</span><span class="v" style="color:var(--green)">أصلية ✓</span></div>
+  <div class="iv"><span class="l">ختم نحاسي</span><span class="v" style="color:var(--green)">أصلية ✓</span></div>
+  <div style="margin-top:8px;padding:8px;background:var(--greenBg);border-radius:var(--rx);font-size:10px;color:var(--green);font-weight:600">🛡️ القطع معتمدة ومدّونة في الباسبورت</div></div>
+  <div style="display:flex;gap:10px;margin-top:10px"><button class="btn bo" style="flex:1" data-act="chat-tech">💬 محادثة</button><button class="btn bp" style="flex:2" data-act="to-report">📋 عرض التقرير</button></div></div>`;
+}
+
+/* ============ SAVED PROVIDERS ============ */
+function rSavedProviders(){
+  return `<div style="padding:16px 20px">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><div class="ovb" data-act="back-home">→</div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">⭐ الفنيين المفضلين</h1></div>
+  ${TECHS.filter(t=>t.v).map((t,i)=>`<div class="sv-item" data-act="tpk" data-i="${i}"><div class="sv-av" style="background:${t.c}">${t.name[0]}${t.name.split(' ')[1]?.[0]||''}</div><div style="flex:1"><b style="font-size:14px;font-weight:700;color:var(--ink)">${t.name}</b><small style="font-size:11px;color:var(--sl);display:block">${t.skill} · ⭐ ${t.r} · ${t.rv} تقييم</small><div style="display:flex;gap:6px;margin-top:4px"><span class="badge badge-g" style="font-size:9px">✓ موثق</span><span style="font-size:10px;color:var(--sl2)">${t.d} كم</span></div></div><div style="text-align:left"><button class="btn bp bs" data-act="confirm-tech">احجز</button></div></div>`).join('')}
+  <button class="btn bo" data-act="back-home" style="margin-top:10px">← الرئيسية</button></div>`;
 }
 
 /* ============ OTP INIT ============ */
@@ -735,19 +865,25 @@ document.addEventListener('click',e=>{
     'ai-voice':()=>{uS('🎤 (تسجيل صوتي)المكيف بينقط مية');lat(800,()=>{aiS('فهمتك — المكيف بينقط مية. خليني أحللها.');lat(600,()=>{showAC();S.cs=1;});});},
     'ai-send':()=>{const inp=$('#aiIn');if(!inp||!inp.value.trim())return;uS(inp.value);inp.value='';lat(600,()=>{aiS('فهمتك! خليني أحلل المشكلة.');lat(600,()=>{showAC();S.cs=1;});});},
     'chip':()=>chipH(+t.dataset.i),'ai-done':()=>{closeAI();go('schedule');},
+    'media':()=>{const ty=t.dataset.type;const lbl=ty==='photo'?'صورة':ty==='video'?'فيديو':'تسجيل صوتي';uS(`📎 ${lbl} أُرفقت`);lat(600,()=>aiS('استلمت الملف! خليني أفحصه بالذكاء الاصطناعي...'));lat(1500,()=>{addAn(`<div class="an"><div class="ai-vis" style="height:110px;display:flex;align-items:center;justify-content:center"><div class="ai-vis-label">🤖 فحص ذكي جاري</div><span style="font-size:34px;opacity:.35">${ty==='photo'?'📷':ty==='video'?'🎥':'🎤'}</span></div><div class="an-h"><div class="an-ic" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)">🔍</div><div><b>تحليل الملف — تكييف سبليت</b><small>فحص مرئي · ثقة 91%</small></div></div><div class="an-g"><div class="an-c"><small>📋 الظاهر</small><b>تصريف أمامي أسفل الوحدة</b></div><div class="an-c"><small>⚡ الإلحاح</small><b>متوسط</b></div><div class="an-c" style="grid-column:1/-1"><small>🔧 التشخيص</small><b>انسداد خط الصرف + نقص فريون R410A</b></div></div><div class="an-n">⚠️ الفحص استرشادي — الفني هيؤكد على الأرض.</div></div>`);S.cs=1;lat(500,()=>showCh(['من النهارده','من يومين','من أسبوع']));});},
+    'pred-warn':()=>{toast('تم تجهيز طلب الصيانة الوقائية','🔮');go('schedule');},
+    'nav-resume':()=>go('tracking'),
+    'view-tech':()=>{S.tech=TECHS[(+t.dataset.i)||0];go('providerProfile');},
     'cat':()=>{const c=t.dataset.cat;S.sc=c==='el'?'safety':c==='ac'?'ac':'wash';openAI(S.sc);},
     'dpick':()=>{$$('.dc').forEach(x=>x.classList.remove('sel'));t.classList.add('sel');},
     'tsl':()=>{if(t.classList.contains('un'))return;$$('.ts').forEach(x=>x.classList.remove('sel'));t.classList.add('sel');},
     'to-tech':()=>go('techSelect'),
     'tpk':()=>{$$('.tc').forEach(x=>x.classList.remove('sel'));t.classList.add('sel');S.tech=TECHS[+t.dataset.i];},
     'confirm-tech':()=>{S.tech=S.tech||TECHS[0];go('quoteApproval');},
-    'approve-quote':()=>go('tracking'),'reject-quote':()=>{toast('تم رفض العرض','❌');go('home');},
-    'verify-otp':()=>go('report'),'to-rating':()=>go('rating'),
+    'approve-quote':()=>{S.job=S.job||{tech:S.tech||TECHS[0],title:'صيانة مكيف سبليت'};go('tracking');},'reject-quote':()=>{toast('تم رفض العرض','❌');go('home');},
+    'verify-otp':()=>go('inspection'),'to-service':()=>go('serviceProgress'),'to-report':()=>go('report'),'to-rating':()=>go('rating'),
     'rtag':()=>t.classList.toggle('sel'),'to-invoice':()=>go('invoice'),
     'ppk':()=>{$$('.tc,.cd').forEach(x=>x.classList.remove('sel'));t.classList.add('sel');},
     'pay-now':()=>go('warranty'),
     'finish':()=>{S.hist.push(S.job);S.job=null;go('home');toast('الرحلة اكتملت 🎉');},
-    'chat-tech':()=>toast('فتح المحادثة مع الفني'),'scan-qr':()=>toast('📷 فتح الكاميرا لمسح QR'),
+    'chat-tech':()=>openOv(`<div style="padding:6px 0"><div class="bub bub-a">أهلاً يا حسن 👋 جاهز بشغلي. هكون عندك خلال 9 دقايق.</div><div class="bub bub-u">تمام، استنّاك 👌 العنوان: فيلا 12، التجمع الخامس</div><div class="bub bub-a">وصلت! أبواب تانية السكة ⏱️</div><div style="display:flex;gap:8px;margin-top:12px"><input type="text" placeholder="اكتب رسالة..." style="flex:1;padding:10px 14px;border:1px solid var(--surface3);border-radius:var(--rs);font-size:12px;font-family:'Cairo',sans-serif;outline:none"><div class="ovb" style="background:var(--blue);color:#fff;border:none;font-size:15px" data-act="chat-send">➤</div></div></div>`,'💬 المحادثة',(S.tech||TECHS[0]).name),
+    'chat-send':()=>toast('أُرسلت الرسالة ✅📨'),
+    'scan-qr':()=>toast('📷 فتح الكاميرا لمسح QR'),
     'do-login':()=>doLogin(),'go-signup':()=>showAuth('authSignup'),
     'do-signup':()=>showAuth('authOtp'),'verify-auth-otp':()=>doLogin(),'go-login':()=>showAuth('authLogin'),
     'logout':()=>{S.authed=false;S.scr='splash';$('#appWrap').style.display='none';showAuth('authLogin');toast('تم تسجيل الخروج 👋','👋');},
