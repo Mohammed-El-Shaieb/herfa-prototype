@@ -271,12 +271,7 @@ body{display:flex;align-items:center;justify-content:center}
 .ai-f input{flex:1;padding:12px 16px;border-radius:12px;border:1px solid var(--surface3);font-size:13px;font-weight:500;font-family:'Cairo',sans-serif;outline:none;background:var(--surface)}
 .ai-f input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
 
-/* ============ FLOW STRIP ============ */
-.fs{position:absolute;top:56px;left:50%;transform:translateX(-50%);z-index:200;display:flex;gap:4px;background:var(--primary);padding:5px 10px;border-radius:999px;box-shadow:0 8px 32px rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:.3s;white-space:nowrap}
-.fs.show{opacity:1;pointer-events:auto}
-.fsi{display:flex;align-items:center;gap:2px;font-size:9px;font-weight:600;color:rgba(255,255,255,.35);padding:3px 7px;border-radius:999px;transition:.2s}
-.fsi.done{color:#6ee7b7}
-.fsi.now{color:var(--amber2);background:rgba(217,119,6,.15)}
+/* ============ FLOW STRIP (removed) ============ */
 
 /* ============ HEALTH BAR ============ */
 .hs-bar{height:8px;border-radius:99px;background:var(--surface3);overflow:hidden;margin:8px 0}
@@ -365,7 +360,6 @@ body{display:flex;align-items:center;justify-content:center}
   <div id="appWrap" style="display:none;position:absolute;inset:0;flex-direction:column">
     <div class="sb"><span>9:41</span><div class="ic">📶 🔋</div></div>
     <div class="bdy">
-      <div class="fs" id="fs"></div>
       <div class="vw" id="vw"></div>
       <div class="ai" id="aiS">
         <div class="ai-h">
@@ -409,9 +403,6 @@ const CATS=[
 
 let tt;
 function toast(m,i='✅'){const t=$('#toast');t.innerHTML=`${i} ${m}`;t.classList.add('show');clearTimeout(tt);tt=lat(2600,()=>t.classList.remove('show'));}
-const FSS=['الرئيسية','وصف المشكلة','اختيار الفني','التتبع','الفحص','التقييم','الفاتورة','الضمان'];
-function setFlow(i){const f=$('#fs');if(!f)return;f.classList.add('show');f.innerHTML=FSS.map((s,j)=>`<span class="fsi ${j<i?'done':j===i?'now':''}">${j<i?'✅':j===i?'🔵':'⚪'} ${s}</span>`).join('');}
-function hideFlow(){$('#fs')?.classList.remove('show');}
 function openOv(h,t='',s=''){const r=$('#ovr');r.innerHTML=`<div class="ov"><div class="ovh"><div class="ovb" data-act="ov-back">→</div><div class="ovt">${t}${s?`<small>${s}</small>`:''}</div></div><div class="ovc" id="ovc">${h}</div></div>`;r.classList.add('open');S.ov=true;}
 function closeOv(){$('#ovr')?.classList.remove('open');$('#ovr').innerHTML='';S.ov=false;}
 
@@ -419,7 +410,7 @@ const TABS=[{id:'home',l:'الرئيسية',i:'🏠'},{id:'bookings',l:'الحج
 function renderNav(){  $('#bn').innerHTML=TABS.map(t=>`<div class="b ${t.id===S.scr||['schedule','techSelect','tracking','arrival','report','rating','invoice','warranty','myHome','passport','healthScore','quoteApproval','warranties'].includes(S.scr)&&t.id==='home'?'on':''}" data-act="nav" data-nav="${t.id}"><span class="bn-ic">${t.i}</span>${t.b?`<span class="bdg">${t.b}</span>`:''}<span>${t.l}</span></div>`).join('');}
 
 function render(){
-  const v=$('#vw');v.scrollTop=0;hideFlow();
+  const v=$('#vw');v.scrollTop=0;
   const R={home:rHome,bookings:rBookings,profile:rProfile,schedule:rSchedule,techSelect:rTechSel,tracking:rTrack,arrival:rArrival,report:rReport,rating:rRating,invoice:rInvoice,warranty:rWarranty,myHome:rMyHome,passport:rPassport,healthScore:rHealthScore,quoteApproval:rQuoteApproval,warranties:rWarranties};
   v.innerHTML=(R[S.scr]||R.home)();renderNav();
 }
@@ -501,7 +492,6 @@ function showWA(){
 
 /* ============ SCHEDULE ============ */
 function rSchedule(){
-  setFlow(1);
   const days=['أحد','اثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'];
   const months=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
   const today=new Date();const dates=[];
@@ -515,7 +505,6 @@ function rSchedule(){
 
 /* ============ TECH SELECT ============ */
 function rTechSel(){
-  setFlow(2);
   return `<div style="padding:16px 20px">
   <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px"><div class="ovb" data-act="back-home">→</div><div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">اختار الفني 🔧</h1><p style="font-size:12px;color:var(--sl);margin-top:2px">${TECHS.length} فنيين متاحين — الأقرب ليك</p></div></div>
   ${TECHS.map((t,i)=>`<div class="tc ${i===0?'sel':''}" data-act="tpk" data-i="${i}"><div class="tc-top"><div class="tc-av" style="background:${t.c}">${t.name[0]}${t.name.split(' ')[1]?.[0]||''}</div><div class="tc-nf"><div class="n">${t.name} ${t.v?'<span class="badge badge-g" style="font-size:9px">✓ موثق</span>':''}</div><div class="sp">${t.skill} · ${t.ex}</div><div class="m"><span>📍 ${t.d} كم</span><span>⏱️ ${t.e} د</span><span>🔨 ${t.sm} شغلة</span></div></div></div><div class="tc-bot"><div><span class="badge badge-t" style="font-size:10px">🎯 ${t.p}% تطابق</span><div style="font-size:10px;color:var(--sl);margin-top:4px">متوسط أسعار الحي: 450-700 ج.م</div></div><div class="tc-pr">350-700 <small>ج.م</small></div></div></div>`).join('')}
@@ -539,7 +528,7 @@ function rQuoteApproval(){
 
 /* ============ TRACKING ============ */
 function rTrack(){
-  setFlow(3);const t=S.tech||TECHS[0];
+  const t=S.tech||TECHS[0];
   S.job={id:'HX-'+rand(10000,99999),title:S.sc==='ac'?'إصلاح مكيف':S.sc==='safety'?'صيانة كهرباء':'إصلاح غسالة',tech:t};
   return `<div style="padding:16px 20px"><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink);margin-bottom:14px">🗺️ الفني في الطريق</h1>
   <div class="mp"><div id="tm"></div>
@@ -550,7 +539,6 @@ function rTrack(){
 
 /* ============ ARRIVAL ============ */
 function rArrival(){
-  setFlow(4);
   return `<div style="padding:16px 20px;text-align:center"><div class="sr anim">🧑‍🔧</div>
   <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink);margin-top:16px">وصل الفني! 🎉</h1>
   <p style="font-size:13px;color:var(--sl);margin-top:4px">${S.tech?.name||'أحمد حسن'} وصل — اتأكد بالرمز</p>
@@ -563,7 +551,6 @@ function rArrival(){
 
 /* ============ REPORT ============ */
 function rReport(){
-  setFlow(5);
   return `<div style="padding:16px 20px">
   <div style="text-align:center;margin-bottom:16px"><span class="badge badge-g" style="padding:5px 14px">✅ تم بنجاح</span><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--ink);margin-top:8px">تقرير الخدمة ✓</h1></div>
   <div class="cd"><div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><div style="width:42px;height:42px;border-radius:12px;background:${S.tech?.c||'linear-gradient(135deg,#2563eb,#1d4ed8)'};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:15px;font-family:'Plus Jakarta Sans',sans-serif">${S.tech?.name?.[0]||'أ'}</div><div><b style="font-size:13px;font-weight:700;color:var(--ink)">${S.tech?.name||'أحمد حسن'}</b><small style="font-size:11px;color:var(--sl);display:block">${S.tech?.skill||'فني تكييف'}</small></div></div>
@@ -580,7 +567,6 @@ function rReport(){
 
 /* ============ RATING ============ */
 function rRating(){
-  setFlow(6);
   return `<div style="padding:16px 20px;text-align:center">
   <div style="width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,var(--amber),var(--amber2));display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:0 8px 24px rgba(217,119,6,.25);font-size:30px">📝</div>
   <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--ink)">قيّم الخدمة ⭐</h1>
@@ -593,7 +579,6 @@ function rRating(){
 
 /* ============ INVOICE ============ */
 function rInvoice(){
-  setFlow(7);
   return `<div style="padding:16px 20px">
   <div style="text-align:center;margin-bottom:16px"><span class="badge badge-gd" style="padding:5px 14px">🧾 فاتورة</span><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--ink);margin-top:8px">#${S.job?.id||'HX-4821'}</h1></div>
   <div class="cd" style="margin-bottom:10px">
