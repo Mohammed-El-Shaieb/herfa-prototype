@@ -330,6 +330,20 @@ body{display:flex;align-items:center;justify-content:center}
 .rev-item:last-child{border-bottom:none}
 .acc-badge{--bg:initial;--fg:initial;display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:4px 10px;border-radius:8px;background:#ecfdf5;color:#059669}
 .rej-badge{--bg:initial;--fg:initial;display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:4px 10px;border-radius:8px;background:#fef2f2;color:#e11d48}
+.scan-wrap{display:flex;flex-direction:column;align-items:center;padding:0 20px}
+.scan-map{width:100%;aspect-ratio:4/3;border-radius:var(--rs);background:linear-gradient(135deg,#eff6ff,#e0f2fe);position:relative;overflow:hidden;margin-bottom:20px;border:2px solid var(--blue);box-shadow:0 0 30px rgba(37,99,235,.15)}
+.scan-dot{position:absolute;top:50%;left:50%;width:14px;height:14px;background:var(--blue);border:3px solid #fff;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 2px 8px rgba(37,99,235,.4);z-index:5}
+.scan-ring{position:absolute;top:50%;left:50%;border:2px solid rgba(37,99,235,.25);border-radius:50%;transform:translate(-50%,-50%);animation:scanPulse 2s ease-out infinite}
+.scan-ring:nth-child(2){animation-delay:.5s;border-color:rgba(37,99,235,.18)}
+.scan-ring:nth-child(3){animation-delay:1s;border-color:rgba(37,99,235,.12)}
+.scan-ring:nth-child(4){animation-delay:1.5s;border-color:rgba(37,99,235,.06)}
+@keyframes scanPulse{0%{width:0;height:0;opacity:1}100%{width:300px;height:300px;opacity:0}}
+.scan-line{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue),transparent);animation:scanHoriz 2s linear infinite;opacity:.5}
+@keyframes scanHoriz{0%{top:0}100%{top:100%}}
+.scan-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(37,99,235,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.06) 1px,transparent 1px);background-size:30px 30px}
+.scan-techs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+.scan-tech-chip{display:flex;align-items:center;gap:6px;background:var(--w);border:1px solid var(--surface2);border-radius:var(--rs);padding:8px 12px;animation:fadeSlideUp .4s ease both;box-shadow:var(--shadow)}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .ai-vis{position:relative;border-radius:var(--rs);overflow:hidden;background:var(--surface2);margin:8px 0}
 .ai-vis::after{content:'';position:absolute;left:0;right:0;height:2px;background:var(--blue);box-shadow:0 0 8px var(--blue);animation:scanLine 2s linear infinite;opacity:.7}
 .ai-vis-label{position:absolute;bottom:6px;left:6px;background:rgba(0,0,0,.6);color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:6px;z-index:1}
@@ -457,11 +471,11 @@ function openOv(h,t='',s=''){const r=$('#ovr');r.innerHTML=`<div class="ov"><div
 function closeOv(){$('#ovr')?.classList.remove('open');$('#ovr').innerHTML='';S.ov=false;}
 
 const TABS=[{id:'home',l:'الرئيسية',i:'🏠'},{id:'bookings',l:'الحجوزات',i:'📋',b:1},{id:'messages',l:'الرسائل',i:'💬'},{id:'myHome',l:'بيتي',i:'🏡'},{id:'profile',l:'حسابي',i:'👤'}];
-function renderNav(){  $('#bn').innerHTML=TABS.map(t=>`<div class="b ${t.id===S.scr||['schedule','techSelect','tracking','arrival','report','rating','invoice','warranty','myHome','passport','healthScore','quoteApproval','warranties','providerProfile','inspection','serviceProgress','savedProviders','incoming'].includes(S.scr)&&t.id==='home'?'on':''}" data-act="nav" data-nav="${t.id}"><span class="bn-ic">${t.i}</span>${t.b?`<span class="bdg">${t.b}</span>`:''}<span>${t.l}</span></div>`).join('');}
+function renderNav(){  $('#bn').innerHTML=TABS.map(t=>`<div class="b ${t.id===S.scr||['schedule','scanning','techSelect','tracking','arrival','report','rating','invoice','warranty','myHome','passport','healthScore','quoteApproval','warranties','providerProfile','inspection','serviceProgress','savedProviders','incoming'].includes(S.scr)&&t.id==='home'?'on':''}" data-act="nav" data-nav="${t.id}"><span class="bn-ic">${t.i}</span>${t.b?`<span class="bdg">${t.b}</span>`:''}<span>${t.l}</span></div>`).join('');}
 
 function render(){
   const v=$('#vw');v.scrollTop=0;
-  const R={home:rHome,bookings:rBookings,profile:rProfile,schedule:rSchedule,techSelect:rTechSel,tracking:rTrack,arrival:rArrival,report:rReport,rating:rRating,invoice:rInvoice,warranty:rWarranty,myHome:rMyHome,passport:rPassport,healthScore:rHealthScore,quoteApproval:rQuoteApproval,warranties:rWarranties,messages:rMessages,providerProfile:rProviderProfile,inspection:rInspection,serviceProgress:rServiceProgress,savedProviders:rSavedProviders,incoming:rIncoming};
+  const R={home:rHome,bookings:rBookings,profile:rProfile,schedule:rSchedule,scanning:rScanning,techSelect:rTechSel,tracking:rTrack,arrival:rArrival,report:rReport,rating:rRating,invoice:rInvoice,warranty:rWarranty,myHome:rMyHome,passport:rPassport,healthScore:rHealthScore,quoteApproval:rQuoteApproval,warranties:rWarranties,messages:rMessages,providerProfile:rProviderProfile,inspection:rInspection,serviceProgress:rServiceProgress,savedProviders:rSavedProviders,incoming:rIncoming};
   v.innerHTML=(R[S.scr]||R.home)();renderNav();
 }
 function showAuth(id){['authLogin','authSignup','authOtp'].forEach(x=>$('#'+x)?.classList.remove('on'));const el=$('#'+id);if(el)el.classList.add('on');if(id==='authOtp')lat(200,initAuthOtp);}
@@ -563,7 +577,37 @@ function rSchedule(){
   <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px"><div class="ovb" data-act="back-home">→</div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">اختار الموعد 📅</h1></div>
   <div class="fg"><label style="display:block;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px">اليوم</label><div class="dr">${dates.map((d,i)=>`<div class="dc ${i===0?'sel':''}" data-act="dpick"><div class="d">${d.dy}</div><div class="n">${d.n}</div><div class="mn">${d.mn}</div></div>`).join('')}</div></div>
   <div class="fg" style="margin-top:14px"><label style="display:block;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px">الوقت</label><div class="tms">${['09:00','10:00','11:00','12:00','01:00','02:00','03:00','04:00','05:00'].map((t,i)=>`<div class="ts ${i===2?'sel':''} ${i===4?'un':''}" data-act="tsl">${t}</div>`).join('')}</div></div>
-  <button class="btn bp" data-act="to-tech" style="margin-top:20px">🔧 اختار الفني</button></div>`;
+  <button class="btn bp" data-act="to-scan" style="margin-top:20px">🔍 بحث عن فنيين</button></div>`;
+}
+
+/* ============ SCANNING ============ */
+function rScanning(){
+  const sc=S.scanJob||{};
+  const ti=S.tech||TECHS[0];
+  return `<div style="padding:16px 20px">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px"><div class="ovb" data-act="back-home">→</div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">🔍 جاري البحث عن فنيين</h1></div>
+  <div class="scan-wrap">
+    <div class="scan-map">
+      <div class="scan-grid"></div>
+      <div class="scan-line"></div>
+      <div class="scan-ring"></div><div class="scan-ring"></div><div class="scan-ring"></div><div class="scan-ring"></div>
+      <div class="scan-dot">🏠</div>
+    </div>
+    <div style="text-align:center;margin-bottom:16px">
+      <div style="font-size:15px;font-weight:700;color:var(--ink);margin-bottom:4px">📍 التجمع الخامس — القاهرة</div>
+      <div style="font-size:13px;color:var(--sl2);font-weight:500">bench search nearby techs</div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:12px">
+        <div style="width:8px;height:8px;background:var(--blue);border-radius:50%;animation:tp 1s ease-in-out infinite"></div>
+        <span style="font-size:13px;font-weight:600;color:var(--blue)" id="scanStatus">جاري البحث...</span>
+      </div>
+    </div>
+    <div class="scan-techs" id="scanTechs"></div>
+    <div style="text-align:center;padding:12px 20px;background:var(--surface);border-radius:var(--rs);margin-top:8px;width:100%">
+      <div style="font-size:12px;color:var(--sl2);font-weight:600">💬 الطلب</div>
+      <div style="font-size:14px;font-weight:700;color:var(--ink);margin-top:4px">${sc.title||'صيانة مكيف سبليت'} — ${sc.when||'بكرة 2 الظهر'}</div>
+      <div style="font-size:13px;color:var(--sl);margin-top:4px">📍 ${sc.location||'التجمع الخامس'}</div>
+    </div>
+  </div></div>`;
 }
 
 /* ============ TECH SELECT ============ */
@@ -962,12 +1006,13 @@ document.addEventListener('click',e=>{
     'nav-resume':()=>go('tracking'),
     'view-tech':()=>{S.tech=TECHS[(+t.dataset.i)||0];go('providerProfile');},
     'view-inc-tech':()=>{const i=+(t.dataset.i||0);const r=S.inc[i];if(r){S.tech=r.tech;}go('providerProfile');},
-    'accept-inc':()=>{let i=+(t.dataset.i||0);let r=S.inc[i]||S.inc.find(x=>x.tech===S.tech)||S.inc[0];if(!r)return;S.job={tech:r.tech,title:r.title};S.inc=S.inc.filter(x=>x!==r);S.tech=r.tech;toast('تم قبول طلب الفني 🎉','✅');go('schedule');},
+    'accept-inc':()=>{let i=+(t.dataset.i||0);let r=S.inc[i]||S.inc.find(x=>x.tech===S.tech)||S.inc[0];if(!r)return;S.job={tech:r.tech,title:r.title};S.inc=S.inc.filter(x=>x!==r);S.tech=r.tech;toast('تم قبول طلب الفني 🎉','✅');go('quoteApproval');},
     'reject-inc':()=>{const i=+(t.dataset.i||0);S.inc=S.inc.filter((_,x)=>x!==i);toast('اترفض الطلب','❌');go('incoming');},
     'reject-inc-profile':()=>{const r=S.inc.find(x=>x.tech===S.tech)||S.inc[0];if(r){S.inc=S.inc.filter(x=>x!==r);}toast('اترفض الطلب','❌');go('incoming');},
     'cat':()=>{const c=t.dataset.cat;S.sc=c==='el'?'safety':c==='ac'?'ac':'wash';openAI(S.sc);},
     'dpick':()=>{$$('.dc').forEach(x=>x.classList.remove('sel'));t.classList.add('sel');},
     'tsl':()=>{if(t.classList.contains('un'))return;$$('.ts').forEach(x=>x.classList.remove('sel'));t.classList.add('sel');},
+    'to-scan':()=>{S.scanJob={title:'صيانة مكيف سبليت',when:'بكرة 2 الظهر',location:S.user.area};S.scr='scanning';render();const st=$('#scanStatus');const tc=$('#scanTechs');if(!st||!tc)return;const found=[];const avail=[TECHS[1],TECHS[0],TECHS[2]].filter(t=>t);let idx=0;const addTech=()=>{if(idx>=avail.length)return;const t=avail[idx];found.push(t);idx++;tc.innerHTML=found.map((x,i)=>`<div class="scan-tech-chip" style="animation-delay:${i*0.15}s"><div style="width:28px;height:28px;border-radius:50%;background:${x.c};display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700">${x.name[0]}</div><div style="text-align:right"><div style="font-size:12px;font-weight:700;color:var(--ink)">${x.name}</div><div style="font-size:10px;color:var(--sl)">${x.skill}</div></div></div>`).join('');st.textContent=`تم العثور على ${found.length} فني`;};const t1=setTimeout(addTech,1200);const t2=setTimeout(addTech,2400);const t3=setTimeout(()=>{st.textContent='✅ جاهز — فنيين بعتوا عروض';S.inc=[{tech:TECHS[1],title:'تسريب في المطبخ',desc:'بيبان تسريب مياه تحت الحوض — محتاج فني سباكة',price:'قابل للتفاوض',icon:'💧',when:S.scanJob.when,req:'pl'},{tech:TECHS[0],title:S.scanJob.title,desc:'مكيف الصالة بيسخن بدل ما يبرد',price:'400 ج.م',icon:'❄️',when:S.scanJob.when,req:'ac'}];setTimeout(()=>go('incoming'),1500);},4000);},
     'to-tech':()=>go('techSelect'),
     'tpk':()=>{$$('.tc').forEach(x=>x.classList.remove('sel'));t.classList.add('sel');S.tech=TECHS[+t.dataset.i];},
     'confirm-tech':()=>{S.tech=S.tech||TECHS[0];go('quoteApproval');},
