@@ -258,6 +258,7 @@ body{display:flex;align-items:center;justify-content:center}
 .ov{position:absolute;inset:0;background:var(--w);display:flex;flex-direction:column;z-index:2}
 .ovh{display:flex;align-items:center;gap:10px;padding:54px 20px 12px;background:var(--w);border-bottom:1px solid var(--surface2);flex-shrink:0}
 .ovb{width:40px;height:40px;border-radius:var(--rx);background:var(--surface);border:1px solid var(--surface3);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-size:18px}
+.ovb svg{width:18px;height:18px;stroke:var(--ink);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .ovt{flex:1;font-size:16px;font-weight:800;color:var(--ink);font-family:'Plus Jakarta Sans',sans-serif}
 .ovt small{display:block;font-size:11px;color:var(--sl);font-weight:500;margin-top:1px}
 .ovc{flex:1;overflow-y:auto;padding:16px}
@@ -428,14 +429,14 @@ body{display:flex;align-items:center;justify-content:center}
       <div class="vw" id="vw"></div>
       <div class="ai" id="aiS">
         <div class="ai-h">
-          <div class="ovb" data-act="ai-close">⬇</div>
+          <div class="ovb" data-act="ai-close"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
           <div class="ovt">اسأل حرفة<small>المساعد الذكي — بيحل مشاكلك</small></div>
         </div>
         <div class="ai-b" id="aiB"></div>
         <div class="ai-f">
-          <div class="ovb" data-act="ai-voice" style="background:var(--blue);color:#fff;border:none;font-size:18px">🎤</div>
+          <div class="ovb" data-act="ai-voice" style="background:var(--blue);color:#fff;border:none"><svg viewBox="0 0 24 24" style="stroke:#fff;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round;width:18px;height:18px"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>
           <input type="text" placeholder="اكتب المشكلة..." id="aiIn">
-          <div class="ovb" data-act="ai-send" style="background:var(--primary);color:#fff;border:none;font-size:16px">➤</div>
+          <div class="ovb" data-act="ai-send" style="background:var(--primary);color:#fff;border:none"><svg viewBox="0 0 24 24" style="stroke:#fff;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;width:16px;height:16px"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div>
         </div>
       </div>
     </div>
@@ -491,11 +492,11 @@ function rHome(){
       <div><p style="font-size:13px;color:var(--sl);font-weight:500">مساء الخير</p><div class="ha">إيه المشكلة؟ 🛠️</div></div>
       <div style="width:40px;height:40px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center"><span style="font-size:13px;font-weight:700;color:#fff">ح</span></div>
     </div>
-    <div class="hi" data-act="open-ai"><span style="font-size:20px">💬</span><span>صِف المشكلة... أو اتكلّم</span></div>
+    <div class="hi" data-act="open-ai"><svg style="width:20px;height:20px;stroke:var(--blue);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg><span>صِف المشكلة... أو اتكلّم</span></div>
     <div class="media-btns">
-      <div class="media-btn" data-act="media" data-type="photo"><span class="mb-ic">📷</span>صورة</div>
-      <div class="media-btn" data-act="media" data-type="video"><span class="mb-ic">🎥</span>فيديو</div>
-      <div class="media-btn" data-act="media" data-type="voice"><span class="mb-ic">🎤</span>صوت</div>
+      <div class="media-btn" data-act="media" data-type="photo"><svg class="mb-ic" viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--sl2);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>صورة</div>
+      <div class="media-btn" data-act="media" data-type="video"><svg class="mb-ic" viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--sl2);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>فيديو</div>
+      <div class="media-btn" data-act="media" data-type="voice"><svg class="mb-ic" viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--sl2);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>صوت</div>
     </div>
     ${S.inc.length?`<div class="inc-banner" data-act="nav" data-nav="incoming"><div class="pd"></div><div style="flex:1"><b style="font-size:13px;font-weight:700">📩 ${S.inc[0].tech.name} بعتلك طلب</b><small style="font-size:10px;color:rgba(255,255,255,.8);display:block;margin-top:1px">${S.inc[0].title} · ${S.inc[0].when}</small></div><span style="color:rgba(255,255,255,.8);font-size:14px">←</span></div>`:''}
     ${S.job?`<div class="active-banner" data-act="nav-resume"><div style="width:44px;height:44px;border-radius:12px;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🔧</div><div style="flex:1"><b style="font-size:13px;font-weight:700;color:var(--ink)">${S.job.title}</b><small style="font-size:10px;color:var(--blue);font-weight:600;display:block;margin-top:2px">متابعة الشغلة الآن ↗</small></div><span style="color:var(--blue)">←</span></div>`:''}
@@ -575,7 +576,7 @@ function rSchedule(){
   const today=new Date();const dates=[];
   for(let i=0;i<7;i++){const d=new Date(today);d.setDate(d.getDate()+i);dates.push({dy:days[d.getDay()],n:d.getDate(),mn:months[d.getMonth()]});}
   return `<div style="padding:16px 20px">
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px"><div class="ovb" data-act="back-home">→</div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">اختار الموعد 📅</h1></div>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px"><div class="ovb" data-act="back-home"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">اختار الموعد 📅</h1></div>
   <div class="fg"><label style="display:block;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px">اليوم</label><div class="dr">${dates.map((d,i)=>`<div class="dc ${i===0?'sel':''}" data-act="dpick"><div class="d">${d.dy}</div><div class="n">${d.n}</div><div class="mn">${d.mn}</div></div>`).join('')}</div></div>
   <div class="fg" style="margin-top:14px"><label style="display:block;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px">الوقت</label><div class="tms"><div class="ts sel" data-act="tsl">⚡ الآن</div>${['09:00','10:00','11:00','12:00','01:00','02:00','03:00','04:00','05:00'].map((t,i)=>`<div class="ts ${i===4?'un':''}" data-act="tsl">${t}</div>`).join('')}</div></div>
   <button class="btn bp" data-act="to-scan" style="margin-top:20px">🔍 بحث عن فنيين</button></div>`;
@@ -586,7 +587,7 @@ function rScanning(){
   const sc=S.scanJob||{};
   const ti=S.tech||TECHS[0];
   return `<div style="padding:16px 20px">
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px"><div class="ovb" data-act="back-home">→</div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">🔍 جاري البحث عن فنيين</h1></div>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px"><div class="ovb" data-act="back-home"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">🔍 جاري البحث عن فنيين</h1></div>
   <div class="scan-wrap">
     <div class="scan-map">
       <div class="scan-grid"></div>
@@ -614,7 +615,7 @@ function rScanning(){
 /* ============ TECH SELECT ============ */
 function rTechSel(){
   return `<div style="padding:16px 20px">
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px"><div class="ovb" data-act="back-home">→</div><div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">اختار الفني 🔧</h1><p style="font-size:12px;color:var(--sl);margin-top:2px">${TECHS.length} فنيين متاحين — الأقرب ليك</p></div></div>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px"><div class="ovb" data-act="back-home"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">اختار الفني 🔧</h1><p style="font-size:12px;color:var(--sl);margin-top:2px">${TECHS.length} فنيين متاحين — الأقرب ليك</p></div></div>
   ${TECHS.map((t,i)=>`<div class="tc ${i===0?'sel':''}" data-act="tpk" data-i="${i}"><div class="tc-top"><div class="tc-av" style="background:${t.c}">${t.name[0]}${t.name.split(' ')[1]?.[0]||''}</div><div class="tc-nf"><div class="n">${t.name} ${t.v?'<span class="badge badge-g" style="font-size:9px">✓ موثق</span>':''}</div><div class="sp">${t.skill} · ${t.ex}</div><div class="m"><span>📍 ${t.d} كم</span><span>⏱️ ${t.e} د</span><span>🔨 ${t.sm} شغلة</span></div></div></div><div class="tc-bot"><div><span class="badge badge-t" style="font-size:10px">🎯 ${t.p}% تطابق</span><div style="font-size:10px;color:var(--sl);margin-top:4px">متوسط أسعار الحي: 450-700 ج.م</div></div><div class="tc-pr">350-700 <small>ج.م</small></div></div></div>`).join('')}
   <div class="match-reason" data-act="view-tech" data-i="0" style="cursor:pointer;margin-bottom:8px">🎯 ليه أقرب تطابق؟ — اضغط عشان تتفهم قرار حرفة</div>
   <button class="btn bp" data-act="confirm-tech" style="margin-top:6px">✅ تأكيد الحجز</button></div>`;
@@ -623,7 +624,7 @@ function rTechSel(){
 /* ============ QUOTE APPROVAL ============ */
 function rQuoteApproval(){
   return `<div style="padding:16px 20px">
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px"><div class="ovb" data-act="back-home">→</div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">عرض السعر 📋</h1></div>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px"><div class="ovb" data-act="back-home"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">عرض السعر 📋</h1></div>
   <div class="cd" style="margin-bottom:12px">
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><div style="width:44px;height:44px;border-radius:12px;background:${S.tech?.c||'linear-gradient(135deg,#2563eb,#1d4ed8)'};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:16px;font-family:'Plus Jakarta Sans',sans-serif">${S.tech?.name?.[0]||'أ'}</div><div><b style="font-size:14px;font-weight:700;color:var(--ink)">${S.tech?.name||'أحمد حسن'}</b><small style="font-size:12px;color:var(--sl);display:block">${S.tech?.skill||'فني تكييف'}</small></div></div>
   <div class="iv"><span class="l">زيارة الفحص</span><span class="v">100 ج.م</span></div>
@@ -724,7 +725,7 @@ function rWarranty(){
 /* ============ MY HOME ============ */
 function rMyHome(){
   return `<div style="padding:16px 20px">
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><div class="ovb" data-act="back-home">→</div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">🏠 بيتي</h1></div>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><div class="ovb" data-act="back-home"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">🏠 بيتي</h1></div>
   <div class="cd" style="padding:14px;margin-bottom:10px"><div style="display:flex;align-items:center;gap:10px"><div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#dbeafe,#93c5fd);display:flex;align-items:center;justify-content:center;font-size:20px">🏢</div><div><b style="font-size:14px;font-weight:700;color:var(--ink)">شقة التجمع الخامس</b><small style="font-size:11px;color:var(--sl);display:block">التجمع الخامس القاهرة</small></div></div></div>
   <div style="font-size:13px;font-weight:700;color:var(--ink);margin:12px 0 4px">🏥 صحة البيت: 78/100</div>
   <div class="hs-bar"><div class="hs-fill" style="width:78%;background:linear-gradient(90deg,var(--amber),var(--green))"></div></div>
@@ -742,7 +743,7 @@ function rWarranties(){
   const activeJobs=[{id:'HX-4821',title:'إصلاح مكيف',tech:TECHS[0],date:'15 سبتمبر 2026',warranty:'30 يوم',warrantyEnd:'15 أكتوبر 2026'}];
   const expiredJobs=[{id:'HX-3912',title:'صيانة دورية',tech:TECHS[1],date:'14 يوليو 2026',warranty:'30 يوم',warrantyEnd:'13 أغسطس 2026'}];
   return `<div style="padding:16px 20px">
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px"><div class="ovb" data-act="back-home">→</div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">🛡️ ضماناتي</h1></div>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px"><div class="ovb" data-act="back-home"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">🛡️ ضماناتي</h1></div>
   <div style="display:flex;gap:8px;margin-bottom:16px">
     <div class="cd" style="flex:1;padding:14px;text-align:center;background:var(--greenBg);border-color:var(--green)"><b style="font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;color:var(--green);display:block">${activeJobs.length}</b><small style="font-size:11px;color:var(--green);font-weight:600">نشط</small></div>
     <div class="cd" style="flex:1;padding:14px;text-align:center"><b style="font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;color:var(--ink);display:block">${expiredJobs.length}</b><small style="font-size:11px;color:var(--sl);font-weight:600">منتهي</small></div>
@@ -774,7 +775,7 @@ function rWarranties(){
 /* ============ PASSPORT ============ */
 function rPassport(){
   return `<div style="padding:16px 20px">
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><div class="ovb" data-act="back-home">→</div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">📋 باسبورت الصيانة</h1></div>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><div class="ovb" data-act="back-home"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">📋 باسبورت الصيانة</h1></div>
   <div class="cd" style="text-align:center;padding:16px"><div style="font-size:36px">❄️</div><b style="font-size:14px;font-weight:700;color:var(--ink);display:block;margin-top:6px">تكييف سبليت — شارب</b><small style="font-size:11px;color:var(--sl)">MO: FX-5000 · SN: SH2024-8821</small>
   <div class="qr-box"><div class="big">📱</div>QR Code</div>
   <div style="font-size:10px;color:var(--sl)">امسح الكود لفتح الباسبورت أو لإعادة الحجز</div></div>
@@ -786,7 +787,7 @@ function rPassport(){
 /* ============ HEALTH SCORE ============ */
 function rHealthScore(){
   return `<div style="padding:16px 20px;text-align:center">
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><div class="ovb" data-act="back-home">→</div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">صحة البيت</h1></div>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><div class="ovb" data-act="back-home"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">صحة البيت</h1></div>
   <div class="health-ring"></div>
   <p style="font-size:12px;color:var(--sl);margin-top:8px">تقييم شامل لحالة شقتك</p>
   <div style="text-align:right;margin-top:16px">${[{n:'الكهرباء',s:82,c:'var(--amber)'},{n:'السباكة',s:71,c:'var(--blue)'},{n:'التكييف',s:85,c:'var(--green)'},{n:'الهيكل',s:90,c:'#16a34a'},{n:'الأجهزة',s:65,c:'var(--red)'}].map(x=>`<div class="cd" style="margin-bottom:6px;padding:10px"><div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--ink)"><span>${x.n}</span><span style="color:${x.c}">${x.s}/100</span></div><div class="hs-bar" style="margin:4px 0 0"><div class="hs-fill" style="width:${x.s}%;background:${x.c}"></div></div></div>`).join('')}</div>
@@ -806,7 +807,7 @@ function rProfile(){
   <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">${S.user.name}</h2>
   <p style="font-size:13px;color:var(--sl);margin-top:2px">${S.user.phone}</p></div>
   <div style="display:flex;margin:0 20px;border-radius:var(--r);overflow:hidden;border:1px solid var(--surface3)"><div style="flex:1;padding:14px;text-align:center;border-left:1px solid var(--surface3)"><b style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink);display:block">${S.hist.length}</b><small style="font-size:11px;color:var(--sl);font-weight:600">شغلة</small></div><div style="flex:1;padding:14px;text-align:center;border-left:1px solid var(--surface3)"><b style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink);display:block">4</b><small style="font-size:11px;color:var(--sl);font-weight:600">فني</small></div><div style="flex:1;padding:14px;text-align:center"><b style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink);display:block">2</b><small style="font-size:11px;color:var(--sl);font-weight:600">ضمان</small></div></div>
-  <div style="padding:0 20px;margin-top:14px">${[{i:'📋',bg:'var(--blueBg)',t:'باسسبورت الصيانة',s:'سجل الصيانة',act:'nav',nav:'passport'},{i:'📅',bg:'var(--purpleBg)',t:'حجوزاتي',s:'السجل الكامل',act:'nav',nav:'bookings'},{i:'🛡️',bg:'var(--amberLight)',t:'ضماناتي',s:'2 نشط',act:'nav',nav:'warranties'},{i:'🏠',bg:'var(--greenBg)',t:'بيتي',s:'الأجهزة والغرف',act:'nav',nav:'myHome'},{i:'📊',bg:'var(--blueBg)',t:'صحة البيت',s:'78/100',act:'nav',nav:'healthScore'},{i:'⭐',bg:'var(--purpleBg)',t:'الفنيين المفضلين',s:'وفّر وقتك',act:'nav',nav:'savedProviders'},{i:'🚪',bg:'#fef2f2',t:'خروج',s:'من الحساب',act:'logout'}].map(m=>`<div style="display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid var(--surface2);cursor:pointer" data-act="${m.act}" ${m.nav?`data-nav="${m.nav}"`:''}><div style="width:40px;height:40px;border-radius:12px;background:${m.bg};display:flex;align-items:center;justify-content:center;font-size:18px">${m.i}</div><div style="flex:1"><b style="font-size:14px;font-weight:700;color:var(--ink)">${m.t}</b><small style="font-size:11px;color:var(--sl);display:block;margin-top:1px">${m.s}</small></div><span style="color:var(--sl2);font-size:16px">←</span></div>`).join('')}</div>`;
+  <div style="padding:0 20px;margin-top:14px">${[{i:'<svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:var(--blue);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',bg:'var(--blueBg)',t:'باسسبورت الصيانة',s:'سجل الصيانة',act:'nav',nav:'passport'},{i:'<svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:#7c3aed;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',bg:'var(--purpleBg)',t:'حجوزاتي',s:'السجل الكامل',act:'nav',nav:'bookings'},{i:'<svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:#d97706;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',bg:'var(--amberLight)',t:'ضماناتي',s:'2 نشط',act:'nav',nav:'warranties'},{i:'<svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:#059669;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg>',bg:'var(--greenBg)',t:'بيتي',s:'الأجهزة والغرف',act:'nav',nav:'myHome'},{i:'<svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:var(--blue);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>',bg:'var(--blueBg)',t:'صحة البيت',s:'78/100',act:'nav',nav:'healthScore'},{i:'<svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:#7c3aed;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',bg:'var(--purpleBg)',t:'الفنيين المفضلين',s:'وفّر وقتك',act:'nav',nav:'savedProviders'},{i:'<svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:#e11d48;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>',bg:'#fef2f2',t:'خروج',s:'من الحساب',act:'logout'}].map(m=>`<div style="display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid var(--surface2);cursor:pointer" data-act="${m.act}" ${m.nav?`data-nav="${m.nav}"`:''}><div style="width:40px;height:40px;border-radius:12px;background:${m.bg};display:flex;align-items:center;justify-content:center">${m.i}</div><div style="flex:1"><b style="font-size:14px;font-weight:700;color:var(--ink)">${m.t}</b><small style="font-size:11px;color:var(--sl);display:block;margin-top:1px">${m.s}</small></div><span style="color:var(--sl2);font-size:16px">←</span></div>`).join('')}</div>`;
 }
 
 /* ============ MESSAGES ============ */
@@ -865,7 +866,7 @@ function rServiceProgress(){
 /* ============ SAVED PROVIDERS ============ */
 function rSavedProviders(){
   return `<div style="padding:16px 20px">
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><div class="ovb" data-act="back-home">→</div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">⭐ الفنيين المفضلين</h1></div>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><div class="ovb" data-act="back-home"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">⭐ الفنيين المفضلين</h1></div>
   ${TECHS.filter(t=>t.v).map((t,i)=>`<div class="sv-item" data-act="tpk" data-i="${i}"><div class="sv-av" style="background:${t.c}">${t.name[0]}${t.name.split(' ')[1]?.[0]||''}</div><div style="flex:1"><b style="font-size:14px;font-weight:700;color:var(--ink)">${t.name}</b><small style="font-size:11px;color:var(--sl);display:block">${t.skill} · ⭐ ${t.r} · ${t.rv} تقييم</small><div style="display:flex;gap:6px;margin-top:4px"><span class="badge badge-g" style="font-size:9px">✓ موثق</span><span style="font-size:10px;color:var(--sl2)">${t.d} كم</span></div></div><div style="text-align:left"><button class="btn bp bs" data-act="confirm-tech">احجز</button></div></div>`).join('')}
   <button class="btn bo" data-act="back-home" style="margin-top:10px">← الرئيسية</button></div>`;
 }
@@ -873,7 +874,7 @@ function rSavedProviders(){
 /* ============ INCOMING REQUESTS ============ */
 function rIncoming(){
   return `<div style="padding:16px 20px">
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><div class="ovb" data-act="back-home">→</div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:var(--ink)">📩 طلبات واردة من الفنيين</h1></div>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><div class="ovb" data-act="back-home"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:var(--ink)">📩 طلبات واردة من الفنيين</h1></div>
   <div class="tab-bar" style="margin-bottom:14px">
     <div class="tab-item active">جديد (${S.inc.length})</div>
     <div class="tab-item">تم القبول</div>
@@ -916,7 +917,7 @@ function rProviderProfile(){
   return `<div style="margin:0;padding-bottom:80px">
   <div class="profile-hero">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-      <div class="ovb" style="background:rgba(255,255,255,.15);color:#fff" data-act="back-home">←</div>
+      <div class="ovb" style="background:rgba(255,255,255,.15)" data-act="back-home"><svg viewBox="0 0 24 24" style="stroke:#fff"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div>
       <span style="color:rgba(255,255,255,.65);font-size:12px;font-weight:600">${inc?'📩 طلب وارد':'ملف الفني'}</span>
     </div>
     <div style="display:flex;flex-direction:column;align-items:center;text-align:center">
