@@ -649,7 +649,7 @@ function rHome(){
       <div class="media-btn" data-act="media" data-type="voice"><svg class="mb-ic" viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--sl2);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>صوت</div>
     </div>
     ${S.inc.length?`<div class="inc-banner" data-act="nav" data-nav="incoming"><div class="pd"></div><div style="flex:1"><b style="font-size:13px;font-weight:700"><svg style="width:14px;height:14px;stroke:#fff;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:4px" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> ${S.inc[0].tech.name} بعتلك طلب</b><small style="font-size:10px;color:rgba(255,255,255,.8);display:block;margin-top:1px">${S.inc[0].title} · ${S.inc[0].when}</small></div><svg style="width:16px;height:16px;stroke:rgba(255,255,255,.8);stroke-width:2;fill:none" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></div>`:''}
-    ${S.job?`<div class="active-banner" data-act="nav-resume"><div style="width:44px;height:44px;border-radius:12px;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg style="width:22px;height:22px;stroke:#fff;stroke-width:2;fill:none" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div><div style="flex:1"><b style="font-size:13px;font-weight:700;color:var(--ink)">${S.job.title}</b><small style="font-size:10px;color:var(--blue);font-weight:600;display:block;margin-top:2px">متابعة الشغلة الآن</small></div><svg style="width:16px;height:16px;stroke:var(--blue);stroke-width:2;fill:none" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>`:''}
+    ${S.job?`<div class="active-banner" data-act="nav-resume"><div style="width:44px;height:44px;border-radius:12px;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg style="width:22px;height:22px;stroke:#fff;stroke-width:2;fill:none" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div><div style="flex:1"><b style="font-size:13px;font-weight:700;color:var(--ink)">${S.job.title}</b><small style="font-size:10px;color:${S.jobStatus==='completed'?'var(--green)':'var(--blue)'};font-weight:600;display:block;margin-top:2px">${S.jobStatus==='repair'?'الشغل جاري — شوف التقارير':S.jobStatus==='inspection'?'الفني بيفحص — شوف التقارير':S.jobStatus==='completed'?'✅ الشغل خلص — شوف الفاتورة':'متابعة الشغلة'}</small></div><svg style="width:16px;height:16px;stroke:var(--blue);stroke-width:2;fill:none" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>`:''}
     <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;margin-bottom:10px"><h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;color:var(--ink)">الفئات</h2></div>
     <div class="hct">${CATS.map(c=>`<div class="hcc" data-act="cat" data-cat="${c.id}"><div class="hcc-ic" style="background:${c.bg}"><span>${c.i}</span></div><span style="color:${c.tc}">${c.n}</span></div>`).join('')}</div>
     <div class="qa">
@@ -977,41 +977,61 @@ function rMessages(){
 /* ============ INSPECTION ============ */
 function rInspection(){
   const t=S.tech||TECHS[0];
-  const items=[
-    {i:'❄️',n:'فحص الوحدة الداخلية',s:'检查 الترشيح والتبريد',st:'done'},
-    {i:'💧',n:'فحص خط الصرف',s:'تشخيص التسرب',st:'done'},
-    {i:'⚡',n:'فحص التوصيلات الكهربائية',s:'التأكد من السلامة',st:'done'},
-    {i:'🌡️',n:'قياس درجة التبريد',s:'اختبار الأداء العام',st:'active'},
-    {i:'🔊',n:'فحص الأصوات الغريبة',s:'التأكد من عدم وجود اهتزاز',st:'pending'}
-  ];
+  const myReports=S.reports.filter(r=>r.jobId===S.tS._jobId);
+  const hasReports=myReports.length>0;
+  const allApproved=myReports.length>0&&myReports.every(r=>r.status==='approved');
+  const anyDeclined=myReports.some(r=>r.status==='declined');
+  const pendingReports=myReports.filter(r=>r.status==='pending');
+  if(hasReports){
+    return `<div style="padding:16px 20px">
+    <div style="text-align:center;margin-bottom:16px"><div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--blue),var(--blue2));display:flex;align-items:center;justify-content:center;margin:0 auto;box-shadow:0 6px 20px rgba(37,99,235,.25);font-size:26px">📋</div>
+    <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--ink);margin-top:10px">${S.tS.reportsFinalized?'التقارير النهائية':'تقارير الفحص'}</h1>
+    <p style="font-size:12px;color:var(--sl);margin-top:3px">${myReports.length} تقارير — ${myReports.filter(r=>r.status==='approved').length} معتمدة</p></div>
+    ${myReports.map(r=>`<div class="cd" style="margin-bottom:10px;padding:14px;cursor:pointer" data-act="${S.role==='customer'?'c-view-report':'t-insp-view'}" data-i="${r.id}">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><b style="font-size:13px;font-weight:700;color:var(--ink)">تقرير #${r.id}</b><span class="sr-status ${r.status}">${r.status==='pending'?'⏳ بانتظار الموافقة':r.status==='approved'?'✅ موافق عليه':'❌ مرفوض'}</span></div>
+      <p style="font-size:11px;color:var(--sl);margin-bottom:6px">${r.problem.slice(0,60)}...</p>
+      <div style="display:flex;justify-content:space-between"><span style="font-size:11px;color:var(--sl)">${r.parts.length} قطع · ${r.estimatedTime}</span><b style="font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:800;color:${r.status==='approved'?'var(--green)':r.status==='declined'?'var(--red)':'var(--ink)'}">${r.total} ج.م</b></div>
+    </div>`).join('')}
+    ${pendingReports.length?`<div style="background:var(--amberBg);border:1px solid var(--amberLight);border-radius:var(--r);padding:12px;text-align:center;margin-bottom:10px"><p style="font-size:12px;font-weight:700;color:var(--amber)">⏳ في انتظار موافقتك على ${pendingReports.length} تقرير</p></div>`:''}
+    ${S.tS.reportsFinalized?`<div style="background:var(--greenBg);border:1px solid #bbf7d0;border-radius:var(--r);padding:12px;text-align:center;margin-bottom:10px"><p style="font-size:12px;font-weight:700;color:var(--green)">✅ الفني أنهى إرسال التقارير</p><p style="font-size:11px;color:var(--sl);margin-top:2px">شوف التفاصيل في الإشعارات</p></div>`:''}
+    </div>`;
+  }
   return `<div style="padding:16px 20px">
   <div style="text-align:center;margin-bottom:16px"><div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--amber),var(--amber2));display:flex;align-items:center;justify-content:center;margin:0 auto;box-shadow:0 6px 20px rgba(217,119,6,.25);font-size:26px">🔍</div>
   <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--ink);margin-top:10px">الفحص جاري...</h1>
   <p style="font-size:12px;color:var(--sl);margin-top:3px">${t.name} بيفحص Problem</p></div>
-  <div class="cd" style="margin-bottom:12px;padding:14px">${items.map(it=>`<div class="insp-item"><div class="insp-ic" style="background:${it.st==='done'?'var(--greenBg)':it.st==='active'?'var(--amberBg)':'var(--surface)'}">${it.i}</div><div style="flex:1"><b style="font-size:12px;font-weight:700;color:var(--ink)">${it.n}</b><small style="font-size:10px;color:var(--sl);display:block">${it.s}</small></div><div class="insp-st" style="background:${it.st==='done'?'var(--green)':it.st==='active'?'var(--amber)':'var(--surface3)'};color:${it.st==='pending'?'var(--sl2)':'#fff'}">${it.st==='done'?'✓':it.st==='active'?'⏳':'○'}</div></div>`).join('')}</div>
-  <div class="cd" style="padding:14px;background:var(--blueBg);border-color:var(--blueLight)"><div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:6px">🤖 تشخيص حرفة الذكي</div>
-  <div style="font-size:11px;color:var(--ink3);line-height:1.6">بناءً على الفحص: انسداد خط صرف + نقص فريون R410A. يحتاج تنظيف شامل وشحن فريون. القطع المطلوبة: ختم نحاسي + فريون R410A</div></div>
-  <button class="btn bp" data-act="to-service" style="margin-top:14px">🔧 بدء الشغل</button></div>`;
+  <div style="background:var(--surface);border-radius:var(--r);padding:14px;text-align:center"><p style="font-size:13px;color:var(--sl);font-weight:600">الفني بيفحص دلوقتي...</p><p style="font-size:11px;color:var(--sl2);margin-top:4px">هيصلك تقرير بالتفاصيل بعد الفحص</p></div>
+  </div>`;
 }
 
 /* ============ SERVICE PROGRESS ============ */
 function rServiceProgress(){
   const t=S.tech||TECHS[0];
+  const approved=S.reports.filter(r=>r.status==='approved');
+  const visitFee=200;
+  const partsTotal=approved.reduce((s,r)=>s+r.parts.reduce((ps,p)=>ps+p.price*p.qty,0),0);
+  const laborTotal=approved.reduce((s,r)=>s+r.labor,0);
   return `<div style="padding:16px 20px">
   <div style="text-align:center;margin-bottom:16px"><div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--blue),var(--blue2));display:flex;align-items:center;justify-content:center;margin:0 auto;box-shadow:0 6px 20px rgba(37,99,235,.25);font-size:26px">🔧</div>
   <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--ink);margin-top:10px">الشغل جاري...</h1>
-  <p style="font-size:12px;color:var(--sl);margin-top:3px">${t.name} بينفّذ الأعمال</p></div>
+  <p style="font-size:12px;color:var(--sl);margin-top:3px">${t.name} بينفّذ الأعمال المعتمدة</p></div>
+  <div style="display:flex;gap:4px;margin-bottom:14px"><span class="js-step done">✓ مقبول</span><span class="js-step done">✓ في الطريق</span><span class="js-step done">✓ وصل</span><span class="js-step done">✓ الفحص</span><span class="js-step current">🔧 الإصلاح</span></div>
   <div class="cd" style="margin-bottom:12px;padding:14px">
-  <div class="iv"><span class="l">المهمة الحالية</span><span class="v">شحن فريون R410A</span></div>
-  <div class="iv"><span class="l">التقدم</span><span class="v" style="color:var(--blue)">75%</span></div>
-  <div style="margin-top:8px"><div class="hs-bar"><div class="hs-fill" style="width:75%;background:var(--blue)"></div></div></div>
-  <div class="iv"><span class="l">الوقت المتبقي</span><span class="v">~15 دقيقة</span></div>
-  <div class="iv"><span class="l">الأعمال المنجزة</span><span class="v" style="color:var(--green)">✓ تنظيف صرف · ✓ فحص كهرباء</span></div></div>
-  <div class="cd" style="padding:14px"><div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px">🔩 القطع المستخدمة</div>
-  <div class="iv"><span class="l">فريون R410A</span><span class="v" style="color:var(--green)">أصلية ✓</span></div>
-  <div class="iv"><span class="l">ختم نحاسي</span><span class="v" style="color:var(--green)">أصلية ✓</span></div>
-  <div style="margin-top:8px;padding:8px;background:var(--greenBg);border-radius:var(--rx);font-size:10px;color:var(--green);font-weight:600">🛡️ القطع معتمدة ومدّونة في الباسبورت</div></div>
-  <div style="display:flex;gap:10px;margin-top:10px"><button class="btn bo" style="flex:1" data-act="chat-tech">💬 محادثة</button><button class="btn bp" style="flex:2" data-act="to-report">📋 عرض التقرير</button></div></div>`;
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><h3 style="font-size:14px;font-weight:700;color:var(--ink)">الأعمال الجارية</h3><span style="font-size:10px;color:var(--blue);font-weight:600">${approved.length} تقارير معتمدة</span></div>
+    ${approved.map(r=>`<div style="padding:8px 0;border-bottom:1px solid var(--surface2)"><div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:12px;color:var(--ink);font-weight:600">تقرير #${r.id}</span><span style="font-size:10px;color:var(--green);font-weight:700">✅ موافق</span></div><p style="font-size:11px;color:var(--sl);margin-top:2px">${r.problem.slice(0,50)}...</p></div>`).join('')}
+  </div>
+  <div class="cd" style="margin-bottom:12px;padding:14px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><h3 style="font-size:14px;font-weight:700;color:var(--ink)">📦 القطع المستخدمة</h3></div>
+    ${approved.map(r=>r.parts.map(p=>`<div style="display:flex;justify-content:space-between;padding:5px 0;font-size:12px"><span>${p.name} × ${p.qty}</span><b style="color:var(--green)">${p.price*p.qty} ج.م ✓</b></div>`).join('')).join('')}
+    <div style="margin-top:8px;padding:8px;background:var(--greenBg);border-radius:var(--rx);font-size:10px;color:var(--green);font-weight:600">🛡️ القطع معتمدة من العميل ومدّونة في الباسبورت</div>
+  </div>
+  <div style="background:var(--blueBg);border:1px solid var(--blueLight);border-radius:var(--r);padding:12px;margin-bottom:12px">
+    <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="color:var(--sl)">رسوم الزيارة</span><b>200 ج.م</b></div>
+    <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="color:var(--sl)">القطع المعتمدة</span><b>${partsTotal} ج.م</b></div>
+    <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="color:var(--sl)">خدمة/عمولة</span><b>${laborTotal} ج.م</b></div>
+    <div style="display:flex;justify-content:space-between;font-size:14px;font-weight:800;padding-top:6px;border-top:1px solid var(--blueLight);margin-top:4px"><span>الإجمالي المعتمد</span><span style="color:var(--blue)">${visitFee+partsTotal+laborTotal} ج.م</span></div>
+  </div>
+  <div style="display:flex;gap:10px;margin-top:10px"><button class="btn bo" style="flex:1" data-act="chat-tech">💬 محادثة</button><button class="btn bp" style="flex:2" data-act="nav" data-nav="inspection">📋 عرض التقارير</button></div></div>`;
 }
 
 /* ============ SAVED PROVIDERS ============ */
@@ -1112,8 +1132,8 @@ function rProviderProfile(){
       <p style="font-size:11px;color:var(--ink3);line-height:1.5">كل شغلة معتمدة من حرفة بتتحمل ضمان 30 يوم. لو المشكلة رجعت في خلال الضمان، حرفة هيبعتلك الفني مجانًا.</p>
     </div>
   </div>
-  <div style="position:fixed;bottom:80px;left:0;right:0;padding:12px 20px;background:var(--w);border-top:1px solid var(--surface2);display:flex;gap:10px;z-index:60">
-    ${inc?`<button class="btn bo" style="flex:1" data-act="reject-inc-profile"><svg style="width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:4px" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>رفض</button><button class="btn bp" style="flex:2" data-act="accept-inc"><svg style="width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:4px" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>قبول العرض</button>`:`<button class="btn bo" style="flex:1" data-act="chat-tech"><svg style="width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:4px" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>محادثة</button><button class="btn bp" style="flex:2" data-act="confirm-tech"><svg style="width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:4px" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>احجز الآن</button>`}
+  <div style="position:fixed;bottom:80px;left:0;right:0;padding:10px 20px;background:var(--w);border-top:1px solid var(--surface2);display:flex;gap:8px;z-index:60">
+    ${inc?`<button class="btn bo bs" style="flex:0 0 auto;height:38px;padding:0 16px;font-size:12px" data-act="reject-inc-profile">رفض</button><button class="btn bp bs" style="flex:1;height:38px;font-size:12px" data-act="accept-inc">قبول العرض — ${inc.price}</button>`:`<button class="btn bo bs" style="flex:0 0 auto;height:38px;padding:0 16px;font-size:12px" data-act="chat-tech">محادثة</button><button class="btn bp bs" style="flex:1;height:38px;font-size:12px" data-act="confirm-tech">احجز الآن</button>`}
   </div>
 </div>`;
 }
@@ -1404,6 +1424,7 @@ function rTInspection(){
   <div style="display:flex;gap:10px">
     ${!S.tS.reportsFinalized?`<button class="btn bp" style="flex:2;background:var(--green)" data-act="t-create-report"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:4px"><path d="M12 5v14M5 12h14"/></svg>إنشاء تقرير جديد</button>`:''}
     ${myReports.length&&!S.tS.reportsFinalized?`<button class="btn bo" style="flex:1" data-act="t-finish-reports">✓ لا يوجد المزيد</button>`:''}
+    ${S.jobStatus==='repair'&&!S.tS.reportsFinalized?`<button class="btn bp" style="flex:2;background:var(--amber)" data-act="t-create-report"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:4px"><path d="M12 5v14M5 12h14"/></svg>إضافة تقرير إضافي</button>`:''}
   </div>
   ${S.tS.reportsFinalized?`<div style="margin-top:14px;background:var(--greenBg);border:1px solid #bbf7d0;border-radius:var(--r);padding:14px;text-align:center"><p style="font-size:13px;font-weight:700;color:var(--green)">✅ تم الانتهاء من التقارير</p><p style="font-size:11px;color:var(--sl);margin-top:2px">إجمالي الموافق عليه: <b style="color:var(--green)">${approvedTotal} ج.م</b></p><button class="btn bp" style="margin-top:10px;background:var(--blue)" data-act="t-start-repair">🔧 بدء الإصلاح</button></div>`:''}
 </div>`;
@@ -1557,7 +1578,7 @@ document.addEventListener('click',e=>{
     'chip':()=>chipH(+t.dataset.i),'ai-done':()=>{closeAI();go('schedule');},
     'media':()=>{const ty=t.dataset.type;const lbl=ty==='photo'?'صورة':ty==='video'?'فيديو':'تسجيل صوتي';if($('#aiS')&&$('#aiS').classList.contains('open')){uS(`📎 ${lbl} أُرفقت`);lat(600,()=>aiS('استلمت الملف! خليني أفحصه بالذكاء الاصطناعي...'));lat(1500,()=>{aiS(`🔍 تحليل الملف — تم كشف مشكلة في الجهاز\n\n📋 الظاهر: تصريف أمامي أسفل الوحدة\n⚡ الإلحاح: متوسط\n🔧 التشخيص: انسداد خط الصرف + نقص فريون\n\n⚠️ الفحص استرشادي — الفني هيؤكد على الأرض.`);lat(500,()=>showCh(['من النهارده','من يومين','من أسبوع']));});}else{uS(`📎 ${lbl} أُرفقت`);lat(600,()=>aiS('استلمت الملف! خليني أفحصه بالذكاء الاصطناعي...'));lat(1500,()=>{addAn(`<div class="an"><div class="ai-vis" style="height:110px;display:flex;align-items:center;justify-content:center"><div class="ai-vis-label">🤖 فحص ذكي جاري</div><span style="font-size:34px;opacity:.35">${ty==='photo'?'📷':ty==='video'?'🎥':'🎤'}</span></div><div class="an-h"><div class="an-ic" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)"><svg style="width:18px;height:18px;stroke:#fff;stroke-width:2;fill:none" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><div><b>تحليل الملف — تكييف سبليت</b><small>فحص مرئي · ثقة 91%</small></div></div><div class="an-g"><div class="an-c"><small>📋 الظاهر</small><b>تصريف أمامي أسفل الوحدة</b></div><div class="an-c"><small>⚡ الإلحاح</small><b>متوسط</b></div><div class="an-c" style="grid-column:1/-1"><small>🔧 التشخيص</small><b>انسداد خط الصرف + نقص فريون R410A</b></div></div><div class="an-n">⚠️ الفحص استرشادي — الفني هيؤكد على الأرض.</div></div>`);S.cs=1;lat(500,()=>showCh(['من النهارده','من يومين','من أسبوع']));});}},
     'pred-warn':()=>{toast('تم تجهيز طلب الصيانة الوقائية','🔮');go('schedule');},
-    'nav-resume':()=>go('tracking'),
+    'nav-resume':()=>{if(S.jobStatus==='completed')go('custInvoice');else if(S.jobStatus==='repair')go('serviceProgress');else go('inspection');},
     'view-tech':()=>{S.tech=TECHS[(+t.dataset.i)||0];go('providerProfile');},
     'view-inc-tech':()=>{const i=+(t.dataset.i||0);const r=S.inc[i];if(r){S.tech=r.tech;}go('providerProfile');},
     'accept-inc':()=>{let i=+(t.dataset.i||0);let r=S.inc[i]||S.inc.find(x=>x.tech===S.tech)||S.inc[0];if(!r)return;if(S.scanInterval)clearInterval(S.scanInterval);S.job={tech:r.tech,title:r.title};S.inc=S.inc.filter(x=>x!==r);S.tech=r.tech;toast('تم قبول طلب الفني 🎉','✅');go('quoteApproval');},
@@ -1597,7 +1618,7 @@ document.addEventListener('click',e=>{
     't-create-report':()=>go('tCreateReport'),
     't-add-part':()=>{const c=$('#rptParts');if(!c)return;const d=document.createElement('div');d.className='rpt-part-row';d.innerHTML=`<input type="text" placeholder="اسم القطعة" class="rp-name"><input type="number" placeholder="الكمية" value="1" style="max-width:60px" class="rp-qty"><input type="number" placeholder="السعر" value="0" style="max-width:80px" class="rp-price"><div class="rpt-part-rm" data-act="t-rm-part">✕</div>`;c.appendChild(d);},
     't-rm-part':()=>{const row=t.closest('.rpt-part-row');if(row)row.remove();},
-    't-send-report':()=>{const parts=[];$$('.rpt-part-row').forEach(r=>{const n=r.querySelector('.rp-name')?.value||'';const q=+(r.querySelector('.rp-qty')?.value||1);const p=+(r.querySelector('.rp-price')?.value||0);if(n&&p)parts.push({name:n,qty:q,price:p});});const labor=+(document.getElementById('rptLabor')?.value||0);const total=parts.reduce((s,p)=>s+p.price*p.qty,0)+labor;const rpt={id:++S.rptId,jobId:S.tS._jobId,problem:document.getElementById('rptProblem')?.value||'',diagnosis:document.getElementById('rptDiagnosis')?.value||'',recommend:document.getElementById('rptRecommend')?.value||'',parts,labor,notes:document.getElementById('rptNotes')?.value||'',estimatedTime:document.getElementById('rptTime')?.value||'',warranty:document.getElementById('rptWarranty')?.value||'',total,status:'pending',sentAt:'الآن'};S.reports.push(rpt);S.custNotifs.unshift({t:'تقرير فحص جديد من أحمد حسن',d:`${rpt.problem} — الإجمالي: ${rpt.total} ج.م`,time:'الآن',read:false,act:'c-view-report',id:rpt.id});S.jobStatus='inspection';toast('تم إرسال التقرير للعميل 📨','✅');go('tInspection');},
+    't-send-report':()=>{const parts=[];$$('.rpt-part-row').forEach(r=>{const n=r.querySelector('.rp-name')?.value||'';const q=+(r.querySelector('.rp-qty')?.value||1);const p=+(r.querySelector('.rp-price')?.value||0);if(n&&p)parts.push({name:n,qty:q,price:p});});const labor=+(document.getElementById('rptLabor')?.value||0);const total=parts.reduce((s,p)=>s+p.price*p.qty,0)+labor;const rpt={id:++S.rptId,jobId:S.tS._jobId,problem:document.getElementById('rptProblem')?.value||'',diagnosis:document.getElementById('rptDiagnosis')?.value||'',recommend:document.getElementById('rptRecommend')?.value||'',parts,labor,notes:document.getElementById('rptNotes')?.value||'',estimatedTime:document.getElementById('rptTime')?.value||'',warranty:document.getElementById('rptWarranty')?.value||'',total,status:'pending',sentAt:'الآن'};S.reports.push(rpt);const isAdditional=S.reports.filter(r=>r.jobId===S.tS._jobId).length>1;S.custNotifs.unshift({t:isAdditional?'تقرير إضافي من أحمد حسن':'تقرير فحص جديد من أحمد حسن',d:`${rpt.problem} — الإجمالي: ${rpt.total} ج.م${isAdditional?' (مبلغ إضافي)':''}`,time:'الآن',read:false,act:'c-view-report',id:rpt.id});S.jobStatus='inspection';toast(isAdditional?'تم إرسال التقرير الإضافي للعميل 📨':'تم إرسال التقرير للعميل 📨','✅');go('tInspection');},
     't-finish-reports':()=>{if(confirm('هل أنت متأكد إنك خلصت إرسال التقارير؟')){S.tS.reportsFinalized=true;const approved=S.reports.filter(r=>r.jobId===S.tS._jobId&&r.status==='approved');const total=approved.reduce((s,r)=>s+r.total,0)+200;S.custNotifs.unshift({t:'الفنى خلص التقارير',d:`أحمد حسن أنهى إرسال التقارير. الإجمالي المعتمد: ${total} ج.م`,time:'الآن',read:false,act:'c-view-invoice'});toast('تم الانتهاء من التقارير ✅','✅');render();}},
     't-start-repair':()=>{S.jobStatus='repair';toast('بدأت أعمال الإصلاح 🔧','🔧');render();},
     't-filter':()=>{$$('.filter-chip').forEach(x=>x.classList.remove('on'));t.classList.add('on');},
