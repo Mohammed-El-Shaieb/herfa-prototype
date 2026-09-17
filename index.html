@@ -630,6 +630,32 @@ function render(){
   }
   const R={home:rHome,bookings:rBookings,profile:rProfile,schedule:rSchedule,scanning:rScanning,techSelect:rTechSel,tracking:rTrack,arrival:rArrival,report:rReport,rating:rRating,invoice:rInvoice,warranty:rWarranty,myHome:rMyHome,passport:rPassport,healthScore:rHealthScore,quoteApproval:rQuoteApproval,warranties:rWarranties,messages:rMessages,providerProfile:rProviderProfile,inspection:rInspection,serviceProgress:rServiceProgress,savedProviders:rSavedProviders,incoming:rIncoming,custReport:rCustReport,custInvoice:rCustInvoice,custNotifs:rCustNotifs};
   v.innerHTML=(R[S.scr]||R.home)();renderNav();
+  if(S.scr==='inspection'&&!S.autoReportSent){
+    const myReports=S.reports.filter(r=>r.jobId===S.tS._jobId);
+    if(myReports.length===0){
+      S.autoReportSent=true;
+      setTimeout(()=>{
+        const rpt={id:++S.rptId,jobId:S.tS._jobId,problem:'المكيف بيشتغل بصوت عالي ودرجة الحرارة مش ثابتة — التهواة ضعيفة',diagnosis:'ASHRAE report: Low refrigerant charge causing compressor overload. Indoor coil frost buildup detected.',recommend:'Recharge R410A, clean indoor coil, check fan motor bearings.',parts:[{name:'فريون R410A',qty:1,price:350},{name:'كاوبسitor',qty:1,price:180},{name:'فلتر',qty:2,price:90}],labor:250,notes:'يُنصح بالصيانة الدورية كل 6 شهور',estimatedTime:'ساعتين',warranty:'3 شهور على القطع + شهر خدمة',total:870,status:'pending',sentAt:'الآن'};
+        S.reports.push(rpt);
+        S.custNotifs.unshift({t:'تقرير فحص جديد من أحمد حسن',d:`${rpt.problem} — الإجمالي: ${rpt.total} ج.م`,time:'الآن',read:false,act:'c-view-report',id:rpt.id});
+        toast('📨 تم استلام تقرير الفحص من الفني','✅');
+        render();
+      },4000);
+    }
+  }
+  if(S.scr==='serviceProgress'&&!S.autoReport2Sent&&S.jobStatus==='repair'){
+    const myReports=S.reports.filter(r=>r.jobId===S.tS._jobId);
+    if(myReports.length===1){
+      S.autoReport2Sent=true;
+      setTimeout(()=>{
+        const rpt={id:++S.rptId,jobId:S.tS._jobId,problem:'تم اكتشاف مشكلة إضافية — المروحة الرئيسية محتاجة تشحيم واستبدال bearing',diagnosis:'Fan motor bearings worn out, causing vibration and noise. Lubrication ineffective.',recommend:'Replace fan motor bearing assembly.',parts:[{name:'bearing مروحة',qty:1,price:220},{name:'شحيم',qty:1,price:50}],labor:150,notes:'يتم الاستبدال خلال الإصلاح الحالي',estimatedTime:'30 دقيقة إضافية',warranty:'6 شهور',total:420,status:'pending',sentAt:'الآن'};
+        S.reports.push(rpt);
+        S.custNotifs.unshift({t:'تقرير إضافي من أحمد حسن',d:`${rpt.problem} — مبلغ إضافي: ${rpt.total} ج.م`,time:'الآن',read:false,act:'c-view-report',id:rpt.id});
+        toast('📨 تقرير إضافي من الفني — مبلغ إضافي','⚠️');
+        render();
+      },4000);
+    }
+  }
 }
 function showAuth(id){['authLogin','authSignup','authOtp'].forEach(x=>$('#'+x)?.classList.remove('on'));const el=$('#'+id);if(el)el.classList.add('on');if(id==='authOtp')lat(200,initAuthOtp);}
 function hideAuth(){['authLogin','authSignup','authOtp'].forEach(x=>$('#'+x)?.classList.remove('on'));}
