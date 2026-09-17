@@ -984,9 +984,9 @@ function rInspection(){
   const pendingReports=myReports.filter(r=>r.status==='pending');
   if(hasReports){
     return `<div style="padding:16px 20px">
-    <div style="text-align:center;margin-bottom:16px"><div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--blue),var(--blue2));display:flex;align-items:center;justify-content:center;margin:0 auto;box-shadow:0 6px 20px rgba(37,99,235,.25);font-size:26px">📋</div>
-    <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--ink);margin-top:10px">${S.tS.reportsFinalized?'التقارير النهائية':'تقارير الفحص'}</h1>
-    <p style="font-size:12px;color:var(--sl);margin-top:3px">${myReports.length} تقارير — ${myReports.filter(r=>r.status==='approved').length} معتمدة</p></div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px"><div class="ovb" data-act="nav" data-nav="home"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--ink)">${S.tS.reportsFinalized?'التقارير النهائية':'تقارير الفحص'}</h1></div>
+    <div style="text-align:center;margin-bottom:14px"><div style="width:50px;height:50px;border-radius:14px;background:linear-gradient(135deg,var(--blue),var(--blue2));display:flex;align-items:center;justify-content:center;margin:0 auto;box-shadow:0 6px 20px rgba(37,99,235,.25);font-size:24px">📋</div>
+    <h2 style="font-size:15px;font-weight:800;color:var(--ink);margin-top:8px">${myReports.length} تقارير — ${myReports.filter(r=>r.status==='approved').length} معتمدة</h2></div>
     ${myReports.map(r=>`<div class="cd" style="margin-bottom:10px;padding:14px;cursor:pointer" data-act="${S.role==='customer'?'c-view-report':'t-insp-view'}" data-i="${r.id}">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><b style="font-size:13px;font-weight:700;color:var(--ink)">تقرير #${r.id}</b><span class="sr-status ${r.status}">${r.status==='pending'?'⏳ بانتظار الموافقة':r.status==='approved'?'✅ موافق عليه':'❌ مرفوض'}</span></div>
       <p style="font-size:11px;color:var(--sl);margin-bottom:6px">${r.problem.slice(0,60)}...</p>
@@ -997,10 +997,12 @@ function rInspection(){
     </div>`;
   }
   return `<div style="padding:16px 20px">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px"><div class="ovb" data-act="nav" data-nav="home"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--ink)">الفحص جاري...</h1></div>
   <div style="text-align:center;margin-bottom:16px"><div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--amber),var(--amber2));display:flex;align-items:center;justify-content:center;margin:0 auto;box-shadow:0 6px 20px rgba(217,119,6,.25);font-size:26px">🔍</div>
-  <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--ink);margin-top:10px">الفحص جاري...</h1>
-  <p style="font-size:12px;color:var(--sl);margin-top:3px">${t.name} بيفحص Problem</p></div>
-  <div style="background:var(--surface);border-radius:var(--r);padding:14px;text-align:center"><p style="font-size:13px;color:var(--sl);font-weight:600">الفني بيفحص دلوقتي...</p><p style="font-size:11px;color:var(--sl2);margin-top:4px">هيصلك تقرير بالتفاصيل بعد الفحص</p></div>
+  <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;color:var(--ink);margin-top:10px">${t.name} بيفحص دلوقتي</h2>
+  <p style="font-size:12px;color:var(--sl);margin-top:3px">هيصلك تقرير بالتفاصيل بعد الفحص</p></div>
+  <div style="background:var(--surface);border-radius:var(--r);padding:14px;text-align:center;margin-bottom:14px"><div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px"><div style="width:8px;height:8px;border-radius:50%;background:var(--amber);animation:pulse-dot 2s infinite"></div><p style="font-size:13px;color:var(--ink);font-weight:700">الفني بيفحص دلوقتي...</p></div><p style="font-size:11px;color:var(--sl)">هتتلقى إشعار أول ما يبعت التقرير</p></div>
+  <div style="display:flex;gap:10px"><button class="btn bo" style="flex:1" data-act="nav" data-nav="home">🏠 الرئيسية</button><button class="btn bp" style="flex:1" data-act="nav" data-nav="custNotifs">🔔 الإشعارات</button></div>
   </div>`;
 }
 
