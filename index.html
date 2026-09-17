@@ -1054,6 +1054,9 @@ function rCustReportsList(){
   </div>`).join(''):''}
   ${pendingReports.length?`<div style="background:var(--amberBg);border:1px solid var(--amberLight);border-radius:var(--r);padding:12px;text-align:center;margin-bottom:10px"><p style="font-size:12px;font-weight:700;color:var(--amber)">⏳ في انتظار موافقتك على ${pendingReports.length} تقرير</p></div>`:''}
   ${S.tS.reportsFinalized?`<div style="background:var(--greenBg);border:1px solid #bbf7d0;border-radius:var(--r);padding:12px;text-align:center;margin-bottom:10px"><p style="font-size:12px;font-weight:700;color:var(--green)">✅ الفني أنهى إرسال التقارير</p><p style="font-size:11px;color:var(--sl);margin-top:2px">شوف التفاصيل في الإشعارات</p></div>`:''}
+  <div style="display:flex;gap:10px;margin-top:14px">
+    <button class="btn bp" style="flex:1;height:46px;background:var(--blue);color:#fff;font-size:13px" data-act="nav" data-nav="serviceProgress"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:4px"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>الشغل جاري</button>
+  </div>
   </div>`;
 }
 
