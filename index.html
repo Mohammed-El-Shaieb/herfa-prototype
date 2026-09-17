@@ -1022,17 +1022,17 @@ function rInspection(){
     ${S.tS.reportsFinalized?`<div style="background:var(--greenBg);border:1px solid #bbf7d0;border-radius:var(--r);padding:12px;text-align:center;margin-bottom:10px"><p style="font-size:12px;font-weight:700;color:var(--green)">✅ الفني أنهى إرسال التقارير</p><p style="font-size:11px;color:var(--sl);margin-top:2px">شوف التفاصيل في الإشعارات</p></div>`:''}
     </div>`;
   }
-  return `<div style="padding:16px 20px;padding-bottom:100px">
+  return `<div style="padding:16px 20px;padding-bottom:90px">
   <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px"><div class="ovb" data-act="nav" data-nav="home"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--ink)">الفحص جاري...</h1></div>
   <div style="text-align:center;margin-bottom:16px"><div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--amber),var(--amber2));display:flex;align-items:center;justify-content:center;margin:0 auto;box-shadow:0 6px 20px rgba(217,119,6,.25);font-size:26px">🔍</div>
   <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;color:var(--ink);margin-top:10px">${t.name} بيفحص دلوقتي</h2>
   <p style="font-size:12px;color:var(--sl);margin-top:3px">صيانة مكيف سبليت — التجمع الخامس</p></div>
   <div style="background:var(--surface);border-radius:var(--r);padding:16px;text-align:center;margin-bottom:14px"><div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px"><div style="width:8px;height:8px;border-radius:50%;background:var(--amber);animation:pulse-dot 2s infinite"></div><p style="font-size:13px;color:var(--ink);font-weight:700">الفني بيفحص دلوقتي...</p></div><p style="font-size:11px;color:var(--sl)">هيتواصل معاك أول ما يخلص الفحص</p></div>
   <div style="background:var(--blueBg);border:1px solid var(--blueLight);border-radius:var(--r);padding:12px;margin-bottom:14px;display:flex;align-items:center;gap:10px"><svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:var(--blue);stroke-width:2;fill:none;flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><p style="font-size:11px;color:var(--blue);font-weight:600">الفني ممكن يبعتلك تقرير بأي تكاليف إضافية — اختيارك تقبل أو ترفض</p></div>
+  <div style="display:flex;gap:8px;margin-top:16px">
+    <button class="btn bo" style="flex:1;height:44px;font-size:13px" data-act="c-report-problem">⚠️ ابلاغ عن مشكلة</button>
+    <button class="btn" style="flex:1;height:44px;font-size:13px;background:var(--red);color:#fff" data-act="c-emergency">🚨 اتصال بلطوارئ</button>
   </div>
-  <div style="position:fixed;bottom:80px;left:0;right:0;padding:10px 20px;background:var(--w);border-top:1px solid var(--surface2);display:flex;gap:8px;z-index:60">
-    <button class="btn bo" style="flex:1;height:40px;font-size:12px" data-act="c-report-problem">⚠️ ابلاغ عن مشكلة</button>
-    <button class="btn" style="flex:1;height:40px;font-size:12px;background:var(--red);color:#fff" data-act="c-emergency">🚨 اتصال بلطوارئ</button>
   </div>`;
 }
 
