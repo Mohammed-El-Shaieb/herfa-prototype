@@ -615,7 +615,7 @@ const CATS=[
 
 let tt;
 function toast(m,i='✅'){const t=$('#toast');t.innerHTML=`${i} ${m}`;t.classList.add('show');clearTimeout(tt);tt=lat(2600,()=>t.classList.remove('show'));}
-function openOv(h,t='',s='',backNav=''){const r=$('#ovr');r.innerHTML=`<div class="ov"><div class="ovh"><div class="ovb" data-act="ov-back" data-nav="${backNav}">→</div><div class="ovt">${t}${s?`<small>${s}</small>`:''}</div></div><div class="ovc" id="ovc">${h}</div></div>`;r.classList.add('open');S.ov=true;S._ovBackNav=backNav;}
+function openOv(h,t='',s='',backNav=''){S._ovFrom=S.scr;const r=$('#ovr');r.innerHTML=`<div class="ov"><div class="ovh"><div class="ovb" data-act="ov-back" data-nav="${backNav}">→</div><div class="ovt">${t}${s?`<small>${s}</small>`:''}</div></div><div class="ovc" id="ovc">${h}</div></div>`;r.classList.add('open');S.ov=true;S._ovBackNav=backNav;}
 function closeOv(){$('#ovr')?.classList.remove('open');$('#ovr').innerHTML='';S.ov=false;}
 
 const TABS=[{id:'home',l:'الرئيسية',i:'<svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg>'},{id:'bookings',l:'الحجوزات',i:'<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',b:1},{id:'messages',l:'الرسائل',i:'<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>'},{id:'myHome',l:'بيتي',i:'<svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h5v-6h4v6h5V10"/><circle cx="12" cy="14" r="1"/></svg>'},{id:'profile',l:'حسابي',i:'<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/></svg>'}];
@@ -1627,7 +1627,7 @@ function initHomeMap(){
 document.addEventListener('click',e=>{
   const t=e.target.closest('[data-act]');if(!t)return;const a=t.dataset.act;
   const H={
-    'nav':()=>go(t.dataset.nav),'ov-back':()=>{const nav=S._ovBackNav||'';closeOv();if(nav)go(nav);},'back-home':()=>{if((S.scr==='incoming'||S.scr==='providerProfile')&&S.inc.length){go('scanning');}else{go('home');}},
+    'nav':()=>go(t.dataset.nav),'ov-back':()=>{const dest=S._ovFrom||t.dataset.nav||S._ovBackNav||'';closeOv();if(dest)go(dest);else render();},'back-home':()=>{if((S.scr==='incoming'||S.scr==='providerProfile')&&S.inc.length){go('scanning');}else{go('home');}},
     'open-ai':()=>openAI(),'ai-close':()=>closeAI(),
     'ai-voice':()=>{uS('🎤 (تسجيل صوتي)المكيف بينقط مية');lat(800,()=>{aiS('فهمتك — المكيف بينقط مية. خليني أحللها.');lat(600,()=>{showAC();S.cs=1;});});},
     'ai-send':()=>{const inp=$('#aiIn');if(!inp||!inp.value.trim())return;uS(inp.value);inp.value='';lat(600,()=>{aiS('فهمتك! خليني أحلل المشكلة.');lat(600,()=>{showAC();S.cs=1;});});},
