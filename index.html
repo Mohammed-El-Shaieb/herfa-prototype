@@ -1068,16 +1068,34 @@ function rMessages(){
 }
 
 /* ============ STORES ============ */
+const STORES=[
+  {id:'electrical',name:'محل الكهرباء المتخصص',cat:'كهرباء',desc:'قطع غيار كهربائية — مفاتيح، أسلاك، لوحات توزيع',dist:'0.5 كم',rating:4.7,r:23,bg:'linear-gradient(135deg,#fef3c7,#fde68a)',tc:'#d97706',open:true,hours:'9 ص - 10 م',phone:'01012345678',items:['مفاتيح كهربائية','أسلاك نحاسية','لوحات توزيع','فياشرت','strip lights'],products:[{name:'فيش بريدي 3ثقب',price:45,unit:'قطعة',img:'🔌',stock:24},{name:'سلك نحاسي 2.5 مم',price:12,unit:'متر',img:'🔌',stock:150},{name:'ناقوس إنذار',price:180,unit:'قطعة',img:'🔔',stock:8},{name:'سبوت لايت LED',price:85,unit:'قطعة',img:'💡',stock:30},{name:'شريط LED 5 متر',price:120,unit:'شريط',img:'💡',stock:15},{name:'لوحة توزيع 6 دائرة',price:350,unit:'لوحة',img:'⚡',stock:5}]},
+  {id:'plumbing',name:'سباكة طنطawy',cat:'سباكة',desc:'كل مستلزمات السباكة — أنابيب، وصلات، حنفيات',dist:'0.8 كم',rating:4.5,r:18,bg:'linear-gradient(135deg,#dbeafe,#93c5fd)',tc:'#2563eb',open:true,hours:'8 ص - 9 م',phone:'01098765432',items:['أنابيب UPVC','حنفيات','framوات','شوايب','كاوتشات'],products:[{name:'حنفية مطبخ كروم',price:450,unit:'قطعة',img:'🚿',stock:12},{name:'أنبوب UPVC 4 بوصة',price:35,unit:'متر',img:'🔧',stock:200},{name:'شائبة بلاستيك',price:8,unit:'قطعة',img:'🔧',stock:500},{name:'كاوتش حنفية',price:15,unit:'قطعة',img:'🔧',stock:100},{name:'framوة 1/2 بوصة',price:25,unit:'قطعة',img:'🔧',stock:80},{name:'material لحام أنابيب',price:65,unit:'عبوة',img:'🔧',stock:20}]},
+  {id:'carpentry',name:'ورشة النجارة والديكور',cat:'نجارة',desc:'أثاث خشبي، رفوف، ديكورات — تصنيع وتركيب',dist:'1.2 كم',rating:4.8,r:31,bg:'linear-gradient(135deg,#f0fdf4,#bbf7d0)',tc:'#16a34a',open:false,hours:'9 ص - 6 م',phone:'01122334455',items:['رفوف خشبية','أثاث مكتبي','أبواب خشبية','ديكورات جبس'],products:[{name:'رف عائم خشبي',price:280,unit:'رف',img:'🪵',stock:10},{name:'مسمار خشب عادي',price:2,unit:'قطعة',img:'🔩',stock:1000},{name:'غراء خشب',price:45,unit:'عبوة',img:'🪵',stock:25},{name:'باب خشب بني',price:1200,unit:'باب',img:'🚪',stock:3},{name:'ورقة صنفرة',price:10,unit:'ورقة',img:'🪵',stock:200},{name:'مفصلة حديد',price:18,unit:'قطعة',img:'🔩',stock:60}]},
+  {id:'appliances',name:'محل الأجهزة الكهربائية',cat:'أجهزة',desc:'قطع غيار غسالات، ثلاجات، سخانات — أصلية وبديلة',dist:'1.5 كم',rating:4.3,r:15,bg:'linear-gradient(135deg,#f5f3ff,#ede9fe)',tc:'#7c3aed',open:true,hours:'10 ص - 9 م',phone:'01234567890',items:['كابستور','بيرنجات','ثرموستات','فلاتر','مروحة'],products:[{name:'كابستور غسالة',price:120,unit:'قطعة',img:'⚙️',stock:18},{name:'بيرنج درام غسالة',price:220,unit:'قطعة',img:'⚙️',stock:7},{name:'ثرموستات ثلاجة',price:150,unit:'قطعة',img:'⚙️',stock:10},{name:'فلتر مياه سخان',price:35,unit:'قطعة',img:'⚙️',stock:40},{name:'مروحة تكييف',price:280,unit:'قطعة',img:'⚙️',stock:5},{name:'حاقن غسالة',price:90,unit:'قطعة',img:'⚙️',stock:12}]},
+  {id:'paint',name:'عالم الدهانات',cat:'دهان',desc:'دهانات، ورق حائط، أدوات دهان — كل الألوان',dist:'2.0 كم',rating:4.6,r:27,bg:'linear-gradient(135deg,#fef2f2,#fecaca)',tc:'#e11d48',open:true,hours:'8 ص - 10 م',phone:'01087654321',items:['دهانات داخلية','ورق حائط','فرش رول','بوية','إسفنجة'],products:[{name:'دهان أبيض 1 لتر',price:180,unit:'عبوة',img:'🎨',stock:30},{name:'بوية نايلون',price:25,unit:'قطعة',img:'🎨',stock:50},{name:'فرش رول 20 سم',price:35,unit:'فرشة',img:'🎨',stock:20},{name:'ورق حائط لافندر',price:95,unit:'لفة',img:'🎨',stock:8},{name:'أسفنجة دهان',price:15,unit:'قطعة',img:'🎨',stock:40},{name:'شريط حماية',price:20,unit:'لفة',img:'🎨',stock:25}]},
+  {id:'ac',name:'عالم التكييف والتبريد',cat:'تكييف',desc:'فريون، قطع غيار تكييف — صيانة وبيع',dist:'0.3 كم',rating:4.9,r:42,bg:'linear-gradient(135deg,#ecfdf5,#d1fae5)',tc:'#059669',open:true,hours:'9 ص - 11 م',phone:'01155667788',items:['فريون R410A','كابستور تكييف','فلاتر هواء','堋 رئيسي','موتور مروحة'],products:[{name:'فريون R410A 1 كيلو',price:350,unit:'كيلو',img:'❄️',stock:15},{name:'كابستور تكييف 50 ميكرو',price:180,unit:'قطعة',img:'❄️',stock:10},{name:'فلتر هواء تكييف',price:60,unit:'قطعة',img:'❄️',stock:25},{name:'堋 رئيسي تكييف',price:420,unit:'قطعة',img:'❄️',stock:4},{name:'موتور مروحة خارجية',price:850,unit:'قطعة',img:'❄️',stock:2},{name:'عازل أنابيب',price:28,unit:'متر',img:'❄️',stock:60}]}
+];
+function openStoreProducts(storeId){
+  const s=STORES.find(x=>x.id===storeId);if(!s)return;
+  const html=`<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+    <div style="width:48px;height:48px;border-radius:14px;background:${s.bg};display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-size:22px">${s.cat==='كهرباء'?'⚡':s.cat==='سباكة'?'🔧':s.cat==='نجارة'?'🪚':s.cat==='أجهزة'?'⚙️':s.cat==='دهان'?'🎨':'❄️'}</span></div>
+    <div style="flex:1"><b style="font-size:15px;font-weight:700;color:var(--ink)">${s.name}</b><p style="font-size:11px;color:var(--sl);margin-top:1px">${s.cat} · ${s.dist} · ⭐ ${s.rating}</p></div>
+    <span style="padding:4px 10px;border-radius:8px;font-size:10px;font-weight:700;background:${s.open?'var(--greenBg)':'var(--surface)'};color:${s.open?'var(--green)':'var(--sl)'}">${s.open?'مفتوح':'مقفول'}</span>
+  </div>
+  <div style="display:flex;gap:8px;margin-bottom:14px">
+    <button class="btn bp bs" style="flex:1;background:${s.tc}" data-act="store-call" data-phone="${s.phone}"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#fff;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:4px"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>اتصال</button>
+    <button class="btn bo bs" style="flex:1" data-act="store-directions"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:4px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>الاتجاهات</button>
+  </div>
+  <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:10px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:${s.tc};stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-right:4px"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>المنتجات المتاحة</div>
+  <div style="display:flex;flex-direction:column;gap:8px">${s.products.map(p=>`<div style="background:var(--surface);border:1px solid var(--surface2);border-radius:var(--rs);padding:12px;display:flex;align-items:center;gap:10px">
+    <div style="width:40px;height:40px;border-radius:10px;background:var(--w);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;border:1px solid var(--surface2)">${p.img}</div>
+    <div style="flex:1;min-width:0"><b style="font-size:12px;font-weight:700;color:var(--ink);display:block">${p.name}</b><p style="font-size:10px;color:var(--sl);margin-top:1px">${p.unit} · المخزون: ${p.stock}</p></div>
+    <div style="text-align:left;flex-shrink:0"><b style="font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;color:var(--ink);display:block">${p.price} ج.م</b><button style="margin-top:4px;padding:4px 12px;border-radius:8px;font-size:10px;font-weight:700;background:${s.tc};color:#fff;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif" data-act="store-add" data-store="${s.id}" data-product="${p.name}" data-price="${p.price}">طلب</button></div>
+  </div>`).join('')}</div>`;
+  openOv(html,s.name,'📞 '+s.phone);
+}
 function rStores(){
-  const stores=[
-    {name:'محل الكهرباء المتخصص',cat:'كهرباء',desc:'قطع غيار كهربائية — مفاتيح، أسلاك، لوحات توزيع',dist:'0.5 كم',rating:4.7,r:23,bg:'linear-gradient(135deg,#fef3c7,#fde68a)',tc:'#d97706',open:true,hours:'9 ص - 10 م',phone:'01012345678',items:['مفاتيح كهربائية','أسلاك نحاسية','لوحات توزيع','فياشرت','strip lights']},
-    {name:'سباكة;&amp; طنطawy',cat:'سباكة',desc:'كل مستلزمات السباكة — أنابيب، وصلات، حنفيات',dist:'0.8 كم',rating:4.5,r:18,bg:'linear-gradient(135deg,#dbeafe,#93c5fd)',tc:'#2563eb',open:true,hours:'8 ص - 9 م',phone:'01098765432',items:['أنابيب UPVC','حنفيات','framوات','شوايب','كاوتشات']},
-    {name:'ورشة النجارة والديكور',cat:'نجارة',desc:'أثاث خشبي، رفوف، ديكورات — تصنيع وتركيب',dist:'1.2 كم',rating:4.8,r:31,bg:'linear-gradient(135deg,#f0fdf4,#bbf7d0)',tc:'#16a34a',open:false,hours:'9 ص - 6 م',phone:'01122334455',items:['رفوف خشبية','أثاث مكتبي','أبواب خشبية','ديكورات جبس']},
-    {name:'محل الأجهزة الكهربائية',cat:'أجهزة',desc:'قطع غيار غسالات، ثلاجات، سخانات — أصلية وبديلة',dist:'1.5 كم',rating:4.3,r:15,bg:'linear-gradient(135deg,#f5f3ff,#ede9fe)',tc:'#7c3aed',open:true,hours:'10 ص - 9 م',phone:'01234567890',items:['كابستور','بيرنجات','ثرموستات','فلاتر','مروحة']},
-    {name:'mixer للدهان والçı[curly]paint',cat:'دهان',desc:'دهانات، ورق حائط، أدوات دهان — كل الألوان',dist:'2.0 كم',rating:4.6,r:27,bg:'linear-gradient(135deg,#fef2f2,#fecaca)',tc:'#e11d48',open:true,hours:'8 ص - 10 م',phone:'01087654321',items:['دهانات داخلية','ورق حائط','فرش رول','بوية','إسفنجة']},
-    {name:'عالم التكييف والتبريد',cat:'تكييف',desc:'فريون، قطع غيار تكييف — صيانة وبيع',dist:'0.3 كم',rating:4.9,r:42,bg:'linear-gradient(135deg,#ecfdf5,#d1fae5)',tc:'#059669',open:true,hours:'9 ص - 11 م',phone:'01155667788',items:['فريون R410A','كابستور تكييف','فلاتر هواء','堋 رئيسي','موتور مروحة']}
-  ];
-  const catColors={'كهرباء':'#d97706','سباكة':'#2563eb','نجارة':'#16a34a','أجهزة':'#7c3aed','دهان':'#e11d48','تكييف':'#059669'};
   return `<div style="padding:16px 20px">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
     <div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">المتاجر القريبة</h1><p style="font-size:11px;color:var(--sl);margin-top:2px">مستلزمات وقطع غيار في منطقتك</p></div>
@@ -1092,7 +1110,7 @@ function rStores(){
     <span class="filter-chip" data-act="store-filter">نجارة</span>
     <span class="filter-chip" data-act="store-filter">دهان</span>
   </div>
-  ${stores.map(s=>`<div class="cd" style="margin-bottom:12px;padding:14px;cursor:pointer" data-act="store-view">
+  ${STORES.map(s=>`<div class="cd" style="margin-bottom:12px;padding:14px;cursor:pointer" data-act="store-view" data-store="${s.id}">
     <div style="display:flex;gap:12px;margin-bottom:10px">
       <div style="width:52px;height:52px;border-radius:14px;background:${s.bg};display:flex;align-items:center;justify-content:center;flex-shrink:0">
         <span style="font-size:22px">${s.cat==='كهرباء'?'⚡':s.cat==='سباكة'?'🔧':s.cat==='نجارة'?'🪚':s.cat==='أجهزة'?'⚙️':s.cat==='دهان'?'🎨':'❄️'}</span>
@@ -1105,18 +1123,10 @@ function rStores(){
         <p style="font-size:11px;color:var(--sl);margin-top:2px">${s.desc}</p>
       </div>
     </div>
-    <div style="display:flex;gap:12px;margin-bottom:10px;flex-wrap:wrap">
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
       <span style="font-size:10px;color:var(--sl);display:flex;align-items:center;gap:3px"><svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:var(--sl);stroke-width:2;fill:none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>${s.dist}</span>
       <span style="font-size:10px;color:var(--sl);display:flex;align-items:center;gap:3px"><svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:var(--amber);stroke-width:2;fill:var(--amber)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>${s.rating} (${s.r})</span>
       <span style="font-size:10px;color:var(--sl);display:flex;align-items:center;gap:3px"><svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:var(--sl);stroke-width:2;fill:none"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${s.hours}</span>
-    </div>
-    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px">
-      ${s.items.slice(0,4).map(item=>`<span style="padding:4px 10px;border-radius:8px;font-size:10px;font-weight:600;background:var(--surface);color:var(--ink3);border:1px solid var(--surface2)">${item}</span>`).join('')}
-      ${s.items.length>4?`<span style="padding:4px 10px;border-radius:8px;font-size:10px;font-weight:600;background:var(--blueBg);color:var(--blue)">+${s.items.length-4}</span>`:''}
-    </div>
-    <div style="display:flex;gap:8px">
-      <button class="btn bp bs" style="flex:1;background:${catColors[s.cat]||'var(--blue)'}" data-act="store-call" data-phone="${s.phone}"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#fff;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:4px"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>اتصال</button>
-      <button class="btn bo bs" style="flex:1" data-act="store-directions" data-dist="${s.dist}"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:4px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>الاتجاهات</button>
     </div>
   </div>`).join('')}
   <div style="height:20px"></div></div>`;
@@ -1810,7 +1820,8 @@ document.addEventListener('click',e=>{
     'toast':()=>toast(t.dataset.msg||'تم'),
     't-day':()=>{$$('.filter-chip').forEach(x=>x.classList.remove('on'));t.classList.add('on');},
     'store-filter':()=>{$$('.filter-chip').forEach(x=>x.classList.remove('on'));t.classList.add('on');toast('تم تصفية المتاجر','🔍');},
-    'store-view':()=>toast('تفاصيل المتجر قادمة قريباً','🏪'),
+    'store-view':()=>{openStoreProducts(t.dataset.store);},
+    'store-add':()=>{toast('تمت إضافة '+t.dataset.product+' للطلب ✅','🛒');},
     'store-call':()=>toast('جاري الاتصال بالمتجر 📞','📞'),
     'store-directions':()=>toast('جاري فتح الخرائط 🗺️','🗺️'),
     'c-approve-report':()=>{const id=+(t.dataset.id);const rpt=S.reports.find(r=>r.id===id);if(rpt){rpt.status='approved';S.techNotifs.unshift({t:'العميل وافق على التقرير',d:`حسن وافق على التقرير #${rpt.id} — ${rpt.total} ج.م`,time:'الآن',read:false});toast('تم الموافقة على التقرير ✅','✅');closeOv();go('serviceProgress');scheduleJobDone();}},
