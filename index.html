@@ -681,7 +681,7 @@ function openJobDone(){
   const total=visitFee+partsTotal+laborTotal;
   openOv(`<div style="text-align:center;margin-bottom:14px"><div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--green),#047857);display:flex;align-items:center;justify-content:center;margin:0 auto;font-size:26px;box-shadow:0 6px 20px rgba(5,150,105,.25)">✅</div><h2 style="font-size:15px;font-weight:800;color:var(--ink);margin-top:10px">أحمد حسن خلّص الشغلانة</h2><p style="font-size:12px;color:var(--sl);margin-top:3px">اعتمد الخلاص وشوف الفاتورة النهائية والحساب</p></div><div style="background:var(--greenBg);border:1px solid #bbf7d0;border-radius:var(--r);padding:12px;text-align:center;margin-bottom:14px"><p style="font-size:12px;color:var(--sl)">الإجمالي المتوقع</p><p style="font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:var(--green)">${total} ج.م</p><small style="font-size:10px;color:var(--sl)">زيارة الفحص 200 ج.م + ${partsTotal} ج.م قطع + ${laborTotal} ج.م خدمة</small></div><button class="btn bp" style="height:46px;background:var(--green);color:#fff" data-act="c-view-invoice">عرض الفاتورة والحساب</button>`,'الشغل خلص 🎉','اعتماد الخلاص');}
 
-const TABS=[{id:'home',l:'الرئيسية',i:'<svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg>'},{id:'bookings',l:'الحجوزات',i:'<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',b:1},{id:'messages',l:'الرسائل',i:'<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>'},{id:'myHome',l:'بيتي',i:'<svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h5v-6h4v6h5V10"/><circle cx="12" cy="14" r="1"/></svg>'},{id:'profile',l:'حسابي',i:'<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/></svg>'}];
+const TABS=[{id:'home',l:'الرئيسية',i:'<svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg>'},{id:'bookings',l:'الحجوزات',i:'<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',b:1},{id:'stores',l:'المتاجر',i:'<svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>'},{id:'messages',l:'الرسائل',i:'<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>'},{id:'myHome',l:'بيتي',i:'<svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h5v-6h4v6h5V10"/><circle cx="12" cy="14" r="1"/></svg>'},{id:'profile',l:'حسابي',i:'<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/></svg>'}];
 function renderNav(){  $('#bn').innerHTML=TABS.map(t=>`<div class="b ${t.id===S.scr||['schedule','scanning','techSelect','tracking','arrival','report','rating','invoice','warranty','myHome','passport','healthScore','quoteApproval','warranties','providerProfile','serviceProgress','savedProviders','incoming'].includes(S.scr)&&t.id==='home'?'on':''}" data-act="nav" data-nav="${t.id}"><span class="bn-ic">${t.i}</span>${t.b?`<span class="bdg">${t.b}</span>`:''}<span>${t.l}</span></div>`).join('');}
 
 function render(){
@@ -719,7 +719,7 @@ function render(){
     v.innerHTML=(TR[S.scr]||TR.tDash)();renderTechNav();
     return;
   }
-  const R={home:rHome,bookings:rBookings,profile:rProfile,schedule:rSchedule,scanning:rScanning,techSelect:rTechSel,tracking:rTrack,arrival:rArrival,report:rReport,rating:rRating,invoice:rInvoice,warranty:rWarranty,myHome:rMyHome,passport:rPassport,healthScore:rHealthScore,quoteApproval:rQuoteApproval,warranties:rWarranties,messages:rMessages,providerProfile:rProviderProfile,custReportsList:rCustReportsList,serviceProgress:rServiceProgress,savedProviders:rSavedProviders,incoming:rIncoming,custReport:rCustReport,custInvoice:rCustInvoice,custNotifs:rCustNotifs};
+  const R={home:rHome,bookings:rBookings,stores:rStores,profile:rProfile,schedule:rSchedule,scanning:rScanning,techSelect:rTechSel,tracking:rTrack,arrival:rArrival,report:rReport,rating:rRating,invoice:rInvoice,warranty:rWarranty,myHome:rMyHome,passport:rPassport,healthScore:rHealthScore,quoteApproval:rQuoteApproval,warranties:rWarranties,messages:rMessages,providerProfile:rProviderProfile,custReportsList:rCustReportsList,serviceProgress:rServiceProgress,savedProviders:rSavedProviders,incoming:rIncoming,custReport:rCustReport,custInvoice:rCustInvoice,custNotifs:rCustNotifs};
   v.innerHTML=(R[S.scr]||R.home)();renderNav();
 }
 function showAuth(id){['authLogin','authSignup','authOtp','authDocs','authReview'].forEach(x=>$('#'+x)?.classList.remove('on'));const el=$('#'+id);if(el)el.classList.add('on');if(id==='authOtp')lat(200,initAuthOtp);if(id==='authDocs')lat(100,resetAuthDocs);if(id==='authReview')lat(200,initAuthReview);}
@@ -1067,6 +1067,61 @@ function rMessages(){
   </div>`;
 }
 
+/* ============ STORES ============ */
+function rStores(){
+  const stores=[
+    {name:'محل الكهرباء المتخصص',cat:'كهرباء',desc:'قطع غيار كهربائية — مفاتيح، أسلاك، لوحات توزيع',dist:'0.5 كم',rating:4.7,r:23,bg:'linear-gradient(135deg,#fef3c7,#fde68a)',tc:'#d97706',open:true,hours:'9 ص - 10 م',phone:'01012345678',items:['مفاتيح كهربائية','أسلاك نحاسية','لوحات توزيع','فياشرت','strip lights']},
+    {name:'سباكة;&amp; طنطawy',cat:'سباكة',desc:'كل مستلزمات السباكة — أنابيب، وصلات، حنفيات',dist:'0.8 كم',rating:4.5,r:18,bg:'linear-gradient(135deg,#dbeafe,#93c5fd)',tc:'#2563eb',open:true,hours:'8 ص - 9 م',phone:'01098765432',items:['أنابيب UPVC','حنفيات','framوات','شوايب','كاوتشات']},
+    {name:'ورشة النجارة والديكور',cat:'نجارة',desc:'أثاث خشبي، رفوف، ديكورات — تصنيع وتركيب',dist:'1.2 كم',rating:4.8,r:31,bg:'linear-gradient(135deg,#f0fdf4,#bbf7d0)',tc:'#16a34a',open:false,hours:'9 ص - 6 م',phone:'01122334455',items:['رفوف خشبية','أثاث مكتبي','أبواب خشبية','ديكورات جبس']},
+    {name:'محل الأجهزة الكهربائية',cat:'أجهزة',desc:'قطع غيار غسالات، ثلاجات، سخانات — أصلية وبديلة',dist:'1.5 كم',rating:4.3,r:15,bg:'linear-gradient(135deg,#f5f3ff,#ede9fe)',tc:'#7c3aed',open:true,hours:'10 ص - 9 م',phone:'01234567890',items:['كابستور','بيرنجات','ثرموستات','فلاتر','مروحة']},
+    {name:'mixer للدهان والçı[curly]paint',cat:'دهان',desc:'دهانات، ورق حائط، أدوات دهان — كل الألوان',dist:'2.0 كم',rating:4.6,r:27,bg:'linear-gradient(135deg,#fef2f2,#fecaca)',tc:'#e11d48',open:true,hours:'8 ص - 10 م',phone:'01087654321',items:['دهانات داخلية','ورق حائط','فرش رول','بوية','إسفنجة']},
+    {name:'عالم التكييف والتبريد',cat:'تكييف',desc:'فريون، قطع غيار تكييف — صيانة وبيع',dist:'0.3 كم',rating:4.9,r:42,bg:'linear-gradient(135deg,#ecfdf5,#d1fae5)',tc:'#059669',open:true,hours:'9 ص - 11 م',phone:'01155667788',items:['فريون R410A','كابستور تكييف','فلاتر هواء','堋 رئيسي','موتور مروحة']}
+  ];
+  const catColors={'كهرباء':'#d97706','سباكة':'#2563eb','نجارة':'#16a34a','أجهزة':'#7c3aed','دهان':'#e11d48','تكييف':'#059669'};
+  return `<div style="padding:16px 20px">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+    <div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">المتاجر القريبة</h1><p style="font-size:11px;color:var(--sl);margin-top:2px">مستلزمات وقطع غيار في منطقتك</p></div>
+    <div style="width:40px;height:40px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--ink);stroke-width:1.8;fill:none"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+  </div>
+  <div class="filter-bar" style="margin-bottom:14px">
+    <span class="filter-chip on" data-act="store-filter">الكل</span>
+    <span class="filter-chip" data-act="store-filter">كهرباء</span>
+    <span class="filter-chip" data-act="store-filter">سباكة</span>
+    <span class="filter-chip" data-act="store-filter">تكييف</span>
+    <span class="filter-chip" data-act="store-filter">أجهزة</span>
+    <span class="filter-chip" data-act="store-filter">نجارة</span>
+    <span class="filter-chip" data-act="store-filter">دهان</span>
+  </div>
+  ${stores.map(s=>`<div class="cd" style="margin-bottom:12px;padding:14px;cursor:pointer" data-act="store-view">
+    <div style="display:flex;gap:12px;margin-bottom:10px">
+      <div style="width:52px;height:52px;border-radius:14px;background:${s.bg};display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <span style="font-size:22px">${s.cat==='كهرباء'?'⚡':s.cat==='سباكة'?'🔧':s.cat==='نجارة'?'🪚':s.cat==='أجهزة'?'⚙️':s.cat==='دهان'?'🎨':'❄️'}</span>
+      </div>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:6px">
+          <b style="font-size:14px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.name}</b>
+          <span style="padding:3px 8px;border-radius:6px;font-size:9px;font-weight:700;background:${s.open?'var(--greenBg)':'var(--surface)'};color:${s.open?'var(--green)':'var(--sl)'};flex-shrink:0">${s.open?'مفتوح':'مقفول'}</span>
+        </div>
+        <p style="font-size:11px;color:var(--sl);margin-top:2px">${s.desc}</p>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;margin-bottom:10px;flex-wrap:wrap">
+      <span style="font-size:10px;color:var(--sl);display:flex;align-items:center;gap:3px"><svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:var(--sl);stroke-width:2;fill:none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>${s.dist}</span>
+      <span style="font-size:10px;color:var(--sl);display:flex;align-items:center;gap:3px"><svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:var(--amber);stroke-width:2;fill:var(--amber)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>${s.rating} (${s.r})</span>
+      <span style="font-size:10px;color:var(--sl);display:flex;align-items:center;gap:3px"><svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:var(--sl);stroke-width:2;fill:none"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${s.hours}</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px">
+      ${s.items.slice(0,4).map(item=>`<span style="padding:4px 10px;border-radius:8px;font-size:10px;font-weight:600;background:var(--surface);color:var(--ink3);border:1px solid var(--surface2)">${item}</span>`).join('')}
+      ${s.items.length>4?`<span style="padding:4px 10px;border-radius:8px;font-size:10px;font-weight:600;background:var(--blueBg);color:var(--blue)">+${s.items.length-4}</span>`:''}
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn bp bs" style="flex:1;background:${catColors[s.cat]||'var(--blue)'}" data-act="store-call" data-phone="${s.phone}"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#fff;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:4px"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>اتصال</button>
+      <button class="btn bo bs" style="flex:1" data-act="store-directions" data-dist="${s.dist}"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:4px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>الاتجاهات</button>
+    </div>
+  </div>`).join('')}
+  <div style="height:20px"></div></div>`;
+}
+
 /* ============ INSPECTION ============ */
 function rInspection(){
   const t=S.tech||TECHS[0];
@@ -1255,8 +1310,8 @@ function rProviderProfile(){
       <p style="font-size:11px;color:var(--ink3);line-height:1.5">كل شغلة معتمدة من حرفة بتتحمل ضمان 30 يوم. لو المشكلة رجعت في خلال الضمان، حرفة هيبعتلك الفني مجانًا.</p>
     </div>
   </div>
-  <div style="position:fixed;bottom:80px;left:0;right:0;padding:12px 20px;background:var(--w);border-top:1px solid var(--surface2);display:flex;gap:10px;z-index:60">
-    ${inc?`<button class="btn bo" style="flex:0 0 90px;height:44px;font-size:13px" data-act="reject-inc-profile">رفض</button><button class="btn bp" style="flex:1;height:44px;font-size:13px" data-act="accept-inc">✓ قبول العرض — ${inc.price}</button>`:`<button class="btn bo" style="flex:0 0 100px;height:44px;font-size:13px" data-act="chat-tech">محادثة</button><button class="btn bp" style="flex:1;height:44px;font-size:13px" data-act="confirm-tech">احجز الآن</button>`}
+  <div style="position:fixed;bottom:80px;left:0;right:0;padding:12px 20px;background:var(--w);border-top:1px solid var(--surface2);display:flex;gap:10px;z-index:60;max-width:430px;margin:0 auto">
+    ${inc?`<button class="btn bo" style="width:auto;flex:0 0 auto;padding:0 20px;height:44px;font-size:13px" data-act="reject-inc-profile">رفض</button><button class="btn bp" style="width:auto;flex:1;padding:0 16px;height:44px;font-size:13px" data-act="accept-inc">✓ قبول العرض — ${inc.price}</button>`:`<button class="btn bo" style="width:auto;flex:0 0 auto;padding:0 20px;height:44px;font-size:13px" data-act="chat-tech">محادثة</button><button class="btn bp" style="width:auto;flex:1;padding:0 16px;height:44px;font-size:13px" data-act="confirm-tech">احجز الآن</button>`}
   </div>
 </div>`;
 }
@@ -1738,7 +1793,7 @@ document.addEventListener('click',e=>{
     't-accept':()=>{toast('تم قبول الشغلة ✅','✅');go('tJobDetail');},
     't-accept-job':()=>{S.tS.activeJob={t:'حسن',title:'صيانة مكيف سبليت',pr:'200'};S.jobStatus='accepted';S.tS._jobId=++S.rptId;S.tS.reportsFinalized=false;toast('تم قبول الشغلة ✅','✅');go('tJobDetail');},
     't-decline-job':()=>{S.jobStatus=null;S.tS.activeJob=null;toast('تم رفض الشغلة ❌','❌');go('tJobs');},
-    't-set-status':()=>{S.jobStatus=t.dataset.st;const labels={ontheway:'في الطريق 🚗',arrived:'وصلت للموقع 📍',inspection:'بدأت الفحص 🔍',repair:'جاري الإصلاح 🔧',completed:'الشغل خلص 🎉'};toast(labels[S.jobStatus]||'تم تحديث الحالة','✅');if(S.jobStatus==='completed'){S.custNotifs.unshift({t:'الشغل اتجمع! 🎉',d:'أحمد حسن خلص الشغل. شوف الفاتورة النهائية.',time:'الآن',read:false,act:'c-view-invoice'});S.tS.jobsDone++;S.tS.earnings.total+=6000;S.tS.earnings.week+=6000;S.tS.earnings.avail+=6000;S.tS.activeJob=null;}if(S.jobStatus==='completed'&&S.role==='customer'){go('custInvoice');}else{render();}},
+    't-set-status':()=>{S.jobStatus=t.dataset.st;const labels={ontheway:'في الطريق 🚗',arrived:'وصلت للموقع 📍',inspection:'بدأت الفحص 🔍',repair:'جاري الإصلاح 🔧',completed:'الشغل خلص 🎉'};toast(labels[S.jobStatus]||'تم تحديث الحالة','✅');if(S.jobStatus==='completed'){S.custNotifs.unshift({t:'الشغل اتجمع! 🎉',d:'أحمد حسن خلص الشغل. شوف الفاتورة النهائية.',time:'الآن',read:false,act:'c-view-invoice'});S.tS.jobsDone++;S.tS.earnings.total+=6000;S.tS.earnings.week+=6000;S.tS.earnings.avail+=6000;S.tS.activeJob=null;go('custInvoice');}else{render();}},
     't-job-active':()=>go('tJobDetail'),
     't-view-job':()=>go('tJobDetail'),
     't-go-inspection':()=>go('tInspection'),
@@ -1746,7 +1801,7 @@ document.addEventListener('click',e=>{
     't-create-report':()=>go('tCreateReport'),
     't-add-part':()=>{const c=$('#rptParts');if(!c)return;const d=document.createElement('div');d.className='rpt-part-row';d.innerHTML=`<input type="text" placeholder="اسم القطعة" class="rp-name"><input type="number" placeholder="الكمية" value="1" style="max-width:60px" class="rp-qty"><input type="number" placeholder="السعر" value="0" style="max-width:80px" class="rp-price"><div class="rpt-part-rm" data-act="t-rm-part">✕</div>`;c.appendChild(d);},
     't-rm-part':()=>{const row=t.closest('.rpt-part-row');if(row)row.remove();},
-    't-send-report':()=>{const parts=[];$$('.rpt-part-row').forEach(r=>{const n=r.querySelector('.rp-name')?.value||'';const q=+(r.querySelector('.rp-qty')?.value||1);const p=+(r.querySelector('.rp-price')?.value||0);if(n&&p)parts.push({name:n,qty:q,price:p});});const labor=+(document.getElementById('rptLabor')?.value||0);const total=parts.reduce((s,p)=>s+p.price*p.qty,0)+labor;const rpt={id:++S.rptId,jobId:S.tS._jobId,problem:document.getElementById('rptProblem')?.value||'',diagnosis:document.getElementById('rptDiagnosis')?.value||'',recommend:document.getElementById('rptRecommend')?.value||'',parts,labor,notes:document.getElementById('rptNotes')?.value||'',estimatedTime:document.getElementById('rptTime')?.value||'',warranty:document.getElementById('rptWarranty')?.value||'',total,status:'pending',sentAt:'الآن'};S.reports.push(rpt);const isAdditional=S.reports.filter(r=>r.jobId===S.tS._jobId).length>1;S.custNotifs.unshift({t:isAdditional?'تقرير إضافي من أحمد حسن':'تقرير فحص جديد من أحمد حسن',d:`${rpt.problem} — الإجمالي: ${rpt.total} ج.م${isAdditional?' (مبلغ إضافي)':''}`,time:'الآن',read:false,act:'c-view-report',id:rpt.id});if(S.jobStatus!=='completed')S.jobStatus='repair';toast(isAdditional?'تم إرسال التقرير الإضافي للعميل 📨':'تم إرسال التقرير للعميل 📨','✅');go('tInspection');},
+    't-send-report':()=>{const parts=[];$$('.rpt-part-row').forEach(r=>{const n=r.querySelector('.rp-name')?.value||'';const q=+(r.querySelector('.rp-qty')?.value||1);const p=+(r.querySelector('.rp-price')?.value||0);if(n&&p)parts.push({name:n,qty:q,price:p});});const labor=+(document.getElementById('rptLabor')?.value||0);const total=parts.reduce((s,p)=>s+p.price*p.qty,0)+labor;const rpt={id:++S.rptId,jobId:S.tS._jobId,problem:document.getElementById('rptProblem')?.value||'',diagnosis:document.getElementById('rptDiagnosis')?.value||'',recommend:document.getElementById('rptRecommend')?.value||'',parts,labor,notes:document.getElementById('rptNotes')?.value||'',estimatedTime:document.getElementById('rptTime')?.value||'',warranty:document.getElementById('rptWarranty')?.value||'',total,status:'pending',sentAt:'الآن'};S.reports.push(rpt);const isAdditional=S.reports.filter(r=>r.jobId===S.tS._jobId).length>1;S.custNotifs.unshift({t:isAdditional?'تقرير إضافي من أحمد حسن':'تقرير فحص جديد من أحمد حسن',d:`${rpt.problem} — الإجمالي: ${rpt.total} ج.م${isAdditional?' (مبلغ إضافي)':''}`,time:'الآن',read:false,act:'c-view-report',id:rpt.id});if(S.jobStatus!=='completed')S.jobStatus='repair';toast(isAdditional?'تم إرسال التقرير الإضافي للعميل 📨':'تم إرسال التقرير للعميل 📨','✅');go('tInspection');lat(3000,()=>{rpt.status='approved';S.techNotifs.unshift({t:'العميل وافق على التقرير #'+rpt.id,d:'حسن وافق على التقرير — '+rpt.total+' ج.م',time:'الآن',read:false});toast('العميل وافق على التقرير #'+rpt.id+' ✅','✅');render();});},
     't-finish-reports':()=>{S.tS.reportsFinalized=true;toast('تم الانتهاء من التقارير ✅','✅');render();scheduleJobDone();},
     't-start-repair':()=>{S.jobStatus='repair';toast('بدأت أعمال الإصلاح 🔧','🔧');render();},
     't-filter':()=>{$$('.filter-chip').forEach(x=>x.classList.remove('on'));t.classList.add('on');},
@@ -1754,6 +1809,10 @@ document.addEventListener('click',e=>{
     't-settings':()=>toast('الإعدادات قادمة قريباً','⚙️'),
     'toast':()=>toast(t.dataset.msg||'تم'),
     't-day':()=>{$$('.filter-chip').forEach(x=>x.classList.remove('on'));t.classList.add('on');},
+    'store-filter':()=>{$$('.filter-chip').forEach(x=>x.classList.remove('on'));t.classList.add('on');toast('تم تصفية المتاجر','🔍');},
+    'store-view':()=>toast('تفاصيل المتجر قادمة قريباً','🏪'),
+    'store-call':()=>toast('جاري الاتصال بالمتجر 📞','📞'),
+    'store-directions':()=>toast('جاري فتح الخرائط 🗺️','🗺️'),
     'c-approve-report':()=>{const id=+(t.dataset.id);const rpt=S.reports.find(r=>r.id===id);if(rpt){rpt.status='approved';S.techNotifs.unshift({t:'العميل وافق على التقرير',d:`حسن وافق على التقرير #${rpt.id} — ${rpt.total} ج.م`,time:'الآن',read:false});toast('تم الموافقة على التقرير ✅','✅');closeOv();go('serviceProgress');scheduleJobDone();}},
     'c-decline-report':()=>{const id=+(t.dataset.id);const rpt=S.reports.find(r=>r.id===id);if(rpt){rpt.status='declined';if(S.jobStatus!=='completed')S.jobStatus='repair';S.techNotifs.unshift({t:'العميل رفض التقرير',d:`حسن رفض التقرير #${rpt.id}`,time:'الآن',read:false});toast('تم رفض التقرير ❌','❌');closeOv();go('serviceProgress');scheduleJobDone();}},
     'c-approve-report-popup':()=>{const id=+(t.dataset.id);const rpt=S.reports.find(r=>r.id===id);if(rpt){rpt.status='approved';if(S.jobStatus!=='completed')S.jobStatus='repair';S.techNotifs.unshift({t:'العميل وافق على التقرير',d:`حسن وافق على التقرير #${rpt.id} — ${rpt.total} ج.م`,time:'الآن',read:false});toast('تم الموافقة على التقرير ✅','✅');closeOv();go('serviceProgress');scheduleJobDone();}},
