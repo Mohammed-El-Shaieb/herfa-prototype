@@ -56,6 +56,15 @@ body{display:flex;align-items:center;justify-content:center}
 .fi-wrap .fi-ic{font-size:18px;color:var(--sl2);flex-shrink:0}
 .fi-wrap .fi-inp{border:none;background:none;outline:none;font-size:14px;color:var(--ink);width:100%;font-family:'Cairo',sans-serif}
 .fi-wrap .fi-inp::placeholder{color:var(--sl2)}
+.doc-zone{background:var(--w);border:2px dashed var(--surface3);border-radius:var(--r);padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:.2s}
+.doc-zone:hover{border-color:var(--blue)}
+.doc-zone .dz-ic{width:40px;height:40px;border-radius:10px;background:var(--blueBg);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.doc-zone b{font-size:13px;font-weight:700;color:var(--ink);display:block}
+.doc-zone small{font-size:10px;color:var(--sl)}
+.doc-zone.done{border-style:solid;border-color:var(--green);background:var(--greenBg)}
+.doc-zone.done .dz-ic{background:var(--green);color:#fff}
+.doc-zone .dz-st{margin-right:auto;font-size:10px;font-weight:700;color:var(--sl)}
+.doc-zone.done .dz-st{color:var(--green)}
 .fi-wrap .fi-label{font-size:10px;color:var(--sl2);font-weight:500;margin-bottom:2px}
 .auth-link{text-align:center;margin-top:14px;font-size:13px;color:var(--sl);font-weight:500}
 .auth-link b{color:var(--blue);cursor:pointer;font-weight:700}
@@ -566,6 +575,38 @@ body{display:flex;align-items:center;justify-content:center}
     </div>
   </div>
 
+  <!-- AUTH: TECH DOCS UPLOAD -->
+  <div class="auth" id="authDocs">
+    <div class="sb"><span>9:41</span><div class="ic">📶 🔋</div></div>
+    <div class="auth-body">
+      <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:var(--ink);margin-top:8px">رافع مستنداتك 📎</h1>
+      <p style="font-size:13px;color:var(--sl);margin-top:6px;margin-bottom:16px">عشان نتأكد من هويتك ونتأكد إنك فني معتمد — ارفع الأوراق الرسمية دي</p>
+      <div class="doc-zone" data-act="doc-upload" data-doc="1"><div class="dz-ic">🪪</div><div><b>بطاقة الرقم القومي</b><small>الواجهة والخلفية</small></div><span class="dz-st">اختر الملف</span></div>
+      <div class="doc-zone" data-act="doc-upload" data-doc="2"><div class="dz-ic">📄</div><div><b>الفيش الجنائي</b><small>صحيفة الحالة الجنائية — حديثة</small></div><span class="dz-st">اختر الملف</span></div>
+      <div class="doc-zone" data-act="doc-upload" data-doc="3"><div class="dz-ic">📜</div><div><b>شهادة مزاولة المهنة</b><small>كارنيه النقابة أو رخصة مزاولة</small></div><span class="dz-st">اختر الملف</span></div>
+      <div class="doc-zone" data-act="doc-upload" data-doc="4"><div class="dz-ic">🗂️</div><div><b>سجل تجاري / ترخيص نشاط</b><small>للمحلات والورش المعتمدة</small></div><span class="dz-st">اختر الملف</span></div>
+      <div class="doc-zone" data-act="doc-upload" data-doc="5"><div class="dz-ic">🎓</div><div><b>شهادات خبرة ودورات معتمدة</b><small>أي ورق رسمي بيأكد كفاءتك</small></div><span class="dz-st">اختر الملف</span></div>
+      <div class="doc-zone" data-act="doc-upload" data-doc="6"><div class="dz-ic">🧾</div><div><b>إثبات الحساب البنكي</b><small>حساب أو محفظة استلام المدفوعات</small></div><span class="dz-st">اختر الملف</span></div>
+      <div class="fg" style="margin-top:14px"><div class="fi-wrap"><span class="fi-ic"><svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:var(--sl2);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></span><div style="flex:1"><div class="fi-label">رقم التليفون الظاهر للعملاء</div><input class="fi-inp" type="tel" placeholder="01098765432" value="01098765432"></div></div></div>
+      <p style="font-size:11px;color:var(--sl);font-weight:600;margin:4px 0 10px" id="docCount">✓ ارفعت <b style="color:var(--blue)">0</b> من 6 مستندات</p>
+      <button class="btn bp" id="docsBtn" data-act="submit-docs" disabled style="opacity:.4">إرسال للمراجعة 🔍</button>
+      <div class="auth-link"><span style="color:var(--sl)">مستنداتك سرية وفي أمان — مراجعة خلال 24 ساعة</span></div>
+      <div class="auth-link" data-act="go-login" style="margin-top:14px">← رجوع</div>
+    </div>
+  </div>
+
+  <!-- AUTH: TECH UNDER REVIEW -->
+  <div class="auth" id="authReview">
+    <div class="sb"><span>9:41</span><div class="ic">📶 🔋</div></div>
+    <div style="text-align:center;padding:28px">
+      <div style="width:88px;height:88px;border-radius:24px;background:linear-gradient(135deg,var(--amber),var(--amber2));display:flex;align-items:center;justify-content:center;margin:44px auto 0;box-shadow:0 10px 30px rgba(217,119,6,.3);font-size:40px">🕵️</div>
+      <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:var(--ink);margin-top:18px">حسابك قيد المراجعة</h2>
+      <p style="font-size:13px;color:var(--sl);margin-top:8px;line-height:1.7">إحنا كده بنراجع المستندات اللي رفعتها 🔎<br>هندخلك أوتوماتيك أول ما التوثيق يكتمل</p>
+      <div style="display:inline-flex;align-items:center;gap:8px;background:var(--amberBg);border:1px solid var(--amberLight);border-radius:var(--rs);padding:10px 16px;margin-top:18px"><div style="width:8px;height:8px;border-radius:50%;background:var(--amber);animation:pulse-dot 2s infinite"></div><b style="font-size:13px;color:var(--amber)">جاري التوثيق... </b><b id="reviewCount" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;color:var(--ink)">5</b></div>
+      <p style="font-size:11px;color:var(--sl2);margin-top:14px">لو في أي نقص هيوصلك إشعار</p>
+    </div>
+  </div>
+
   <!-- APP WRAPPER -->
   <div id="appWrap" style="display:none;position:absolute;inset:0;flex-direction:column">
     <div class="sb"><span>9:41</span><div class="ic">📶 🔋</div></div>
@@ -596,7 +637,7 @@ body{display:flex;align-items:center;justify-content:center}
 "use strict";
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const lat=(ms,fn)=>setTimeout(fn,ms),rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
-const S={scr:'splash',authed:false,role:null,user:{name:'حسن',phone:'01012345678',area:'التجمع الخامس'},sc:'ac',job:null,tech:null,chat:null,cs:0,cd:false,hist:[],ov:false,inc:[],selectedTime:null,scanInterval:null,reports:[],jobStatus:null,custNotifs:[],techNotifs:[],rptId:0,autoDoneSent:false,tS:{authed:false,name:'أحمد حسن',phone:'01098765432',trade:'سباكة',exp:'8 سنوات',area:'التجمع الخامس',online:true,earnings:{total:18475,week:5850,pend:1400,avail:17075},jobsDone:324,rating:4.9,reviews:86,activeJob:null,txHistory:[{t:'إصلاح تسريب مطبخ',am:'+950',tp:'inc',d:'اليوم 9:30 ص'},{t:'تركيب مخرج كهربائي',am:'+1500',tp:'inc',d:'أمس 2:15 م'},{t:'تركيب سخان مياه',am:'+3400',tp:'inc',d:'12 سبتمبر'},{t:'سحب للبنك',am:'-5000',tp:'out',d:'11 سبتمبر'}]}};
+const S={scr:'splash',authed:false,role:null,user:{name:'حسن',phone:'01012345678',area:'التجمع الخامس'},sc:'ac',job:null,tech:null,chat:null,cs:0,cd:false,hist:[],ov:false,inc:[],selectedTime:null,scanInterval:null,reports:[],jobStatus:null,custNotifs:[],techNotifs:[],rptId:0,autoDoneSent:false,reviewTimer:null,tS:{authed:false,name:'أحمد حسن',phone:'01098765432',trade:'سباكة',exp:'8 سنوات',area:'التجمع الخامس',online:true,earnings:{total:18475,week:5850,pend:1400,avail:17075},jobsDone:324,rating:4.9,reviews:86,activeJob:null,txHistory:[{t:'إصلاح تسريب مطبخ',am:'+950',tp:'inc',d:'اليوم 9:30 ص'},{t:'تركيب مخرج كهربائي',am:'+1500',tp:'inc',d:'أمس 2:15 م'},{t:'تركيب سخان مياه',am:'+3400',tp:'inc',d:'12 سبتمبر'},{t:'سحب للبنك',am:'-5000',tp:'out',d:'11 سبتمبر'}]}};
 const TECHS=[
   {name:'أحمد حسن',skill:'فني تبريد وتكييف',r:4.8,rv:86,d:2.3,e:9,c:'linear-gradient(135deg,#2563eb,#1d4ed8)',cv:'#2563eb',v:true,p:94,ex:'8 سنوات',sm:86},
   {name:'محمد علي',skill:'فني سباكة',r:4.6,rv:54,d:3.1,e:14,c:'linear-gradient(135deg,#7c3aed,#6d28d9)',cv:'#7c3aed',v:true,p:87,ex:'6 سنوات',sm:54},
@@ -683,8 +724,8 @@ function render(){
     }
   }
 }
-function showAuth(id){['authLogin','authSignup','authOtp'].forEach(x=>$('#'+x)?.classList.remove('on'));const el=$('#'+id);if(el)el.classList.add('on');if(id==='authOtp')lat(200,initAuthOtp);}
-function hideAuth(){['authLogin','authSignup','authOtp'].forEach(x=>$('#'+x)?.classList.remove('on'));}
+function showAuth(id){['authLogin','authSignup','authOtp','authDocs','authReview'].forEach(x=>$('#'+x)?.classList.remove('on'));const el=$('#'+id);if(el)el.classList.add('on');if(id==='authOtp')lat(200,initAuthOtp);if(id==='authDocs')lat(100,resetAuthDocs);if(id==='authReview')lat(200,initAuthReview);}
+function hideAuth(){['authLogin','authSignup','authOtp','authDocs','authReview'].forEach(x=>$('#'+x)?.classList.remove('on'));}
 function doLogin(){hideAuth();$('#appWrap').style.display='flex';S.authed=true;if(S.role==='technician'){S.tS.authed=true;S.scr='tDash';renderTechNav();render();toast('أهلاً أحمد 👋');}else{S.scr='home';render();lat(200,initHomeMap);toast('أهلاً بيك يا حسن 🎉');}}
 
 /* ============ HOME ============ */
@@ -1628,6 +1669,8 @@ function rCustNotifs(){
 /* ============ OTP INIT ============ */
 function initOtp(){const bs=$$('#otpW .otp-b');let c='';bs.forEach((b,i)=>{b.addEventListener('click',()=>{if(c.length>i)return;const d='4821'[i];c+=d;b.textContent=d;b.classList.add('fill');b.classList.remove('foc');if(i+1<bs.length)bs[i+1].classList.add('foc');if(c.length===4){const btn=$('#otpBtn');if(btn){btn.disabled=false;btn.style.opacity=1;}}});});}
 function initAuthOtp(){const w=$('#otpWA');if(!w)return;w.innerHTML=[0,1,2,3].map(i=>`<div class="otp-b ${i===0?'foc':''}" data-digit="${i}"></div>`).join('');const bs=$$('#otpWA .otp-b');let c='';bs.forEach((b,i)=>{b.addEventListener('click',()=>{if(c.length>i)return;const d='4821'[i];c+=d;b.textContent=d;b.classList.add('fill');b.classList.remove('foc');if(i+1<bs.length)bs[i+1].classList.add('foc');if(c.length===4){const btn=$('#otpBtnA');if(btn){btn.disabled=false;btn.style.opacity=1;}}});});}
+function resetAuthDocs(){$$('.doc-zone').forEach(z=>{z.classList.remove('done');const st=z.querySelector('.dz-st');if(st)st.textContent='اختر الملف';});const c=$('#docCount');if(c)c.innerHTML='✓ ارفعت <b style="color:var(--blue)">0</b> من 6 مستندات';const btn=$('#docsBtn');if(btn){btn.disabled=true;btn.style.opacity=.4;}}
+function initAuthReview(){if(S.reviewTimer)clearInterval(S.reviewTimer);let n=5;const c=$('#reviewCount');if(c)c.textContent=n;S.reviewTimer=setInterval(()=>{n--;if(c)c.textContent=n;if(n<=0){clearInterval(S.reviewTimer);S.reviewTimer=null;doLogin();}},1000);}
 
 /* ============ MAPS ============ */
 function initMap(){
@@ -1685,8 +1728,10 @@ document.addEventListener('click',e=>{
     'chat-send':()=>toast('أُرسلت الرسالة ✅📨'),
     'scan-qr':()=>toast('📷 فتح الكاميرا لمسح QR'),
     'do-login':()=>doLogin(),'go-signup':()=>showAuth('authSignup'),
-    'do-signup':()=>showAuth('authOtp'),'verify-auth-otp':()=>doLogin(),'go-login':()=>showAuth('authLogin'),
-    'logout':()=>{S.authed=false;S.role=null;S.scr='splash';$('#appWrap').style.display='none';$('#roleSelect').classList.add('on');toast('تم تسجيل الخروج 👋','👋');},
+    'do-signup':()=>showAuth('authOtp'),'verify-auth-otp':()=>{if(S.role==='technician'){showAuth('authDocs');}else{doLogin();}},'go-login':()=>showAuth('authLogin'),
+    'doc-upload':()=>{const z=t.closest('.doc-zone');if(!z||z.classList.contains('done'))return;z.classList.add('done');const st=z.querySelector('.dz-st');if(st)st.textContent='✓ تم الرفع';const done=$$('.doc-zone.done').length;const c=$('#docCount');if(c)c.innerHTML=`✓ ارفعت <b style="color:var(--blue)">${done}</b> من 6 مستندات`;const btn=$('#docsBtn');if(btn){btn.disabled=done<6;btn.style.opacity=done<6?0.4:1;}toast('تم رفع المستند ✓','✅');},
+    'submit-docs':()=>{const phone=document.querySelector('#authDocs .fi-inp')?.value||'01098765432';S.tS.phone=phone;toast('اتبعث للمراجعة 🔍','تم');showAuth('authReview');},
+    'logout':()=>{S.authed=false;S.role=null;S.scr='splash';if(S.reviewTimer){clearInterval(S.reviewTimer);S.reviewTimer=null;}$('#appWrap').style.display='none';$('#roleSelect').classList.add('on');toast('تم تسجيل الخروج 👋','👋');},
     'pick-role':()=>pickRole(t.dataset.role),
     'tnav':()=>go(t.dataset.nav),
     'toggle-online':()=>{S.tS.online=!S.tS.online;render();toast(S.tS.online?'فتحت استقبال الطلبات ✅':'قفلت استقبال الطلبات','🔄');},
@@ -1731,7 +1776,7 @@ document.addEventListener('click',e=>{const s=e.target.closest('[data-star]');if
 
 function go(scr){closeOv();if(scr!=='scanning'&&S.scanInterval){clearInterval(S.scanInterval);S.scanInterval=null;}S.scr=scr;render();if(scr==='home')lat(200,initHomeMap);if(scr==='arrival')lat(200,initOtp);if(scr==='tracking')lat(200,initMap);}
 function init(){lat(2300,()=>{const sp=$('#splash');if(sp)sp.style.display='none';$('#roleSelect').classList.add('on');});}
-function showRoleSelect(){['authLogin','authSignup','authOtp'].forEach(x=>$('#'+x)?.classList.remove('on'));$('#roleSelect').classList.add('on');}
+function showRoleSelect(){['authLogin','authSignup','authOtp','authDocs','authReview'].forEach(x=>$('#'+x)?.classList.remove('on'));$('#roleSelect').classList.add('on');}
 function pickRole(role){S.role=role;$('#roleSelect').classList.remove('on');if(role==='customer'){showAuth('authLogin');}else{showAuth('authLogin');}}
 init();
 </script>
