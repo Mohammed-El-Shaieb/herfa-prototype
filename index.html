@@ -1010,7 +1010,7 @@ function rInspection(){
   const pendingReports=myReports.filter(r=>r.status==='pending');
   if(hasReports){
     return `<div style="padding:16px 20px">
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px"><div class="ovb" data-act="c-back-report"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--ink)">${S.tS.reportsFinalized?'التقارير النهائية':'تقارير الفحص'}</h1></div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px"><div class="ovb" data-act="nav" data-nav="home"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--ink)">${S.tS.reportsFinalized?'التقارير النهائية':'تقارير الفحص'}</h1></div>
     <div style="text-align:center;margin-bottom:14px"><div style="width:50px;height:50px;border-radius:14px;background:linear-gradient(135deg,var(--blue),var(--blue2));display:flex;align-items:center;justify-content:center;margin:0 auto;box-shadow:0 6px 20px rgba(37,99,235,.25);font-size:24px">📋</div>
     <h2 style="font-size:15px;font-weight:800;color:var(--ink);margin-top:8px">${myReports.length} تقارير — ${myReports.filter(r=>r.status==='approved').length} معتمدة</h2></div>
     ${myReports.map(r=>`<div class="cd" style="margin-bottom:10px;padding:14px;cursor:pointer" data-act="${S.role==='customer'?'c-view-report':'t-insp-view'}" data-i="${r.id}">
@@ -1023,13 +1023,14 @@ function rInspection(){
     </div>`;
   }
   return `<div style="padding:16px 20px;padding-bottom:90px">
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px"><div class="ovb" data-act="c-back-report"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--ink)">الفحص جاري...</h1></div>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px"><div class="ovb" data-act="nav" data-nav="home"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--ink)">الفحص جاري...</h1></div>
   <div style="text-align:center;margin-bottom:16px"><div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--amber),var(--amber2));display:flex;align-items:center;justify-content:center;margin:0 auto;box-shadow:0 6px 20px rgba(217,119,6,.25);font-size:26px">🔍</div>
   <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;color:var(--ink);margin-top:10px">${t.name} بيفحص دلوقتي</h2>
   <p style="font-size:12px;color:var(--sl);margin-top:3px">صيانة مكيف سبليت — التجمع الخامس</p></div>
   <div style="background:var(--surface);border-radius:var(--r);padding:16px;text-align:center;margin-bottom:14px"><div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px"><div style="width:8px;height:8px;border-radius:50%;background:var(--amber);animation:pulse-dot 2s infinite"></div><p style="font-size:13px;color:var(--ink);font-weight:700">الفني بيفحص دلوقتي...</p></div><p style="font-size:11px;color:var(--sl)">هيتواصل معاك أول ما يخلص الفحص</p></div>
   <div style="background:var(--blueBg);border:1px solid var(--blueLight);border-radius:var(--r);padding:12px;margin-bottom:14px;display:flex;align-items:center;gap:10px"><svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:var(--blue);stroke-width:2;fill:none;flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><p style="font-size:11px;color:var(--blue);font-weight:600">الفني ممكن يبعتلك تقرير بأي تكاليف إضافية — اختيارك تقبل أو ترفض</p></div>
   <div style="display:flex;gap:8px;margin-top:16px">
+    <button class="btn bo" style="flex:1;height:44px;font-size:13px" data-act="c-view-reports">📋 التقارير</button>
     <button class="btn bo" style="flex:1;height:44px;font-size:13px" data-act="c-report-problem">⚠️ ابلاغ عن مشكلة</button>
     <button class="btn" style="flex:1;height:44px;font-size:13px;background:var(--red);color:#fff" data-act="c-emergency">🚨 اتصال بلطوارئ</button>
   </div>
@@ -1666,7 +1667,8 @@ document.addEventListener('click',e=>{
     'c-pay-invoice':()=>{const approved=S.reports.filter(r=>r.status==='approved');const total=approved.reduce((s,r)=>s+r.total,0)+200;S.techNotifs.unshift({t:'العميل دفع الفاتورة',d:`حسن دفع ${total} ج.م`,time:'الآن',read:false});S.hist.push(S.job||{tech:S.tech||TECHS[0],title:'صيانة مكيف سبليت'});S.job=null;S.jobStatus=null;S.tS.activeJob=null;toast('تم الدفع بنجاح 💸','✅');go('home');},
     'c-report-problem':()=>toast('تم إرسال بلاغ للمشرف ✅','⚠️'),
     'c-emergency':()=>toast('جاري الاتصال بالطوارئ 🚨','🚨'),
-    'c-back-report':()=>go('inspection'),
+    'c-back-report':()=>go('home'),
+    'c-view-reports':()=>go('inspection'),
   };
   const fn=H[a];if(fn){e.preventDefault();fn();}
 });
