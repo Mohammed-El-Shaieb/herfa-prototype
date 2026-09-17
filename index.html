@@ -1132,8 +1132,8 @@ function rProviderProfile(){
       <p style="font-size:11px;color:var(--ink3);line-height:1.5">كل شغلة معتمدة من حرفة بتتحمل ضمان 30 يوم. لو المشكلة رجعت في خلال الضمان، حرفة هيبعتلك الفني مجانًا.</p>
     </div>
   </div>
-  <div style="position:fixed;bottom:80px;left:0;right:0;padding:10px 20px;background:var(--w);border-top:1px solid var(--surface2);display:flex;gap:8px;z-index:60">
-    ${inc?`<button class="btn bo bs" style="flex:0 0 auto;height:38px;padding:0 16px;font-size:12px" data-act="reject-inc-profile">رفض</button><button class="btn bp bs" style="flex:1;height:38px;font-size:12px" data-act="accept-inc">قبول العرض — ${inc.price}</button>`:`<button class="btn bo bs" style="flex:0 0 auto;height:38px;padding:0 16px;font-size:12px" data-act="chat-tech">محادثة</button><button class="btn bp bs" style="flex:1;height:38px;font-size:12px" data-act="confirm-tech">احجز الآن</button>`}
+  <div style="position:fixed;bottom:80px;left:0;right:0;padding:12px 20px;background:var(--w);border-top:1px solid var(--surface2);display:flex;gap:10px;z-index:60">
+    ${inc?`<button class="btn bo" style="flex:0 0 90px;height:44px;font-size:13px" data-act="reject-inc-profile">رفض</button><button class="btn bp" style="flex:1;height:44px;font-size:13px" data-act="accept-inc">✓ قبول العرض — ${inc.price}</button>`:`<button class="btn bo" style="flex:0 0 100px;height:44px;font-size:13px" data-act="chat-tech">محادثة</button><button class="btn bp" style="flex:1;height:44px;font-size:13px" data-act="confirm-tech">احجز الآن</button>`}
   </div>
 </div>`;
 }
