@@ -686,40 +686,13 @@ function renderNav(){  $('#bn').innerHTML=TABS.map(t=>`<div class="b ${t.id===S.
 
 function render(){
   const v=$('#vw');v.scrollTop=0;
-  if((S.scr==='serviceProgress'||S.scr==='custReportsList'||S.scr==='tInspection'||S.scr==='tJobDetail')&&S.autoReportFor!==S.tS._jobId&&(S.jobStatus==='repair'||S.jobStatus==='inspection')){
-    const myReports=S.reports.filter(r=>r.jobId===S.tS._jobId);
-    if(myReports.length===0){
-      S.autoReportFor=S.tS._jobId;
-      setTimeout(()=>{
-        const rpt={id:++S.rptId,jobId:S.tS._jobId,problem:'المكيف بيشتغل بصوت عالي ودرجة الحرارة مش ثابتة — التهواة ضعيفة',diagnosis:'ASHRAE report: Low refrigerant charge causing compressor overload. Indoor coil frost buildup detected.',recommend:'Recharge R410A, clean indoor coil, check fan motor bearings.',parts:[{name:'فريون R410A',qty:1,price:350},{name:'كابستور',qty:1,price:180},{name:'فلتر',qty:2,price:90}],labor:250,notes:'يُنصح بالصيانة الدورية كل 6 شهور',estimatedTime:'ساعتين',warranty:'3 شهور على القطع + شهر خدمة',total:870,status:'pending',sentAt:'الآن'};
-        S.reports.push(rpt);
-        S.custNotifs.unshift({t:'تقرير فحص جديد من أحمد حسن',d:`${rpt.problem} — الإجمالي: ${rpt.total} ج.م`,time:'الآن',read:false,act:'c-view-report',id:rpt.id});
-        toast((S.scr==='serviceProgress'||S.scr==='custReportsList')?'📨 تم استلام تقرير الفحص من الفني':'تم إرسال التقرير للعميل 📨','✅');
-        render();
-        if(S.role==='customer')lat(700,()=>{if(!document.querySelector('#ovr.open'))openReportOverlay(rpt);});
-      },4500);
-    }
-  }
-  if((S.scr==='serviceProgress'||S.scr==='custReportsList'||S.scr==='tInspection'||S.scr==='tJobDetail')&&S.autoReport2For!==S.tS._jobId&&(S.jobStatus==='repair'||S.jobStatus==='inspection')){
-    const myReports=S.reports.filter(r=>r.jobId===S.tS._jobId);
-    if(myReports.length===1){
-      S.autoReport2For=S.tS._jobId;
-      setTimeout(()=>{
-        const rpt={id:++S.rptId,jobId:S.tS._jobId,problem:'تم اكتشاف مشكلة إضافية — المروحة الرئيسية محتاجة تشحيم واستبدال bearing',diagnosis:'Fan motor bearings worn out, causing vibration and noise. Lubrication ineffective.',recommend:'Replace fan motor bearing assembly.',parts:[{name:'بيرنج مروحة',qty:1,price:220},{name:'شحيم',qty:1,price:50}],labor:150,notes:'يتم الاستبدال خلال الإصلاح الحالي',estimatedTime:'30 دقيقة إضافية',warranty:'6 شهور',total:420,status:'pending',sentAt:'الآن'};
-        S.reports.push(rpt);
-        S.custNotifs.unshift({t:'تقرير إضافي من أحمد حسن',d:`${rpt.problem} — مبلغ إضافي: ${rpt.total} ج.م`,time:'الآن',read:false,act:'c-view-report',id:rpt.id});
-        toast((S.scr==='serviceProgress'||S.scr==='custReportsList')?'📨 تقرير إضافي من الفني — مبلغ إضافي':'تم إرسال التقرير الإضافي للعميل 📨','⚠️');
-        render();
-        if(S.role==='customer')lat(700,()=>{if(!document.querySelector('#ovr.open'))openReportOverlay(rpt);});
-      },4500);
-    }
-  }
   const myReports2=S.reports.filter(r=>r.jobId===S.tS._jobId);
   if(myReports2.length>=2&&myReports2.every(r=>r.status==='approved')&&!S.tS.reportsFinalized){
     S.tS.reportsFinalized=true;
     S.autoDoneFor=null;
     lat(1500,()=>scheduleJobDone());
   }
+  if(S.scr==='serviceProgress'&&S.role==='customer')lat(100,initServiceProgress);
   if(S.role==='technician'){
     const TR={tDash:rTDash,tJobs:rTJobs,tSchedule:rTSchedule,tEarnings:rTEarnings,tProfile:rTProfile,tJobDetail:rTJobDetail,tChat:rTChat,tVerification:rTVerification,tReviews:rTReviews,tServices:rTServices,tAvail:rTAvail,tHelp:rTHelp,rTNotif:rTNotif,tInspection:rTInspection,tCreateReport:rTCreateReport,tInvoice:rTInvoice,tVerifyCode:rTVerifyCode,tAiReport:rTAiReport,tStore:rTStore};
     v.innerHTML=(TR[S.scr]||TR.tDash)();renderTechNav();
@@ -2207,6 +2180,36 @@ function initTJobMap(){
   L.polyline([me,cu],{color:'#2563eb',weight:3,opacity:.55,dashArray:'8 8'}).addTo(m);
   m.fitBounds(L.latLngBounds([me,cu]).pad(.4));
 }
+function initServiceProgress(){
+  if(S.role!=='customer')return;
+  if(S.jobStatus!=='inspection'&&S.jobStatus!=='repair')return;
+  const jid=S.tS._jobId;if(!jid&&jid!==0)return;
+  const existing=S.reports.filter(r=>r.jobId===jid);
+  if(existing.length===0&&!S.autoReportFor){
+    S.autoReportFor=jid;
+    lat(4500,()=>{
+      if(S.scr!=='serviceProgress')return;
+      const rpt={id:++S.rptId,jobId:jid,problem:'المكيف بيشتغل بصوت عالي ودرجة الحرارة مش ثابتة — التهواة ضعيفة',diagnosis:'ASHRAE report: Low refrigerant charge causing compressor overload. Indoor coil frost buildup detected.',recommend:'Recharge R410A, clean indoor coil, check fan motor bearings.',parts:[{name:'فريون R410A',qty:1,price:350},{name:'كابستور',qty:1,price:180},{name:'فلتر',qty:2,price:90}],labor:250,notes:'يُنصح بالصيانة الدورية كل 6 شهور',estimatedTime:'ساعتين',warranty:'3 شهور على القطع + شهر خدمة',total:870,status:'pending',sentAt:'الآن'};
+      S.reports.push(rpt);
+      S.custNotifs.unshift({t:'تقرير فحص جديد من أحمد حسن',d:rpt.problem+' — الإجمالي: '+rpt.total+' ج.م',time:'الآن',read:false,act:'c-view-report',id:rpt.id});
+      toast('📨 تم استلام تقرير الفحص من الفني','✅');
+      render();
+      lat(700,()=>{if(!document.querySelector('#ovr.open'))openReportOverlay(rpt);});
+    });
+  }
+  if(existing.length===1&&!S.autoReport2For){
+    S.autoReport2For=jid;
+    lat(4500,()=>{
+      if(S.scr!=='serviceProgress')return;
+      const rpt={id:++S.rptId,jobId:jid,problem:'تم اكتشاف مشكلة إضافية — المروحة الرئيسية محتاجة تشحيم واستبدال bearing',diagnosis:'Fan motor bearings worn out, causing vibration and noise. Lubrication ineffective.',recommend:'Replace fan motor bearing assembly.',parts:[{name:'بيرنج مروحة',qty:1,price:220},{name:'شحيم',qty:1,price:50}],labor:150,notes:'يتم الاستبدال خلال الإصلاح الحالي',estimatedTime:'30 دقيقة إضافية',warranty:'6 شهور',total:420,status:'pending',sentAt:'الآن'};
+      S.reports.push(rpt);
+      S.custNotifs.unshift({t:'تقرير إضافي من أحمد حسن',d:rpt.problem+' — مبلغ إضافي: '+rpt.total+' ج.م',time:'الآن',read:false,act:'c-view-report',id:rpt.id});
+      toast('📨 تقرير إضافي من الفني — مبلغ إضافي','⚠️');
+      render();
+      lat(700,()=>{if(!document.querySelector('#ovr.open'))openReportOverlay(rpt);});
+    });
+  }
+}
 
 /* ============ EVENTS ============ */
 document.addEventListener('click',e=>{
@@ -2233,7 +2236,7 @@ document.addEventListener('click',e=>{
     'tpk':()=>{$$('.tc').forEach(x=>x.classList.remove('sel'));t.classList.add('sel');S.tech=TECHS[+t.dataset.i];},
     'confirm-tech':()=>{S.tech=S.tech||TECHS[0];go('quoteApproval');},
     'approve-quote':()=>{S.job=S.job||{tech:S.tech||TECHS[0],title:'صيانة مكيف سبليت'};go('tracking');},'reject-quote':()=>{toast('تم رفض العرض','❌');go('home');},
-    'verify-otp':()=>{S.jobStatus='inspection';S.tS._jobId=++S.rptId;S.tS.reportsFinalized=false;go('serviceProgress');},'to-service':()=>go('serviceProgress'),'to-report':()=>go('report'),'to-rating':()=>go('rating'),
+    'verify-otp':()=>{S.jobStatus='inspection';S.tS._jobId=++S.rptId;S.tS.reportsFinalized=false;S.autoReportFor=null;S.autoReport2For=null;go('serviceProgress');},'to-service':()=>go('serviceProgress'),'to-report':()=>go('report'),'to-rating':()=>go('rating'),
     'rtag':()=>t.classList.toggle('sel'),'to-invoice':()=>{toast('تسلم يا حسن! تقييمك اتسجل ⭐','✅');go('home');},
     'ppk':()=>{$$('.tc,.cd').forEach(x=>x.classList.remove('sel'));t.classList.add('sel');},
     'pay-now':()=>go('warranty'),
@@ -2306,7 +2309,7 @@ document.addEventListener('click',e=>{
 });
 document.addEventListener('click',e=>{const s=e.target.closest('[data-star]');if(!s)return;$$('#starsR span').forEach((x,i)=>{x.className=i<+s.dataset.star?'on':'off';});});
 
-function go(scr){closeOv();if(scr!=='scanning'&&S.scanInterval){clearInterval(S.scanInterval);S.scanInterval=null;}S.scr=scr;render();if(scr==='home')lat(200,initHomeMap);if(scr==='arrival')lat(200,initOtp);if(scr==='tracking')lat(200,initMap);if(scr==='tJobDetail')lat(200,initTJobMap);}
+function go(scr){closeOv();if(scr!=='scanning'&&S.scanInterval){clearInterval(S.scanInterval);S.scanInterval=null;}S.scr=scr;render();if(scr==='home')lat(200,initHomeMap);if(scr==='arrival')lat(200,initOtp);if(scr==='tracking')lat(200,initMap);if(scr==='tJobDetail')lat(200,initTJobMap);if(scr==='serviceProgress')lat(200,initServiceProgress);}
 function init(){lat(2300,()=>{const sp=$('#splash');if(sp)sp.style.display='none';$('#roleSelect').classList.add('on');});}
 function showRoleSelect(){['authLogin','authSignup','authOtp','authDocs','authReview'].forEach(x=>$('#'+x)?.classList.remove('on'));$('#roleSelect').classList.add('on');}
 function pickRole(role){S.role=role;$('#roleSelect').classList.remove('on');if(role==='customer'){showAuth('authLogin');}else{showAuth('authLogin');}}
