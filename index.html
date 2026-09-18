@@ -686,7 +686,7 @@ function renderNav(){  $('#bn').innerHTML=TABS.map(t=>`<div class="b ${t.id===S.
 
 function render(){
   const v=$('#vw');v.scrollTop=0;
-  if((S.scr==='serviceProgress'||S.scr==='custReportsList'||S.scr==='tInspection'||S.scr==='tJobDetail')&&S.autoReportFor!==S.tS._jobId&&S.jobStatus==='repair'){
+  if((S.scr==='serviceProgress'||S.scr==='custReportsList'||S.scr==='tInspection'||S.scr==='tJobDetail')&&S.autoReportFor!==S.tS._jobId&&(S.jobStatus==='repair'||S.jobStatus==='inspection')){
     const myReports=S.reports.filter(r=>r.jobId===S.tS._jobId);
     if(myReports.length===0){
       S.autoReportFor=S.tS._jobId;
@@ -700,7 +700,7 @@ function render(){
       },4500);
     }
   }
-  if((S.scr==='serviceProgress'||S.scr==='custReportsList'||S.scr==='tInspection'||S.scr==='tJobDetail')&&S.autoReport2For!==S.tS._jobId&&S.jobStatus==='repair'){
+  if((S.scr==='serviceProgress'||S.scr==='custReportsList'||S.scr==='tInspection'||S.scr==='tJobDetail')&&S.autoReport2For!==S.tS._jobId&&(S.jobStatus==='repair'||S.jobStatus==='inspection')){
     const myReports=S.reports.filter(r=>r.jobId===S.tS._jobId);
     if(myReports.length===1){
       S.autoReport2For=S.tS._jobId;
@@ -713,6 +713,12 @@ function render(){
         if(S.role==='customer')lat(700,()=>{if(!document.querySelector('#ovr.open'))openReportOverlay(rpt);});
       },4500);
     }
+  }
+  const myReports2=S.reports.filter(r=>r.jobId===S.tS._jobId);
+  if(myReports2.length>=2&&myReports2.every(r=>r.status==='approved')&&!S.tS.reportsFinalized){
+    S.tS.reportsFinalized=true;
+    S.autoDoneFor=null;
+    lat(1500,()=>scheduleJobDone());
   }
   if(S.role==='technician'){
     const TR={tDash:rTDash,tJobs:rTJobs,tSchedule:rTSchedule,tEarnings:rTEarnings,tProfile:rTProfile,tJobDetail:rTJobDetail,tChat:rTChat,tVerification:rTVerification,tReviews:rTReviews,tServices:rTServices,tAvail:rTAvail,tHelp:rTHelp,rTNotif:rTNotif,tInspection:rTInspection,tCreateReport:rTCreateReport,tInvoice:rTInvoice,tVerifyCode:rTVerifyCode,tAiReport:rTAiReport,tStore:rTStore};
