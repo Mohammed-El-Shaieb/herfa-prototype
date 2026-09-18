@@ -715,7 +715,7 @@ function render(){
     }
   }
   if(S.role==='technician'){
-    const TR={tDash:rTDash,tJobs:rTJobs,tSchedule:rTSchedule,tEarnings:rTEarnings,tProfile:rTProfile,tJobDetail:rTJobDetail,tChat:rTChat,tVerification:rTVerification,tReviews:rTReviews,tServices:rTServices,tAvail:rTAvail,tHelp:rTHelp,rTNotif:rTNotif,tInspection:rTInspection,tCreateReport:rTCreateReport,tInvoice:rTInvoice};
+    const TR={tDash:rTDash,tJobs:rTJobs,tSchedule:rTSchedule,tEarnings:rTEarnings,tProfile:rTProfile,tJobDetail:rTJobDetail,tChat:rTChat,tVerification:rTVerification,tReviews:rTReviews,tServices:rTServices,tAvail:rTAvail,tHelp:rTHelp,rTNotif:rTNotif,tInspection:rTInspection,tCreateReport:rTCreateReport,tInvoice:rTInvoice,tVerifyCode:rTVerifyCode,tAiReport:rTAiReport};
     v.innerHTML=(TR[S.scr]||TR.tDash)();renderTechNav();
     return;
   }
@@ -1604,6 +1604,123 @@ function rTJobDetail(){
   </div></div>`;
 }
 
+/* ============ TECH VERIFY CODE SCREEN ============ */
+function rTVerifyCode(){
+  const code=String(Math.floor(1000+Math.random()*9000));
+  S._verifyCode=code;
+  const j=S.tS.activeJob||{t:'حسن',title:'صيانة مكيف سبليت',pr:'200'};
+  return `<div style="padding:16px 20px;padding-bottom:100px;text-align:center">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px"><div class="ovb" data-act="tnav" data-nav="tJobDetail"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink);flex:1;text-align:right">كود التحقق</h1></div>
+
+  <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--green),#047857);display:flex;align-items:center;justify-content:center;margin:0 auto;box-shadow:0 0 0 8px rgba(5,150,105,.12),0 10px 30px rgba(5,150,105,.25);font-size:36px;animation:pop .45s cubic-bezier(.2,1.4,.4,1) both">📍</div>
+  <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:var(--ink);margin-top:16px">وصلت للموقع!</h2>
+  <p style="font-size:13px;color:var(--sl);margin-top:4px">اديني الكود ده للعميل عشان يأكد وصولك</p>
+
+  <div style="background:var(--w);border:2px dashed var(--blue);border-radius:var(--r);padding:24px;margin:20px 0;box-shadow:var(--shadow-md)">
+    <p style="font-size:11px;color:var(--sl);font-weight:600;margin-bottom:8px">كود التحقق</p>
+    <div style="display:flex;justify-content:center;gap:12px;margin:12px 0">
+      ${code.split('').map((d,i)=>`<div style="width:60px;height:72px;border-radius:var(--rs);border:2px solid var(--blue);display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;color:var(--blue);background:var(--blueBg);animation:pop .3s cubic-bezier(.2,1.4,.4,1) ${i*0.1}s both">${d}</div>`).join('')}
+    </div>
+    <button class="btn bo bs" style="width:auto;padding:0 20px;margin:12px auto 0;font-size:11px" data-act="t-copy-code"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:4px"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>نسخ الكود</button>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:12px;background:var(--surface);border-radius:var(--r);padding:14px;margin-bottom:16px">
+    <div style="width:44px;height:44px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:16px;font-family:'Plus Jakarta Sans',sans-serif">${j.t[0]}</div>
+    <div style="flex:1;text-align:right"><b style="font-size:14px;font-weight:700;color:var(--ink)">${j.t}</b><p style="font-size:11px;color:var(--sl)">${j.title}</p></div>
+    <span style="font-size:12px;color:var(--green);font-weight:700">${j.pr} ج.م</span>
+  </div>
+
+  <div style="background:var(--amberBg);border:1px solid var(--amberLight);border-radius:var(--r);padding:14px;margin-bottom:16px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--amber);stroke-width:2;fill:none"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><b style="font-size:12px;font-weight:700;color:var(--amber)">ملاحظة</b></div>
+    <p style="font-size:11px;color:var(--sl);line-height:1.6">العميل هيكتب الكود ده في تطبيقه عشان يأكد إنك وصلت. لازم الكود يكون ظاهر عشان يقدر يكتبه.</p>
+  </div>
+
+  <div id="verifyTimer" style="margin-bottom:16px">
+    <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px"><div style="width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse-dot 2s infinite"></div><span style="font-size:13px;font-weight:700;color:var(--green)" id="verifyStatus">بانتظار العميل...</span></div>
+    <p style="font-size:11px;color:var(--sl)">العميل بيفتح التطبيق ويكتب الكود</p>
+  </div>
+
+  <button class="btn bp" style="background:var(--green)" data-act="t-set-status" data-st="inspection"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:4px"><polyline points="20 6 9 17 4 12"/></svg>العميلأكد — ابدأ الفحص</button>
+  <div style="height:20px"></div></div>`;
+}
+
+/* ============ TECH AI REPORT SCREEN ============ */
+function rTAiReport(){
+  const j=S.tS.activeJob||{t:'حسن',title:'صيانة مكيف سبليت',pr:'200'};
+  const approved=S.reports.filter(r=>r.status==='approved');
+  const totalParts=approved.reduce((s,r)=>s+r.parts.reduce((ps,p)=>ps+p.price*p.qty,0),0);
+  const totalLabor=approved.reduce((s,r)=>s+r.labor,0);
+  const total=200+totalParts+totalLabor;
+
+  if(!S._aiReport){
+    S._aiReport={
+      msgs:[
+        {role:'ai',text:'أهلاً يا أحمد 👋 أنا حرفة AI assistant. خليني أساعدك تعمل تقرير نهائي للشغل اللي خلصته النهارده.'},
+        {role:'ai',text:`الشغلة كانت: ${j.title} — العميل ${j.t}. دخّلت ${approved.length} تقارير الفحص. خليني ألخصلك.`},
+      ],
+      step:0,
+      problem:'',
+      diagnosis:'',
+      notes:'',
+      confirmed:false
+    };
+    const partsList=approved.flatMap(r=>r.parts.map(p=>`${p.name} × ${p.qty} = ${p.price*p.qty} ج.م`));
+    if(partsList.length)S._aiReport.msgs.push({role:'ai',text:`✅ القطع المستخدمة:\n${partsList.join('\n')}\n\nخدمة: ${totalLabor} ج.م\nزيارة: 200 ج.م\nالإجمالي: ${total} ج.م`});
+    S._aiReport.msgs.push({role:'ai',text:'دلوقتي قوللي — المشكلة الأساسية كانت إيه بالظبط؟ (مثلاً: تسريب فريون + انسداد صرف)'});
+  }
+
+  return `<div style="display:flex;flex-direction:column;height:100%">
+  <div style="padding:54px 16px 12px;border-bottom:1px solid var(--surface2);display:flex;align-items:center;gap:10px;background:var(--w);flex-shrink:0">
+    <div class="ovb" data-act="tnav" data-nav="tDash"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div>
+    <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--blue2));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:14px;box-shadow:0 2px 8px rgba(37,99,235,.3)">🤖</div>
+    <div style="flex:1"><b style="font-size:14px;font-weight:700;color:var(--ink)">حرفة AI</b><p style="font-size:10px;color:var(--green)">متصل</p></div>
+    <span style="padding:4px 10px;border-radius:8px;font-size:9px;font-weight:700;background:var(--greenBg);color:var(--green)">التقرير النهائي</span>
+  </div>
+
+  <div style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px" id="aiReportChat">
+    ${S._aiReport.msgs.map(m=>m.role==='ai'?
+      `<div style="max-width:85%;padding:14px 16px;border-radius:18px;border-bottom-right-radius:6px;background:var(--surface);font-size:13px;line-height:1.8;color:var(--ink);animation:bi .3s ease both;white-space:pre-line">${m.text}</div>`:
+      `<div style="max-width:85%;padding:14px 16px;border-radius:18px;border-bottom-left-radius:6px;background:var(--primary);color:#fff;font-size:13px;line-height:1.8;align-self:flex-end;animation:bi .3s ease both;white-space:pre-line">${m.text}</div>`
+    ).join('')}
+    ${S._aiReport.step===0&&!S._aiReport.confirmed?`<div style="display:flex;flex-wrap:wrap;gap:8px;align-self:flex-end">
+      <div class="chip" data-act="ai-report-chip" data-v="تسريب فريون + انسداد صرف">تسريب فريون + انسداد صرف</div>
+      <div class="chip" data-act="ai-report-chip" data-v="كابستور وصلح + شحن فريون">كابستور + شحن فريون</div>
+      <div class="chip" data-act="ai-report-chip" data-v="صيانة شاملة + تنظيف">صيانة شاملة + تنظيف</div>
+    </div>`:''}
+    ${S._aiReport.step===1&&!S._aiReport.confirmed?`<div style="display:flex;flex-wrap:wrap;gap:8px;align-self:flex-end">
+      <div class="chip" data-act="ai-report-chip2" data-v="محتاجة تغيير بيرنج المروحة">بيرنج المروحة</div>
+      <div class="chip" data-act="ai-report-chip2" data-v="محتاجة تشحيم + فلتر جديد">تشحيم + فلتر</div>
+      <div class="chip" data-act="ai-report-chip2" data-v="مفيش حاجة إضافية">مفيش حاجة إضافية</div>
+    </div>`:''}
+    ${S._aiReport.step===2&&!S._aiReport.confirmed?`<div style="max-width:90%;background:var(--greenBg);border:1px solid #bbf7d0;border-radius:var(--r);padding:16px;align-self:flex-end;animation:bi .3s ease both">
+      <div style="text-align:center;margin-bottom:12px"><svg viewBox="0 0 24 24" style="width:40px;height:40px;stroke:var(--green);stroke-width:1.5;fill:none;margin:0 auto 8px;display:block"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><p style="font-size:14px;font-weight:800;color:var(--green)">التقرير النهائي جاهز!</p></div>
+      <div style="background:#fff;border-radius:var(--rs);padding:12px;margin-bottom:10px">
+        <p style="font-size:11px;font-weight:700;color:var(--ink);margin-bottom:6px">📋 ملخص التقرير:</p>
+        <p style="font-size:11px;color:var(--sl);line-height:1.7"><b>المشكلة:</b> ${S._aiReport.problem}</p>
+        <p style="font-size:11px;color:var(--sl);line-height:1.7"><b>التشخيص:</b> ${S._aiReport.diagnosis}</p>
+        <p style="font-size:11px;color:var(--sl);line-height:1.7"><b>ملاحظات:</b> ${S._aiReport.notes||'لا توجد'}</p>
+        <div style="border-top:1px solid var(--surface2);margin-top:8px;padding-top:8px;display:flex;justify-content:space-between"><span style="font-size:11px;color:var(--sl)">الإجمالي</span><b style="font-size:14px;color:var(--green)">${total} ج.م</b></div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn bo bs" style="flex:1;height:38px;font-size:11px" data-act="ai-report-edit">✏️ تعديل</button>
+        <button class="btn bp bs" style="flex:2;height:38px;background:var(--green);font-size:11px" data-act="ai-report-confirm">✅ تأكيد التقرير</button>
+      </div>
+    </div>`:''}
+    ${S._aiReport.confirmed?`<div style="max-width:90%;background:var(--greenBg);border:1px solid #bbf7d0;border-radius:var(--r);padding:20px;text-align:center;align-self:flex-end;animation:pop .4s cubic-bezier(.2,1.4,.4,1) both">
+      <div style="width:60px;height:60px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:28px;color:#fff;box-shadow:0 4px 16px rgba(5,150,105,.3)">✅</div>
+      <p style="font-size:15px;font-weight:800;color:var(--green)">تم تأكيد التقرير!</p>
+      <p style="font-size:11px;color:var(--sl);margin-top:4px">التقرير اتبعت للعميل — هو هيشوف التفاصيل والفاتورة</p>
+      <button class="btn bp" style="margin-top:14px;background:var(--green)" data-act="tnav" data-nav="tDash"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:4px"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg>الرئيسية</button>
+    </div>`:''}
+  </div>
+
+  ${!S._aiReport.confirmed?`<div style="padding:12px 16px;border-top:1px solid var(--surface2);display:flex;align-items:center;gap:10px;background:var(--w);flex-shrink:0">
+    <input type="text" placeholder="اكتب ردك..." id="aiReportIn" style="flex:1;padding:12px 16px;border-radius:12px;border:1px solid var(--surface3);font-size:13px;font-family:'Cairo',sans-serif;outline:none;background:var(--surface)" onkeydown="if(event.key==='Enter'){event.preventDefault();document.querySelector('[data-act=ai-report-send]').click();}">
+    <div class="ovb" data-act="ai-report-send" style="background:var(--primary);color:#fff;border:none;width:42px;height:42px"><svg viewBox="0 0 24 24" style="stroke:#fff;stroke-width:2;fill:none;width:18px;height:18px"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div>
+  </div>`:''}
+</div>`;
+}
+
 /* ============ CUSTOMER SPENDING / MAINTENANCE HISTORY ============ */
 function rCustSpending(){
   const hist=S.hist;
@@ -2022,9 +2139,9 @@ document.addEventListener('click',e=>{
     'toggle-online':()=>{S.tS.online=!S.tS.online;render();toast(S.tS.online?'فتحت استقبال الطلبات ✅':'قفلت استقبال الطلبات','🔄');},
     't-decline':()=>toast('تم رفض الطلب ❌','❌'),
     't-accept':()=>{toast('تم قبول الشغلة ✅','✅');go('tJobDetail');},
-    't-accept-job':()=>{S.tS.activeJob={t:'حسن',title:'صيانة مكيف سبليت',pr:'200'};S.jobStatus='accepted';S.tS._jobId=++S.rptId;S.tS.reportsFinalized=false;toast('تم قبول الشغلة ✅','✅');go('tJobDetail');},
+    't-accept-job':()=>{S.tS.activeJob={t:'حسن',title:'صيانة مكيف سبليت',pr:'200'};S.jobStatus='accepted';S.tS._jobId=++S.rptId;S.tS.reportsFinalized=false;S._aiReport=null;toast('تم قبول الشغلة ✅','✅');go('tJobDetail');},
     't-decline-job':()=>{S.jobStatus=null;S.tS.activeJob=null;toast('تم رفض الشغلة ❌','❌');go('tJobs');},
-    't-set-status':()=>{S.jobStatus=t.dataset.st;const labels={ontheway:'في الطريق 🚗',arrived:'وصلت للموقع 📍',inspection:'بدأت الفحص 🔍',repair:'جاري الإصلاح 🔧',completed:'الشغل خلص 🎉'};toast(labels[S.jobStatus]||'تم تحديث الحالة','✅');if(S.jobStatus==='completed'){S.custNotifs.unshift({t:'الشغل اتجمع! 🎉',d:'أحمد حسن خلص الشغل. شوف الفاتورة النهائية.',time:'الآن',read:false,act:'c-view-invoice'});S.tS.jobsDone++;S.tS.earnings.total+=6000;S.tS.earnings.week+=6000;S.tS.earnings.avail+=6000;S.tS.activeJob=null;go('tInvoice');}else{render();}},
+    't-set-status':()=>{S.jobStatus=t.dataset.st;const labels={ontheway:'في الطريق 🚗',arrived:'وصلت للموقع 📍',inspection:'بدأت الفحص 🔍',repair:'جاري الإصلاح 🔧',completed:'الشغل خلص 🎉'};toast(labels[S.jobStatus]||'تم تحديث الحالة','✅');if(S.jobStatus==='completed'){S.custNotifs.unshift({t:'الشغل اتجمع! 🎉',d:'أحمد حسن خلص الشغل. شوف الفاتورة النهائية.',time:'الآن',read:false,act:'c-view-invoice'});S.tS.jobsDone++;S.tS.earnings.total+=6000;S.tS.earnings.week+=6000;S.tS.earnings.avail+=6000;S.tS.activeJob=null;go('tAiReport');}else if(S.jobStatus==='arrived'){go('tVerifyCode');}else{render();}},
     't-job-active':()=>go('tJobDetail'),
     't-view-job':()=>go('tJobDetail'),
     't-go-inspection':()=>go('tInspection'),
@@ -2059,6 +2176,12 @@ document.addEventListener('click',e=>{
     'c-back-report':()=>go('serviceProgress'),
     'c-back-to-insp':()=>go('serviceProgress'),
     'c-back-to-service':()=>go('serviceProgress'),
+    't-copy-code':()=>{if(S._verifyCode){navigator.clipboard?.writeText(S._verifyCode);toast('تم نسخ الكود: '+S._verifyCode,'📋');}else{toast('الكود: 4821','📋');}},
+    'ai-report-chip':()=>{const v=t.dataset.v;S._aiReport.problem=v;S._aiReport.msgs.push({role:'user',text:v});S._aiReport.step=1;S._aiReport.msgs.push({role:'ai',text:'تمام، فهمت المشكلة. هل في أي مشاكل إضافية لاحظتها وقت الشغل؟ محتاجة تغيير حاجة أو إصلاح إضافي؟'});render();lat(200,()=>{const c=document.getElementById('aiReportChat');if(c)c.scrollTop=c.scrollHeight;});},
+    'ai-report-chip2':()=>{const v=t.dataset.v;S._aiReport.diagnosis=v;S._aiReport.msgs.push({role:'user',text:v});S._aiReport.step=2;S._aiReport.notes='يتم تنفيذ الأعمال المعتمدة — تم الانتهاء بنجاح';S._aiReport.msgs.push({role:'ai',text:`ممتاز يا أحمد! خليني ألخصلك التقرير النهائي:\n\n📋 المشكلة: ${S._aiReport.problem}\n🔬 التشخيص: ${S._aiReport.diagnosis}\n📝 ملاحظات: ${S._aiReport.notes}\n\nالتقرير ده هيبعت للعميل مع الفاتورة. اضغط "تأكيد التقرير" عشان يتبعت.`});render();lat(200,()=>{const c=document.getElementById('aiReportChat');if(c)c.scrollTop=c.scrollHeight;});},
+    'ai-report-send':()=>{const inp=document.getElementById('aiReportIn');if(!inp||!inp.value.trim())return;const v=inp.value.trim();inp.value='';S._aiReport.msgs.push({role:'user',text:v});if(S._aiReport.step===0){S._aiReport.problem=v;S._aiReport.step=1;S._aiReport.msgs.push({role:'ai',text:'تمام. هل في مشاكل إضافية لاحظتها؟ محتاجة تغيير حاجة؟'});}else if(S._aiReport.step===1){S._aiReport.diagnosis=v;S._aiReport.step=2;S._aiReport.notes=v;S._aiReport.msgs.push({role:'ai',text:`تمام! التقرير جاهز:\n\n📋 المشكلة: ${S._aiReport.problem}\n🔬 التشخيص: ${S._aiReport.diagnosis}\n\nاضغط "تأكيد التقرير" عشان يتبعت للعميل.`);}else{S._aiReport.msgs.push({role:'ai',text:'التقرير جاهز — اضغط "تأكيد التقرير" عشان يتبعت للعميل ✅'});}render();lat(200,()=>{const c=document.getElementById('aiReportChat');if(c)c.scrollTop=c.scrollHeight;});},
+    'ai-report-confirm':()=>{S._aiReport.confirmed=true;S.custNotifs.unshift({t:'تقرير AI من أحمد حسن',d:`${S._aiReport.problem} — الإجمالي: ${S.reports.filter(r=>r.status==='approved').reduce((s,r)=>s+r.total,0)+200} ج.م`,time:'الآن',read:false,act:'c-view-report'});toast('تم تأكيد التقرير وارساله للعميل ✅','✅');render();},
+    'ai-report-edit':()=>{S._aiReport.step=0;S._aiReport.confirmed=false;S._aiReport.msgs.push({role:'ai',text:'تمام، عدّل اللي تحبه. قوللي المشكلة تاني أو عدّل أي حاجة.'});render();},
   };
   const fn=H[a];if(fn){e.preventDefault();fn();}
 });
