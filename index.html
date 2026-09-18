@@ -1597,6 +1597,20 @@ function rTJobDetail(){
         <div style="display:flex;align-items:center;gap:8px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--amber);stroke-width:2;fill:none"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg><span style="font-size:11px;color:var(--amber);font-weight:700">${j.pr} ج.م — رسوم الزيارة</span></div>
       </div>
     </div>
+    ${S.tS.activeJob?`<div style="position:relative;background:var(--w);border:1px solid var(--surface2);border-radius:var(--r);padding:12px;margin-bottom:12px;z-index:0">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:800;color:var(--ink)">📍 مكان العميل</h3>
+        <div style="display:flex;gap:6px">
+          <span style="padding:3px 8px;border-radius:6px;font-size:9px;font-weight:700;background:var(--greenBg);color:var(--green)">🔧 موقعك</span>
+          <span style="padding:3px 8px;border-radius:6px;font-size:9px;font-weight:700;background:var(--blueBg);color:var(--blue)">🏠 العميل</span>
+        </div>
+      </div>
+      <div id="tjMap" style="width:100%;height:190px;border-radius:var(--rx);z-index:0;position:relative"></div>
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <div style="flex:1;background:var(--surface);border-radius:var(--rx);padding:8px;text-align:center"><b style="font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--ink);display:block">2.3 كم</b><small style="font-size:9px;color:var(--sl)">المسافة منك</small></div>
+        <div style="flex:1;background:var(--surface);border-radius:var(--rx);padding:8px;text-align:center"><b style="font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--ink);display:block">9 دقايق</b><small style="font-size:9px;color:var(--sl)">وقت الوصول</small></div>
+      </div>
+    </div>`:''}
     ${st==='accepted'?`<div style="display:flex;gap:10px"><button class="btn bo" style="flex:1" data-act="t-decline-job">رفض</button><button class="btn bp" style="flex:2;background:var(--blue)" data-act="t-set-status" data-st="ontheway"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:4px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>في الطريق</button></div>`:''}
     ${st==='ontheway'?`<button class="btn bp" style="background:var(--green)" data-act="t-set-status" data-st="arrived"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:4px"><polyline points="20 6 9 17 4 12"/></svg>وصلت للموقع</button>`:''}
     ${st==='arrived'?`<button class="btn bp" style="background:var(--amber)" data-act="t-set-status" data-st="inspection"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:4px"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>بدء الفحص</button>`:''}
@@ -2176,6 +2190,17 @@ function initHomeMap(){
   const ic=L.divIcon({className:'',html:`<div style="width:28px;height:28px;border-radius:50%;background:#2563eb;display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.2);border:3px solid #fff;font-size:14px">🏠</div>`});
   L.marker([30.0444,31.2357],{icon:ic}).addTo(m);
 }
+function initTJobMap(){
+  const el=$('#tjMap');if(!el||!window.L||el._leaflet_id)return;
+  const m=L.map(el,{zoomControl:false,attributionControl:false});
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:19}).addTo(m);
+  const me=[30.0465+Math.random()*.006-0.003,31.2368+Math.random()*.006-0.003],cu=[30.0444,31.2357];
+  const meIc=L.divIcon({className:'',html:`<div style="width:30px;height:30px;border-radius:50%;background:#059669;display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.25);border:3px solid #fff;font-size:13px">🔧</div>`});
+  const cuIc=L.divIcon({className:'',html:`<div style="width:30px;height:30px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.25);border:3px solid #fff;font-size:13px">🏠</div>`});
+  L.marker(me,{icon:meIc}).addTo(m);L.marker(cu,{icon:cuIc}).addTo(m);
+  L.polyline([me,cu],{color:'#2563eb',weight:3,opacity:.55,dashArray:'8 8'}).addTo(m);
+  m.fitBounds(L.latLngBounds([me,cu]).pad(.4));
+}
 
 /* ============ EVENTS ============ */
 document.addEventListener('click',e=>{
@@ -2275,7 +2300,7 @@ document.addEventListener('click',e=>{
 });
 document.addEventListener('click',e=>{const s=e.target.closest('[data-star]');if(!s)return;$$('#starsR span').forEach((x,i)=>{x.className=i<+s.dataset.star?'on':'off';});});
 
-function go(scr){closeOv();if(scr!=='scanning'&&S.scanInterval){clearInterval(S.scanInterval);S.scanInterval=null;}S.scr=scr;render();if(scr==='home')lat(200,initHomeMap);if(scr==='arrival')lat(200,initOtp);if(scr==='tracking')lat(200,initMap);}
+function go(scr){closeOv();if(scr!=='scanning'&&S.scanInterval){clearInterval(S.scanInterval);S.scanInterval=null;}S.scr=scr;render();if(scr==='home')lat(200,initHomeMap);if(scr==='arrival')lat(200,initOtp);if(scr==='tracking')lat(200,initMap);if(scr==='tJobDetail')lat(200,initTJobMap);}
 function init(){lat(2300,()=>{const sp=$('#splash');if(sp)sp.style.display='none';$('#roleSelect').classList.add('on');});}
 function showRoleSelect(){['authLogin','authSignup','authOtp','authDocs','authReview'].forEach(x=>$('#'+x)?.classList.remove('on'));$('#roleSelect').classList.add('on');}
 function pickRole(role){S.role=role;$('#roleSelect').classList.remove('on');if(role==='customer'){showAuth('authLogin');}else{showAuth('authLogin');}}
