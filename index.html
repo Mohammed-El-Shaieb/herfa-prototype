@@ -715,7 +715,7 @@ function render(){
     }
   }
   if(S.role==='technician'){
-    const TR={tDash:rTDash,tJobs:rTJobs,tSchedule:rTSchedule,tEarnings:rTEarnings,tProfile:rTProfile,tJobDetail:rTJobDetail,tChat:rTChat,tVerification:rTVerification,tReviews:rTReviews,tServices:rTServices,tAvail:rTAvail,tHelp:rTHelp,rTNotif:rTNotif,tInspection:rTInspection,tCreateReport:rTCreateReport,tInvoice:rTInvoice,tVerifyCode:rTVerifyCode,tAiReport:rTAiReport};
+    const TR={tDash:rTDash,tJobs:rTJobs,tSchedule:rTSchedule,tEarnings:rTEarnings,tProfile:rTProfile,tJobDetail:rTJobDetail,tChat:rTChat,tVerification:rTVerification,tReviews:rTReviews,tServices:rTServices,tAvail:rTAvail,tHelp:rTHelp,rTNotif:rTNotif,tInspection:rTInspection,tCreateReport:rTCreateReport,tInvoice:rTInvoice,tVerifyCode:rTVerifyCode,tAiReport:rTAiReport,tStore:rTStore};
     v.innerHTML=(TR[S.scr]||TR.tDash)();renderTechNav();
     return;
   }
@@ -1333,6 +1333,7 @@ const TTABS=[
   {id:'tJobs',l:'الطلبات',i:'<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>'},
   {id:'tSchedule',l:'الجدول',i:'<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>'},
   {id:'tEarnings',l:'الأرباح',i:'<svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>'},
+  {id:'tStore',l:'المتجر',i:'<svg viewBox="0 0 24 24"><path d="M3 9l1.5-4.5h15L21 9v1a2 2 0 01-2 2 2 2 0 01-4 0 2 2 0 01-4 0 2 2 0 01-4 0 2 2 0 01-2 2 2 2 0 01-2-2z" transform="translate(1)"/><path d="M6 22h12V11H6z"/><path d="M9 11v2a3 3 0 006 0v-2"/></svg>'},
   {id:'tProfile',l:'حسابي',i:'<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/></svg>'}
 ];
 function renderTechNav(){
@@ -1451,6 +1452,7 @@ function rTDash(){
     <div style="background:var(--w);border:1px solid var(--surface2);border-radius:var(--rs);padding:14px 8px;text-align:center;cursor:pointer;transition:.15s" data-act="tnav" data-nav="tJobs" onclick="this.style.transform='scale(.95)';setTimeout(()=>this.style.transform='',150)"><div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--blueBg),#dbeafe);display:flex;align-items:center;justify-content:center;margin:0 auto 6px"><svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--blue);stroke-width:1.8;fill:none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><p style="font-size:10px;font-weight:700;color:var(--ink)">الطلبات</p><p style="font-size:8px;color:var(--sl)">3 متاحة</p></div>
     <div style="background:var(--w);border:1px solid var(--surface2);border-radius:var(--rs);padding:14px 8px;text-align:center;cursor:pointer;transition:.15s" data-act="tnav" data-nav="tSchedule" onclick="this.style.transform='scale(.95)';setTimeout(()=>this.style.transform='',150)"><div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--greenBg),#d1fae5);display:flex;align-items:center;justify-content:center;margin:0 auto 6px"><svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--green);stroke-width:1.8;fill:none"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><p style="font-size:10px;font-weight:700;color:var(--ink)">الجدول</p><p style="font-size:8px;color:var(--sl)">5 مواعيد</p></div>
     <div style="background:var(--w);border:1px solid var(--surface2);border-radius:var(--rs);padding:14px 8px;text-align:center;cursor:pointer;transition:.15s" data-act="tnav" data-nav="tEarnings" onclick="this.style.transform='scale(.95)';setTimeout(()=>this.style.transform='',150)"><div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--amberBg),#fef3c7);display:flex;align-items:center;justify-content:center;margin:0 auto 6px"><svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--amber);stroke-width:1.8;fill:none"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div><p style="font-size:10px;font-weight:700;color:var(--ink)">الأرباح</p><p style="font-size:8px;color:var(--sl)">سحب متاح</p></div>
+    <div style="background:var(--w);border:1px solid var(--surface2);border-radius:var(--rs);padding:14px 8px;text-align:center;cursor:pointer;transition:.15s" data-act="tnav" data-nav="tStore" onclick="this.style.transform='scale(.95)';setTimeout(()=>this.style.transform='',150)"><div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--greenBg),#d1fae5);display:flex;align-items:center;justify-content:center;margin:0 auto 6px"><svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--green);stroke-width:1.8;fill:none"><path d="M3 9l1.5-4.5h15L21 9v1a2 2 0 01-2 2 2 2 0 01-4 0 2 2 0 01-4 0 2 2 0 01-4 0 2 2 0 01-2 2 2 2 0 01-2-2z" transform="translate(1)"/><path d="M6 22h12V11H6z"/><path d="M9 11v2a3 3 0 006 0v-2"/></svg></div><p style="font-size:10px;font-weight:700;color:var(--ink)">المتجر</p><p style="font-size:8px;color:var(--sl)">قطعة غيار</p></div>
     <div style="background:var(--w);border:1px solid var(--surface2);border-radius:var(--rs);padding:14px 8px;text-align:center;cursor:pointer;transition:.15s" data-act="tnav" data-nav="tProfile" onclick="this.style.transform='scale(.95)';setTimeout(()=>this.style.transform='',150)"><div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--purpleBg),#ede9fe);display:flex;align-items:center;justify-content:center;margin:0 auto 6px"><svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:#7c3aed;stroke-width:1.8;fill:none"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/></svg></div><p style="font-size:10px;font-weight:700;color:var(--ink)">حسابي</p><p style="font-size:8px;color:var(--sl)">الملف الشخصي</p></div>
     <div style="background:var(--w);border:1px solid var(--surface2);border-radius:var(--rs);padding:14px 8px;text-align:center;cursor:pointer;transition:.15s" data-act="tnav" data-nav="tVerification" onclick="this.style.transform='scale(.95)';setTimeout(()=>this.style.transform='',150)"><div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--surface),#f1f5f9);display:flex;align-items:center;justify-content:center;margin:0 auto 6px"><svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--ink);stroke-width:1.8;fill:none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><p style="font-size:10px;font-weight:700;color:var(--ink)">التوثيق</p><p style="font-size:8px;color:var(--amber)">معلق</p></div>
     <div style="background:var(--w);border:1px solid var(--surface2);border-radius:var(--rs);padding:14px 8px;text-align:center;cursor:pointer;transition:.15s" data-act="tnav" data-nav="tHelp" onclick="this.style.transform='scale(.95)';setTimeout(()=>this.style.transform='',150)"><div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--redBg),#fee2e2);display:flex;align-items:center;justify-content:center;margin:0 auto 6px"><svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--red);stroke-width:1.8;fill:none"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><p style="font-size:10px;font-weight:700;color:var(--ink)">المساعدة</p><p style="font-size:8px;color:var(--sl)">الدعم الفني</p></div>
@@ -1937,6 +1939,69 @@ function rTNotif(){
 </div>`;
 }
 
+/* ============ TECH SPARE PARTS STORE ============ */
+const STORE_PARTS=[
+  {n:'كابستور 25 ميكروفاراد',c:'ac',p:85,ic:'🔌',b:'إلكترا'},
+  {n:'فريون R410A (1 كيلو)',c:'ac',p:120,ic:'🧊',b:'سنويو'},
+  {n:'حساس حرارة الثيرموستات',c:'ac',p:45,ic:'🌡️',b:'جنرال'},
+  {n:'موتور مروحة سبليت',c:'ac',p:320,ic:'🌀',b:'دونجيانج'},
+  {n:'لوحة تحكم تكييف',c:'ac',p:250,ic:'🎛️',b:'يونيفرسال'},
+  {n:'طقم خلاط حوض + خرطوم',c:'pl',p:180,ic:'🚰',b:'روكا'},
+  {n:'طرمبة مياه 0.5 حصان',c:'pl',p:950,ic:'💧',b:'ويلو'},
+  {n:'طرد حمام كامل',c:'pl',p:140,ic:'🚽',b:'أيديل ستاندرد'},
+  {n:'سيفون رصاص',c:'pl',p:35,ic:'🔧',b:'جنرال'},
+  {n:'سخان كهرباء عنصر 1500واط',c:'pl',p:90,ic:'♨️',b:'أريستون'},
+  {n:'مخرج كهربائي 16 أمبير',c:'el',p:28,ic:'🔌',b:'شنايدر'},
+  {n:'مفتاح إضاءة سلمات',c:'el',p:22,ic:'💡',b:'شنايدر'},
+  {n:'قاطع كهربائي 32 أمبير',c:'el',p:65,ic:'⛔',b:'شنايدر'},
+  {n:'لمبة LED 12 واط',c:'el',p:25,ic:'💡',b:'فيليبس'},
+  {n:'بيرنج غسالة (كامل)',c:'ap',p:180,ic:'⚙️',b:'سيمنس'},
+  {n:'موتور تصريف غسالة',c:'ap',p:380,ic:'🌀',b:'باناسونيك'},
+  {n:'كاوتش باب الغسالة',c:'ap',p:150,ic:'🔘',b:'سامسونج'},
+  {n:'فلتر مياه + كربون',c:'ap',p:210,ic:'💧',b:'شور'}
+];
+function rTStore(){
+  const cats=[['all','الكل 🔍'],['ac','تكييف 🧊'],['pl','سباكة 🚿'],['el','كهرباء ⚡'],['ap','غسالات 🌀']];
+  const cart=S._storeCart=S._storeCart||{};
+  const cat=S._storeCat||'all';
+  const list=STORE_PARTS.map((p,i)=>({p:p,i:i})).filter(x=>cat==='all'||x.p.c===cat);
+  const cnt=STORE_PARTS.reduce((s,p,i)=>s+(cart[i]||0),0);
+  const total=STORE_PARTS.reduce((s,p,i)=>s+(cart[i]||0)*p.p,0);
+  const catBg={ac:'linear-gradient(135deg,#dbeafe,#bfdbfe)',pl:'linear-gradient(135deg,#ede9fe,#ddd6fe)',el:'linear-gradient(135deg,#fef3c7,#fde68a)',ap:'linear-gradient(135deg,#d1fae5,#a7f3d0)'};
+  const catCl={ac:'var(--blue)',pl:'#7c3aed',el:'var(--amber)',ap:'var(--green)'};
+  return `<div style="padding:16px 20px;padding-bottom:130px">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px"><div class="ovb" data-act="tnav" data-nav="${S.tS.activeJob?'tInspection':'tDash'}"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><div style="flex:1"><h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:var(--ink)">متجر قطع الغيار</h1><p style="font-size:10px;color:var(--sl)">اطلب قطعة وهتوصلك للموقع</p></div><div style="position:relative;cursor:pointer" data-act="tnav" data-nav="rTNotif"><div style="width:40px;height:40px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--ink);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>${S.techNotifs.length?`<div style="position:absolute;top:2px;right:2px;width:10px;height:10px;border-radius:50%;background:var(--red);border:2px solid var(--w)"></div>`:''}</div></div>
+
+  <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px" class="store-chips">
+    ${cats.map(c=>`<div class="chip ${cat===c[0]?'on':''}" style="flex-shrink:0;${cat===c[0]?'background:var(--primary);color:#fff;border-color:var(--primary)':''}" data-act="t-store-cat" data-v="${c[0]}">${c[1]}</div>`).join('')}
+  </div>
+
+  <div style="background:var(--blueBg);border:1px solid var(--blueLight);border-radius:var(--r);padding:12px;margin-bottom:14px;display:flex;align-items:center;gap:10px">
+    <div style="width:38px;height:38px;border-radius:10px;background:var(--primary);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;flex-shrink:0">🛵</div>
+    <div><b style="font-size:12px;font-weight:700;color:var(--ink)">توصيل سريع لنفس عنوان الشغلة</b><p style="font-size:10px;color:var(--sl)">وصل خلال 30-60 دقيقة · الدفع بيخصم من أرباحك</p></div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
+    ${list.map(({p,i})=>`<div style="background:var(--w);border:1px solid var(--surface2);border-radius:var(--r);padding:12px;display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="width:38px;height:38px;border-radius:11px;background:${catBg[p.c]};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${p.ic}</div>
+        <div style="flex:1;min-width:0"><b style="font-size:12px;font-weight:700;color:var(--ink);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${p.n}">${p.n}</b><small style="font-size:9px;color:var(--sl2)">${p.b}</small></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:auto">
+        <b style="font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;color:var(--ink)">${p.p} <small style="font-size:9px;color:var(--sl)">ج.م</small></b>
+        ${cart[i]?`<div style="display:flex;align-items:center;gap:2px"><div class="ovb" style="width:28px;height:28px;background:var(--surface);color:var(--ink)" data-act="t-store-rm" data-i="${i}">−</div><b style="min-width:22px;text-align:center;font-size:13px;color:var(--ink);font-family:'Plus Jakarta Sans',sans-serif">${cart[i]}</b><div class="ovb" style="width:28px;height:28px;background:var(--primary);color:#fff" data-act="t-store-add" data-i="${i}">+</div></div>`:`<div class="ovb" style="width:34px;height:34px;background:var(--green);color:#fff" data-act="t-store-add" data-i="${i}">+</div>`}
+      </div>
+    </div>`).join('')}
+  </div>
+  ${cnt?`<div style="position:fixed;bottom:88px;left:0;right:0;padding:12px 20px;background:var(--w);border-top:1px solid var(--surface2);box-shadow:0 -6px 20px rgba(0,0,0,.06);z-index:60;max-width:430px;margin:0 auto">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="flex:1"><div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:11px;color:var(--sl);font-weight:600">${cnt} قطعة في الطلب</span><b style="font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;color:var(--ink)">${total} ج.م</b></div><button style="display:block;font-size:10px;color:var(--red);font-weight:600;background:none;border:none;padding:0;margin-top:2px;cursor:pointer" data-act="t-store-clear">تفريغ السلة</button></div>
+      <button class="btn bp" style="background:var(--green);min-width:130px" data-act="t-store-order"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:#fff;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:4px"><line x1="6" y1="6" x2="6" y2="23"/><line x1="18" y1="6" x2="18" y2="23"/><path d="M2 6h20l-2 14H4z"/></svg>اطلب دلوقتي</button>
+    </div>
+  </div>`:''}
+</div>`;
+}
+
 /* ============ TECH INSPECTION SCREEN ============ */
 function rTInspection(){
   const j=S.tS.activeJob||{t:'حسن',title:'صيانة مكيف سبليت',pr:'200'};
@@ -1950,6 +2015,11 @@ function rTInspection(){
     <div style="width:44px;height:44px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:16px;font-family:'Plus Jakarta Sans',sans-serif">${j.t[0]}</div>
     <div style="flex:1"><b style="font-size:14px;font-weight:700;color:var(--ink)">${j.t}</b><p style="font-size:11px;color:var(--sl)">${j.title}</p></div>
     <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;color:var(--green)">${j.pr} ج.م</span>
+  </div>
+  <div style="background:linear-gradient(135deg,var(--greenBg),#d1fae5);border:1px solid #bbf7d0;border-radius:var(--r);padding:12px;margin-bottom:14px;display:flex;align-items:center;gap:10px">
+    <div style="width:38px;height:38px;border-radius:10px;background:var(--green);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0">🛒</div>
+    <div style="flex:1"><b style="font-size:12px;font-weight:700;color:var(--ink)">محتاج قطعة غيار؟</b><p style="font-size:10px;color:var(--sl)">اطلبها دلوقتي من المتجر وتوصلك للموقع</p></div>
+    <button class="btn bo bs" style="flex-shrink:0;height:34px;font-size:11px;padding:0 12px" data-act="tnav" data-nav="tStore">المتجر 🛒</button>
   </div>
   ${S.jobStatus!=='repair'&&!S.tS.reportsFinalized?`<div style="background:var(--blueBg);border:1px solid var(--blueLight);border-radius:var(--r);padding:16px;text-align:center;margin-bottom:14px"><p style="font-size:13px;font-weight:800;color:var(--ink)">جاهز تبدأ الشغل؟</p><p style="font-size:11px;color:var(--sl);margin:4px 0 12px">ابدأ الشغل الأول — وبعدها ابعت تقارير الفحص للعميل وانت شغال</p><button class="btn bp" style="background:var(--blue)" data-act="t-start-repair"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;stroke-width:2;fill:none;display:inline-block;vertical-align:middle;margin-left:4px"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>ابدأ الشغل 🔧</button></div>`:''}
   ${S.jobStatus==='repair'&&!S.tS.reportsFinalized?`<div style="background:var(--amberBg);border:1px solid var(--amberLight);border-radius:var(--r);padding:12px;margin-bottom:12px"><p style="font-size:12px;font-weight:800;color:var(--amber);text-align:center">🔧 أنت شغال دلوقتي — ابعت تقاريرك للعميل والعميل بيوافق</p></div>`:''}
@@ -1981,7 +2051,7 @@ function rTCreateReport(){
     <textarea id="rptRecommend" style="width:100%;padding:10px 12px;border:1px solid var(--surface3);border-radius:var(--rx);font-size:13px;font-family:'Cairo',sans-serif;outline:none;resize:none;height:50px" placeholder="الإصلاح المقترح...">Replace capacitor, recharge R410A refrigerant, and seal coil leak.</textarea>
   </div>
   <div class="cd" style="margin-bottom:14px;padding:14px">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><label style="font-size:12px;font-weight:700;color:var(--ink)">🧩 القطع المطلوبة</label><div style="font-size:11px;color:var(--blue);font-weight:700;cursor:pointer" data-act="t-add-part">+ إضافة قطعة</div></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><label style="font-size:12px;font-weight:700;color:var(--ink)">🧩 القطع المطلوبة</label><div style="display:flex;gap:10px"><div style="font-size:11px;color:var(--green);font-weight:700;cursor:pointer" data-act="tnav" data-nav="tStore">🛒 المتجر</div><div style="font-size:11px;color:var(--blue);font-weight:700;cursor:pointer" data-act="t-add-part">+ إضافة قطعة</div></div></div>
     <div id="rptParts">
       <div class="rpt-part-row"><input type="text" placeholder="اسم القطعة" value="Capacitor" class="rp-name"><input type="number" placeholder="الكمية" value="1" style="max-width:60px" class="rp-qty"><input type="number" placeholder="السعر" value="80" style="max-width:80px" class="rp-price"><div class="rpt-part-rm" data-act="t-rm-part">✕</div></div>
       <div class="rpt-part-row"><input type="text" placeholder="اسم القطعة" value="R410A Refrigerant" class="rp-name"><input type="number" placeholder="الكمية" value="1" style="max-width:60px" class="rp-qty"><input type="number" placeholder="السعر" value="120" style="max-width:80px" class="rp-price"><div class="rpt-part-rm" data-act="t-rm-part">✕</div></div>
@@ -2162,6 +2232,11 @@ document.addEventListener('click',e=>{
     't-rm-part':()=>{const row=t.closest('.rpt-part-row');if(row)row.remove();},
     't-send-report':()=>{const parts=[];$$('.rpt-part-row').forEach(r=>{const n=r.querySelector('.rp-name')?.value||'';const q=+(r.querySelector('.rp-qty')?.value||1);const p=+(r.querySelector('.rp-price')?.value||0);if(n&&p)parts.push({name:n,qty:q,price:p});});const labor=+(document.getElementById('rptLabor')?.value||0);const total=parts.reduce((s,p)=>s+p.price*p.qty,0)+labor;const rpt={id:++S.rptId,jobId:S.tS._jobId,problem:document.getElementById('rptProblem')?.value||'',diagnosis:document.getElementById('rptDiagnosis')?.value||'',recommend:document.getElementById('rptRecommend')?.value||'',parts,labor,notes:document.getElementById('rptNotes')?.value||'',estimatedTime:document.getElementById('rptTime')?.value||'',warranty:document.getElementById('rptWarranty')?.value||'',total,status:'pending',sentAt:'الآن'};S.reports.push(rpt);const isAdditional=S.reports.filter(r=>r.jobId===S.tS._jobId).length>1;S.custNotifs.unshift({t:isAdditional?'تقرير إضافي من أحمد حسن':'تقرير فحص جديد من أحمد حسن',d:`${rpt.problem} — الإجمالي: ${rpt.total} ج.م${isAdditional?' (مبلغ إضافي)':''}`,time:'الآن',read:false,act:'c-view-report',id:rpt.id});if(S.jobStatus!=='completed')S.jobStatus='repair';toast(isAdditional?'تم إرسال التقرير الإضافي للعميل 📨':'تم إرسال التقرير للعميل 📨','✅');go('tInspection');lat(3000,()=>{rpt.status='approved';S.techNotifs.unshift({t:'العميل وافق على التقرير #'+rpt.id,d:'حسن وافق على التقرير — '+rpt.total+' ج.م',time:'الآن',read:false});toast('العميل وافق على التقرير #'+rpt.id+' ✅','✅');render();});},
     't-finish-reports':()=>{S.tS.reportsFinalized=true;toast('تم الانتهاء من التقارير ✅','✅');render();scheduleJobDone();},
+    't-store-cat':()=>{S._storeCat=t.dataset.v;render();},
+    't-store-add':()=>{const i=+t.dataset.i;S._storeCart=S._storeCart||{};S._storeCart[i]=(S._storeCart[i]||0)+1;render();},
+    't-store-rm':()=>{const i=+t.dataset.i;S._storeCart=S._storeCart||{};S._storeCart[i]=Math.max(0,(S._storeCart[i]||0)-1);if(!S._storeCart[i])delete S._storeCart[i];render();},
+    't-store-clear':()=>{S._storeCart={};render();},
+    't-store-order':()=>{const cart=S._storeCart||{};const cnt=STORE_PARTS.reduce((s,p,i)=>s+(cart[i]||0),0);const total=STORE_PARTS.reduce((s,p,i)=>s+(cart[i]||0)*p.p,0);if(!cnt){toast('أضف قطع للطلب الأول 🛒','🛒');return;}S._storeCart={};S.techNotifs.unshift({t:'🛒 طلب متجر جديد',d:`تم طلب ${cnt} قطع — الإجمالي ${total} ج.م — توصيل خلال ساعة`,time:'الآن',read:false});toast('تم الطلب — هيوصلك خلال ساعة 🛵','✅');render();},
     't-start-repair':()=>{S.jobStatus='repair';toast('بدأت أعمال الإصلاح 🔧','🔧');render();},
     't-filter':()=>{$$('.filter-chip').forEach(x=>x.classList.remove('on'));t.classList.add('on');},
     't-withdraw':()=>toast('تم إرسال طلب السحب للبنك ✅💸','💸'),
